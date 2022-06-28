@@ -1,6 +1,6 @@
 package player;
 
-public class BadePlayer {
+public class BasePlayer {
 	private boolean isFirst;
 	
 	public void Pass() {}

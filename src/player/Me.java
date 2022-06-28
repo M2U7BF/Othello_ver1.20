@@ -1,5 +1,5 @@
 package player;
 
-public class Me extends BadePlayer{
+public class Me extends BasePlayer{
 
 }
