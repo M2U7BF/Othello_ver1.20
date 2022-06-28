@@ -1,18 +1,25 @@
 package ui.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import player.Computer;
+import player.Me;
 
 public class View extends JFrame {
 
@@ -35,6 +42,7 @@ public class View extends JFrame {
     JLabel[][] lli = new JLabel[8][8];
     JLabel llLliB[][] = new JLabel[8][8];
 	JLabel llLliW[][] = new JLabel[8][8];
+	int order;
     
     public static String title = "othello"; 
 
@@ -43,8 +51,22 @@ public class View extends JFrame {
         frame.setVisible(true);
     }
     
+    private Me me;
+    private Computer computer;
+    private Random rand;
+    
 
     View(String title) {
+    	
+    	me = new Me();
+    	computer = new Computer();
+    	rand = new Random();
+    	
+    	 ImageIcon bStoneIcon = new ImageIcon(new ImageIcon("src/util/img/blackStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+         ImageIcon wStoneIcon = new ImageIcon(new ImageIcon("src/util/img/whiteStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+         ImageIcon bStoneIcon2 = new ImageIcon(new ImageIcon("src/util/img/blackStone.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+         ImageIcon wStoneIcon2 = new ImageIcon(new ImageIcon("src/util/img/whiteStone.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+         ImageIcon icon3 = new ImageIcon(new ImageIcon("src/util/img/board.png").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
     	
         setTitle(title);
         setBounds(200, 100, 700, 800);
@@ -69,7 +91,7 @@ public class View extends JFrame {
 	    
 	    panel2 = new JPanel();
 	    panel2.setLayout(null);
-	    orderLabel = new JLabel("あなたは:先手");
+	    orderLabel = new JLabel();
 	    orderLabel.setBounds(200, 300, 400, 50);
 	    orderLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 50));
 	    orderButton = new JButton("順番を決める");
@@ -77,6 +99,21 @@ public class View extends JFrame {
 	    orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	//順番をランダムに決定
+            	order = rand.nextInt(2);
+            	if(order == 1) {
+	            	me.setFirst(true);
+	            	computer.setFirst(false);
+	            	orderLabel.setText("あなたは : 先手");
+            	} else if(order == 0) {
+            		me.setFirst(false);
+	            	computer.setFirst(true);
+	            	orderLabel.setText("あなたは : 後手");
+            	}
+            	System.out.println("order=" + String.valueOf(order));
+            	System.out.println("私の順番は : " + me.getFirst() + " になりました");
+            	System.out.println("comの順番は : " + computer.getFirst() + " になりました");
+            	
             	orderLabel.setVisible(true);
                 startButton.setVisible(true);
                 orderButton.setVisible(false);
@@ -90,6 +127,35 @@ public class View extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 layout.show(getContentPane(), "panel3");
+                
+                if(me.getFirst()) {
+                	computer.position[3][3] = true;
+        			computer.position[4][4] = true;
+        			me.position[3][4] = true;
+        			me.position[4][3] = true;
+        		}else {
+        			computer.position[4][3] = true;
+        			computer.position[3][4] = true;
+        			me.position[3][3] = true;
+        			me.position[4][4] = true;
+        		}
+                
+                JLabel myStoneLabel;
+        		JLabel comStoneLabel;
+        		
+        		if(me.getFirst()) {
+        			System.out.println("自分の石を黒で");
+        			myStoneLabel = new JLabel(bStoneIcon2);
+        			comStoneLabel = new JLabel(wStoneIcon2);
+        		} else {
+        			System.out.println("自分の石を白で");
+        			myStoneLabel = new JLabel(wStoneIcon2);
+        			comStoneLabel = new JLabel(bStoneIcon2);
+        		}
+        		myStoneLabel.setBounds(70,650,30,30);
+        		comStoneLabel.setBounds(370,650,30,30);
+        		panel3.add(myStoneLabel);
+        		panel3.add(comStoneLabel);
             }
         });
         panel2.add(orderLabel);
@@ -99,9 +165,6 @@ public class View extends JFrame {
 
         panel3 = new JPanel();
         panel3.setLayout(null);
-        ImageIcon bStoneIcon = new ImageIcon(new ImageIcon("src/util/img/blackStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        ImageIcon wStoneIcon = new ImageIcon(new ImageIcon("src/util/img/whiteStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        ImageIcon icon3 = new ImageIcon(new ImageIcon("src/util/img/board.png").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
         bStone = new JLabel();
         wStone = new JLabel();
         emptyFrame = new JLabel(icon3);
@@ -112,9 +175,11 @@ public class View extends JFrame {
 		JLabel labelb = new JLabel("座標を表示");
 		labelb.setBounds(0, 0, 700, 800);
 		
-		JLabel myScoreLabel = new JLabel("自分のスコア");
-		myScoreLabel.setBounds(100, 650, 100, 30);
-		JLabel computerScoreLabel = new JLabel("相手のスコア");
+		
+		JLabel myScoreLabel = new JLabel("自分のスコア : "+ String.valueOf(me.getScore()));
+		myScoreLabel.setBounds(100, 650, 150, 30);
+		panel3.add(myScoreLabel);
+		JLabel computerScoreLabel = new JLabel("相手のスコア : "+ String.valueOf(computer.getScore()) );
 		computerScoreLabel.setBounds(400, 650, 100, 30);
 		
 		for(int i=0; i<8; i++) {
@@ -133,6 +198,19 @@ public class View extends JFrame {
 				
 			}
 		}
+//		コマの初期配置
+		llLliB[3][4].setVisible(true);
+		llLliB[4][3].setVisible(true);
+		llLliW[3][3].setVisible(true);
+		llLliW[4][4].setVisible(true);
+		
+		//エラー文の設定
+		JLabel error = new JLabel("コマを置けません");
+    	error.setBounds(200,40,200,50);
+    	panel3.add(error);
+    	error.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+    	error.setForeground(Color.RED);
+    	error.setVisible(false);
 		
 //		labela.addMouseListener(new MouseAdapter() {
 //		@Override
@@ -150,27 +228,54 @@ public class View extends JFrame {
 			    int x = point2.x;
 			    int y = point2.y;
 			    
+			    //どのマスが押されたのか
 			    for(int row =0,X1=100,Y1=160; row<8; row++,X1+=65,Y1+=65) {
 				    for(int col=0,X2=100,Y2=160; col<8; col++,X2+=65,Y2+=65) {
 				    	if(X2 <= x && Y2 >= x && X1 <= y && Y1 >= y) {
-					    	System.out.println(String.valueOf(col) + String.valueOf(row) + "が押されました");
+				    		System.out.println(String.valueOf(col) + String.valueOf(row) + "が押されました");
 					    	placedPosition[0] = col;
 					    	placedPosition[1] = row;
 					    } 
 				    }
 			    }
 			    
-			    JLabel lliitem = llLliB[placedPosition[0]][placedPosition[1]];
-			    lliitem.setVisible(true);
-			    
+			    if(!(me.position[placedPosition[0]][placedPosition[1]]) 
+			    		&& me.canPlacing(placedPosition,computer,me)
+			    ) {
+			    	
+			    	//置く石の種類を指定し、配置
+				    if(me.getFirst()) {
+					    JLabel lliitem = llLliB[placedPosition[0]][placedPosition[1]];
+					    lliitem.setVisible(true);
+				    } else {
+				    	JLabel lliitem = llLliW[placedPosition[0]][placedPosition[1]];
+					    lliitem.setVisible(true);
+				    }
+			    	
+				    //isPlaced的な判定 を trueにする
+				    me.position[placedPosition[0]][placedPosition[1]] = true;
+				    myScoreLabel.setText("自分のスコア : "+ String.valueOf(me.getScore()));
+				    
+				    ////コマを置いたときの処理
+				    System.out.println(String.valueOf(placedPosition[0]) + String.valueOf(placedPosition[1]) + "に置きました。");
+				    int meScore = me.getScore() +1;
+				    me.setScore(meScore);
+			    } else {
+			    	error.setVisible(true);
+			    	
+			    	TimerTask task = new TimerTask() {
+			    		  public void run() {
+			    		    // タイマーで実行したい処理
+			    			  error.setVisible(false);
+			    		  }
+		    		};
+		    		
+		    		Timer timer = new Timer();
+		    		timer.schedule(task, 2000);
+			    	
+			    }
 			}
 		});
-		
-//		コマの初期配置
-		llLliB[3][4].setVisible(true);
-		llLliB[4][3].setVisible(true);
-		llLliW[3][3].setVisible(true);
-		llLliW[4][4].setVisible(true);
 		
         emptyFrame.addMouseListener(new MouseAdapter() {
             @Override
@@ -179,7 +284,8 @@ public class View extends JFrame {
 //                layout.show(getContentPane(), "panel4");
             }
         });
-        panel3.add(myScoreLabel);
+        
+        
         panel3.add(computerScoreLabel);
         panel3.add(labela);
         panel3.add(labelb);

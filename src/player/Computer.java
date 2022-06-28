@@ -1,5 +1,5 @@
 package player;
 
-public class Computer extends BasePlayer{
+public class Computer extends PlayerBase{
 
 }

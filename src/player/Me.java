@@ -1,5 +1,6 @@
 package player;
 
-public class Me extends BasePlayer{
+public class Me extends PlayerBase{
+	public Me(){}
 
 }
