@@ -1,33 +1,24 @@
 package ui.controller;
 
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import player.Me;
-import ui.view.View;
 
 public class PlayingController extends MouseAdapter{
-	Me me = new Me();
-	View view = new View("go");
 	
-	public int PlacingPoint(int x, int y) {
-		//// クリックされた場所を受け取り、何列目の何か判定しある石を置く座標を返す
-		
-		//おけるのか判定
-		
-		
-		return 1;
+//	public int PlacingPoint(int x, int y) {
+//	}
+	
+	public void clickedFrame(int[] placedPosition,int x,int y){
+		for (int row = 0, X1 = 100, Y1 = 160; row < 8; row++, X1 += 63, Y1 += 63) {
+            for (int col = 0, X2 = 100, Y2 = 160; col < 8; col++, X2 += 63, Y2 += 63) {
+                if (X2 <= x && Y2 >= x && X1 <= y && Y1 >= y) {
+                    System.out.println(String.valueOf(col) + String.valueOf(row) + "が押されました");
+                    placedPosition[0] = col;
+                    placedPosition[1] = row;
+                }
+            }
+        }
 	}
 	
 	
-	public void mouseClicked(MouseEvent e){
-	    Point point2 = e.getPoint();
-	    view.labelb.setText("全体: x:" + point2.x + ",y:" + point2.y);
-	    
-	    if(me.canPlacing()) {
-	    	//その場所には置けません
-	    }
-	  }
 	
 }
