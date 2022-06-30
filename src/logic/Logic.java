@@ -9,7 +9,7 @@ import player.Me;
 
 public class Logic {
 	int maxNumPass;
-	boolean[][] isEmpty;
+//	boolean[][] isEmpty;
 	
 	public void decideFirst(Computer com, Me me, JLabel orderLabel) {
 		int order;
@@ -48,8 +48,12 @@ public class Logic {
 	public void start(Computer c, Me m) {
 	}
 	
-	public void finish() {
-		
+	public void isFinish(Logic logic) {
+		logic.isEmpty();
+	}
+	
+	public boolean isEmpty() {
+		return true;
 	}
 	
 }

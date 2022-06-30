@@ -8,7 +8,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,7 +56,6 @@ public class View extends JFrame {
     private Computer computer;
     private Logic logic;
     private PlayingController controller;
-    private Random rand;
 
     View(String title) {
 
@@ -63,7 +63,6 @@ public class View extends JFrame {
         computer = new Computer();
         logic = new Logic();
         controller = new PlayingController();
-        rand = new Random();
 
         ImageIcon bStoneIcon = new ImageIcon(
                 new ImageIcon("src/util/img/blackStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -161,8 +160,14 @@ public class View extends JFrame {
         myScoreLabel.setBounds(100, 650, 150, 30);
         panel3.add(myScoreLabel);
         JLabel computerScoreLabel = new JLabel("相手のスコア : " + String.valueOf(computer.getScore()));
-        computerScoreLabel.setBounds(400, 650, 100, 30);
+        computerScoreLabel.setBounds(400, 650, 150, 30);
         panel3.add(computerScoreLabel);
+        JLabel myPassesLabel = new JLabel("自分のパス回数 : " + String.valueOf(me.getPasses()));
+        myPassesLabel.setBounds(100, 680, 150, 30);
+        panel3.add(myPassesLabel);
+        JLabel computerPassesLabel = new JLabel("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+        computerPassesLabel.setBounds(400, 680, 150, 30);
+        panel3.add(computerPassesLabel);
         
         //全てのコマを配置
         for (int i = 0; i < 8; i++) {
@@ -205,10 +210,32 @@ public class View extends JFrame {
                 
                 //コマを置く
                 if(me.isMyTurn) {
-                	me.placing(placedPosition,me,computer,error,computerScoreLabel,myScoreLabel,llLliB,llLliW);
+                	System.out.println("Meのturn");
+                	if((boolean)me.canPlacing(placedPosition, computer, me).get("result")) {
+                		me.placing(placedPosition,me,computer,error,llLliB,llLliW);
+                    	myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
+                	}else {
+	                	System.out.println("エラー@View@Me");
+	                    error.setVisible(true);
+	                    TimerTask task = new TimerTask() {
+	                    	public void run(){
+	                    		error.setVisible(false);
+	                    		}
+	                    	};
+	                    Timer timer = new Timer();
+	                    timer.schedule(task, 2000);
+                	}
                 }
                 if(computer.isMyTurn) {
-                	computer.placing(computer.decidePosition(computer,me),me,computer,error,computerScoreLabel,myScoreLabel,llLliB,llLliW);
+                	System.out.println("Computerのturn");
+//                	TimerTask task = new TimerTask() {
+//                    	public void run(){
+                    		computer.placing(computer.decidePosition(computer,me), computer, me, error, llLliB, llLliW);
+                        	computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
+//                    	}
+//                    	};
+//                    Timer timer = new Timer();
+//                    timer.schedule(task, 1500);
                 }
             }
         });
@@ -216,10 +243,14 @@ public class View extends JFrame {
         emptyFrame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("clicked");
                 // layout.show(getContentPane(), "panel4");
             }
         });
+        //テスト用
+        JLabel num = new JLabel("0              1              2               3              4              5              6             7");
+        num.setBounds(100,80,500,50);
+        
+        panel3.add(num);
         panel3.add(labela);
         panel3.add(labelb);
         panel3.add(emptyFrame);
