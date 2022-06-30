@@ -47,6 +47,8 @@ public class View extends JFrame {
     JLabel llLliB[][] = new JLabel[8][8];
     JLabel llLliW[][] = new JLabel[8][8];
     int order;
+    JLabel myTurnLabel = new JLabel("あなたのターン");
+    JLabel computerTurnLabel = new JLabel("相手のターン");
 
     public static String title = "othello";
 
@@ -148,6 +150,14 @@ public class View extends JFrame {
                 comStoneLabel.setBounds(370, 650, 30, 30);
                 panel3.add(myStoneLabel);
                 panel3.add(comStoneLabel);
+                
+                if(me.getFirst()) {
+        	        myTurnLabel.setVisible(true);
+        	        computerTurnLabel.setVisible(false);
+                }else if(!(me.getFirst())) {
+                	myTurnLabel.setVisible(false);
+        	        computerTurnLabel.setVisible(true);
+                }
             }
         });
         panel2.add(orderLabel);
@@ -212,6 +222,12 @@ public class View extends JFrame {
         JButton passButton = new JButton("パスをする");
         passButton.setBounds(100, 720, 100, 30);
         panel3.add(passButton);
+        
+        //手番の表示
+        myTurnLabel.setBounds(300,0,100,30);
+        computerTurnLabel.setBounds(300,0,100,30);
+        panel3.add(myTurnLabel);
+        panel3.add(computerTurnLabel);
 
         passButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -238,6 +254,9 @@ public class View extends JFrame {
                         if ((boolean) me.canPlacing(placedPosition, computer, me).get("result")) {
                             me.placing(placedPosition, me, computer, error, llLliB, llLliW);
                             myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
+                            
+                            myTurnLabel.setVisible(false);
+                        	computerTurnLabel.setVisible(true);
                         } else {
                             System.out.println("エラー@View@Me");
                             error.setVisible(true);
@@ -249,6 +268,7 @@ public class View extends JFrame {
                             Timer timer = new Timer();
                             timer.schedule(task, 2000);
                         }
+                        
                     }
                     if (computer.isMyTurn) {
                         logic.canClick = false;
@@ -259,10 +279,15 @@ public class View extends JFrame {
                                         llLliW);
                                 computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
                                 logic.canClick = true;
+                                
+                                computerTurnLabel.setVisible(false);
+                            	myTurnLabel.setVisible(true);
                             }
                         };
                         Timer timer = new Timer();
                         timer.schedule(task, 800);
+                        
+                        
                     }
 
                     logic.turns++;
