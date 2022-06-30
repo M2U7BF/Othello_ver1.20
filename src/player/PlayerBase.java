@@ -260,8 +260,6 @@ public class PlayerBase {
 			return searchList;
 			}
 		
-	
-		
 	public void setFirst(boolean isFirst) {
 		this.isFirst = isFirst;
 	}

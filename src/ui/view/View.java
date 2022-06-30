@@ -208,6 +208,20 @@ public class View extends JFrame {
         error.setForeground(Color.RED);
         error.setVisible(false);
         
+        //パスのボタン
+        JButton passButton = new JButton("パスをする");
+        passButton.setBounds(100,720,100,30);
+        panel3.add(passButton);
+        
+        passButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	if(!(me.meCanPlacing(me, computer))){
+            		me.Pass(me, computer);
+            	}
+            }
+        });
+        
         labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
