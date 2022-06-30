@@ -150,11 +150,9 @@ public class View extends JFrame {
         wStone = new JLabel();
         emptyFrame = new JLabel(icon3);
         emptyFrame.setBounds(100, 100, 500, 500);
-
-        JLabel labela = new JLabel("座標を表示");
-        labela.setBounds(100, 100, 500, 500);
+        
         JLabel labelb = new JLabel("座標を表示");
-        labelb.setBounds(0, 0, 700, 800);
+        labelb.setBounds(100, 100, 500, 500);
 
         JLabel myScoreLabel = new JLabel("自分のスコア : " + String.valueOf(me.getScore()));
         myScoreLabel.setBounds(100, 650, 150, 30);
@@ -204,6 +202,7 @@ public class View extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Point point2 = e.getPoint();
+                //テスト用
                 labelb.setText("全体: x:" + point2.x + ",y:" + point2.y);
                 // どのマスが押されたのか
                 controller.clickedFrame(placedPosition,point2.x,point2.y);
@@ -237,24 +236,28 @@ public class View extends JFrame {
 //                    Timer timer = new Timer();
 //                    timer.schedule(task, 1500);
                 }
+                
+                //ゲームの進行状況
+                if(logic.isFinish(logic, me, computer)) {
+                	layout.show(getContentPane(), "panel4");
+                }
             }
         });
 
-        emptyFrame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // layout.show(getContentPane(), "panel4");
-            }
-        });
+//        emptyFrame.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                // 
+//            }
+//        });
         //テスト用
         JLabel num = new JLabel("0              1              2               3              4              5              6             7");
         num.setBounds(100,80,500,50);
         
         panel3.add(num);
-        panel3.add(labela);
         panel3.add(labelb);
         panel3.add(emptyFrame);
-
+        
         panel4 = new JPanel();
         label4 = new JLabel("4枚目");
         label4.addMouseListener(new MouseAdapter() {
