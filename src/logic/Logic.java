@@ -9,6 +9,7 @@ import player.Me;
 
 public class Logic {
     int maxNumPass;
+    public int turns = 0;
     // boolean[][] isEmpty;
 
     public void decideFirst(Computer com, Me me, JLabel orderLabel) {

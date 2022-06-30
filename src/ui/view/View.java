@@ -2,10 +2,12 @@ package ui.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
@@ -16,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import logic.Logic;
 import player.Computer;
@@ -75,6 +78,13 @@ public class View extends JFrame {
         ImageIcon icon3 = new ImageIcon(
                 new ImageIcon("src/util/img/board.png").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
 
+        JLabel myResultScoreLabel = new JLabel();
+        JLabel computerResultScoreLabel = new JLabel();
+        JLabel myResultPassesLabel = new JLabel();
+        JLabel computerResultPassesLabel = new JLabel();
+        JLabel turnsLabel = new JLabel();
+        JLabel winlose = new JLabel();
+        
         setTitle(title);
         setBounds(200, 100, 700, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -237,36 +247,83 @@ public class View extends JFrame {
 //                    timer.schedule(task, 1500);
                 }
                 
+                logic.turns++;
+                
                 //ゲームの進行状況
-                if(logic.isFinish(logic, me, computer)) {
+                //テスト用に表示
+                if(true
+//                		logic.isFinish(logic, me, computer)
+                		) {
                 	layout.show(getContentPane(), "panel4");
+                	
+                	myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
+                    computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
+                    turnsLabel.setText(String.valueOf(logic.turns)+"ターンで終了");
+                    if(me.getScore() > computer.getScore()) {
+                    	winlose.setText("勝利");
+                    	winlose.setForeground(Color.ORANGE);
+                    }else if(me.getScore() < computer.getScore()) {
+                    	winlose.setText("敗北");
+                    	winlose.setForeground(Color.BLUE);
+                    }else if(me.getScore() == computer.getScore()) {
+                    	winlose.setText("相討ち");
+                    }
                 }
             }
         });
 
-//        emptyFrame.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                // 
-//            }
-//        });
         //テスト用
         JLabel num = new JLabel("0              1              2               3              4              5              6             7");
         num.setBounds(100,80,500,50);
-        
         panel3.add(num);
         panel3.add(labelb);
         panel3.add(emptyFrame);
         
         panel4 = new JPanel();
-        label4 = new JLabel("4枚目");
-        label4.addMouseListener(new MouseAdapter() {
+        panel4.setLayout(null);
+        myResultScoreLabel.setBounds(100,400,150,30);
+        panel4.add(myResultScoreLabel);
+        computerResultScoreLabel.setBounds(350,400,150,30);
+        panel4.add(computerResultScoreLabel);
+        myResultPassesLabel.setBounds(100,430,150,30);
+        panel4.add(myResultPassesLabel);
+        computerResultPassesLabel.setBounds(350,430,150,30);
+        panel4.add(computerResultPassesLabel);
+        turnsLabel.setBounds(100,450,150,30);
+        panel4.add(turnsLabel);
+        winlose.setBounds(100,200,500,100);
+        winlose.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 100));
+        panel4.add(winlose);
+        
+        JButton gameRestart = new JButton("新しいゲームを開始");
+        gameRestart.setBounds(450,600,150,30);
+        panel4.add(gameRestart);
+        
+        JButton finishButton = new JButton("終了する");
+        finishButton.setBounds(80,600,80,30);
+        panel4.add(finishButton);
+        
+        finishButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                layout.show(getContentPane(), "panel1");
+            	Component c = (Component)e.getSource();
+            	Window w = SwingUtilities.getWindowAncestor(c);
+            	w.dispose();
             }
         });
-        panel4.add(label4);
+        
+        gameRestart.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	Component c = (Component)e.getSource();
+            	Window w = SwingUtilities.getWindowAncestor(c);
+            	w.dispose();
+            	
+            	main(null);
+//                layout.show(getContentPane(), "panel1");
+            }
+        });
+        
 
         layout = new CardLayout();
 
