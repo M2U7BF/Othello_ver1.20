@@ -10,6 +10,7 @@ import player.Me;
 public class Logic {
     int maxNumPass;
     public int turns = 0;
+    public boolean canClick = true;
     // boolean[][] isEmpty;
 
     public void decideFirst(Computer com, Me me, JLabel orderLabel) {
@@ -50,9 +51,9 @@ public class Logic {
     }
 
     public boolean isFinish(Logic logic, Me me, Computer com) {
-    	boolean finish = false;
+        boolean finish = false;
         if (!(logic.isEmpty(me, com)) || !(playersCanPlacing(me, com))) {
-        	finish = true;
+            finish = true;
         }
         return finish;
     }

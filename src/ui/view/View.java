@@ -84,7 +84,7 @@ public class View extends JFrame {
         JLabel computerResultPassesLabel = new JLabel();
         JLabel turnsLabel = new JLabel();
         JLabel winlose = new JLabel();
-        
+
         setTitle(title);
         setBounds(200, 100, 700, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -116,9 +116,9 @@ public class View extends JFrame {
         orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	logic.decideFirst(computer, me, orderLabel);
-                
-                //表示処理
+                logic.decideFirst(computer, me, orderLabel);
+
+                // 表示処理
                 orderLabel.setVisible(true);
                 startButton.setVisible(true);
                 orderButton.setVisible(false);
@@ -135,8 +135,8 @@ public class View extends JFrame {
 
                 JLabel myStoneLabel;
                 JLabel comStoneLabel;
-                
-                //初期配置の表示
+
+                // 初期配置の表示
                 if (me.getFirst()) {
                     myStoneLabel = new JLabel(bStoneIcon2);
                     comStoneLabel = new JLabel(wStoneIcon2);
@@ -160,7 +160,7 @@ public class View extends JFrame {
         wStone = new JLabel();
         emptyFrame = new JLabel(icon3);
         emptyFrame.setBounds(100, 100, 500, 500);
-        
+
         JLabel labelb = new JLabel("座標を表示");
         labelb.setBounds(100, 100, 500, 500);
 
@@ -176,8 +176,8 @@ public class View extends JFrame {
         JLabel computerPassesLabel = new JLabel("相手のパス回数 : " + String.valueOf(computer.getPasses()));
         computerPassesLabel.setBounds(400, 680, 150, 30);
         panel3.add(computerPassesLabel);
-        
-        //全てのコマを配置
+
+        // 全てのコマを配置
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 llLliB[i][j] = new JLabel(bStoneIcon);
@@ -207,137 +207,140 @@ public class View extends JFrame {
         error.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         error.setForeground(Color.RED);
         error.setVisible(false);
-        
-        //パスのボタン
+
+        // パスのボタン
         JButton passButton = new JButton("パスをする");
-        passButton.setBounds(100,720,100,30);
+        passButton.setBounds(100, 720, 100, 30);
         panel3.add(passButton);
-        
+
         passButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	if(!(me.meCanPlacing(me, computer))){
-            		me.Pass(me, computer);
-            	}
+                if (!(me.meCanPlacing(me, computer))) {
+                    me.Pass(me, computer);
+                }
             }
         });
-        
+
         labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 Point point2 = e.getPoint();
-                //テスト用
-                labelb.setText("全体: x:" + point2.x + ",y:" + point2.y);
+                // テスト用
+//                labelb.setText("全体: x:" + point2.x + ",y:" + point2.y);
                 // どのマスが押されたのか
-                controller.clickedFrame(placedPosition,point2.x,point2.y);
-                
-                //コマを置く
-                if(me.isMyTurn) {
-                	System.out.println("Meのturn");
-                	if((boolean)me.canPlacing(placedPosition, computer, me).get("result")) {
-                		me.placing(placedPosition,me,computer,error,llLliB,llLliW);
-                    	myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
-                	}else {
-	                	System.out.println("エラー@View@Me");
-	                    error.setVisible(true);
-	                    TimerTask task = new TimerTask() {
-	                    	public void run(){
-	                    		error.setVisible(false);
-	                    		}
-	                    	};
-	                    Timer timer = new Timer();
-	                    timer.schedule(task, 2000);
-                	}
-                }
-                if(computer.isMyTurn) {
-                	System.out.println("Computerのturn");
-//                	TimerTask task = new TimerTask() {
-//                    	public void run(){
-                    		computer.placing(computer.decidePosition(computer,me), computer, me, error, llLliB, llLliW);
-                        	computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
-//                    	}
-//                    	};
-//                    Timer timer = new Timer();
-//                    timer.schedule(task, 1500);
-                }
-                
-                logic.turns++;
-                
-                //ゲームの進行状況
-                //テスト用に表示
-                if(true
-//                		logic.isFinish(logic, me, computer)
-                		) {
-                	layout.show(getContentPane(), "panel4");
-                	
-                	myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
-                    computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
-                    turnsLabel.setText(String.valueOf(logic.turns)+"ターンで終了");
-                    if(me.getScore() > computer.getScore()) {
-                    	winlose.setText("勝利");
-                    	winlose.setForeground(Color.ORANGE);
-                    }else if(me.getScore() < computer.getScore()) {
-                    	winlose.setText("敗北");
-                    	winlose.setForeground(Color.BLUE);
-                    }else if(me.getScore() == computer.getScore()) {
-                    	winlose.setText("相討ち");
+                controller.clickedFrame(placedPosition, point2.x, point2.y);
+                if (logic.canClick) {
+                    // コマを置く
+                    if (me.isMyTurn) {
+                        System.out.println("Meのturn");
+                        if ((boolean) me.canPlacing(placedPosition, computer, me).get("result")) {
+                            me.placing(placedPosition, me, computer, error, llLliB, llLliW);
+                            myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
+                        } else {
+                            System.out.println("エラー@View@Me");
+                            error.setVisible(true);
+                            TimerTask task = new TimerTask() {
+                                public void run() {
+                                    error.setVisible(false);
+                                }
+                            };
+                            Timer timer = new Timer();
+                            timer.schedule(task, 2000);
+                        }
+                    }
+                    if (computer.isMyTurn) {
+                        logic.canClick = false;
+                        System.out.println("Computerのturn");
+                        TimerTask task = new TimerTask() {
+                            public void run() {
+                                computer.placing(computer.decidePosition(computer, me), computer, me, error, llLliB,
+                                        llLliW);
+                                computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
+                                logic.canClick = true;
+                            }
+                        };
+                        Timer timer = new Timer();
+                        timer.schedule(task, 800);
+                    }
+
+                    logic.turns++;
+
+                    // ゲームの進行状況
+                    // テスト用に表示
+                    if (logic.isFinish(logic, me, computer)) {
+                        layout.show(getContentPane(), "panel4");
+
+                        myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
+                        computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
+                        turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
+                        if (me.getScore() > computer.getScore()) {
+                            winlose.setText("勝利");
+                            winlose.setForeground(Color.ORANGE);
+                        } else if (me.getScore() < computer.getScore()) {
+                            winlose.setText("敗北");
+                            winlose.setForeground(Color.BLUE);
+                        } else if (me.getScore() == computer.getScore()) {
+                            winlose.setText("相討ち");
+                        }
                     }
                 }
             }
         });
 
-        //テスト用
-        JLabel num = new JLabel("0              1              2               3              4              5              6             7");
-        num.setBounds(100,80,500,50);
-        panel3.add(num);
+        // テスト用
+        JLabel num = new JLabel(
+                "0              1              2               3              4              5              6             7");
+        num.setBounds(100, 80, 500, 50);
+//        panel3.add(num);
         panel3.add(labelb);
         panel3.add(emptyFrame);
-        
+
         panel4 = new JPanel();
         panel4.setLayout(null);
-        myResultScoreLabel.setBounds(100,400,150,30);
+        myResultScoreLabel.setBounds(100, 400, 150, 30);
         panel4.add(myResultScoreLabel);
-        computerResultScoreLabel.setBounds(350,400,150,30);
+        computerResultScoreLabel.setBounds(350, 400, 150, 30);
         panel4.add(computerResultScoreLabel);
-        myResultPassesLabel.setBounds(100,430,150,30);
+        myResultPassesLabel.setBounds(100, 430, 150, 30);
         panel4.add(myResultPassesLabel);
-        computerResultPassesLabel.setBounds(350,430,150,30);
+        computerResultPassesLabel.setBounds(350, 430, 150, 30);
         panel4.add(computerResultPassesLabel);
-        turnsLabel.setBounds(100,450,150,30);
+        turnsLabel.setBounds(100, 450, 150, 30);
         panel4.add(turnsLabel);
-        winlose.setBounds(100,200,500,100);
+        winlose.setBounds(100, 200, 500, 100);
         winlose.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 100));
         panel4.add(winlose);
-        
+
         JButton gameRestart = new JButton("新しいゲームを開始");
-        gameRestart.setBounds(450,600,150,30);
+        gameRestart.setBounds(450, 600, 150, 30);
         panel4.add(gameRestart);
-        
+
         JButton finishButton = new JButton("終了する");
-        finishButton.setBounds(80,600,80,30);
+        finishButton.setBounds(80, 600, 80, 30);
         panel4.add(finishButton);
-        
+
         finishButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Component c = (Component)e.getSource();
-            	Window w = SwingUtilities.getWindowAncestor(c);
-            	w.dispose();
+                Component c = (Component) e.getSource();
+                Window w = SwingUtilities.getWindowAncestor(c);
+                w.dispose();
             }
         });
-        
+
         gameRestart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Component c = (Component)e.getSource();
-            	Window w = SwingUtilities.getWindowAncestor(c);
-            	w.dispose();
-            	
-            	main(null);
-//                layout.show(getContentPane(), "panel1");
+                Component c = (Component) e.getSource();
+                Window w = SwingUtilities.getWindowAncestor(c);
+                w.dispose();
+
+                main(null);
+                // layout.show(getContentPane(), "panel1");
             }
         });
-        
 
         layout = new CardLayout();
 

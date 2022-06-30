@@ -55,9 +55,7 @@ public class PlayerBase {
 			for(int j=0; j<turnOverList.get(i).size(); j++) {
 				int x = turnOverList.get(i).get(j)[0];
 				int y = turnOverList.get(i).get(j)[1];
-				System.out.println("覆そうか考えたコマ座標:"+String.valueOf(x)+","+String.valueOf(y));
 				if(enemy.position[x][y] && !(me.position[x][y])) {
-					System.out.println("覆したコマ座標:"+String.valueOf(x)+","+String.valueOf(y));
 					//表示
 			        lliitem[x][y].setVisible(true);
 			        enemyLliitem[x][y].setVisible(false);

@@ -1,9 +1,10 @@
 package player;
 
-public class Me extends PlayerBase{
-	public Me(){}
-	
-	public boolean meCanPlacing(Me me, Computer com) {
+public class Me extends PlayerBase {
+    public Me() {
+    }
+
+    public boolean meCanPlacing(Me me, Computer com) {
         // 空きコマに対しcanPlacing実行
         boolean available = false;
 
@@ -11,7 +12,7 @@ public class Me extends PlayerBase{
             for (int j = 0; j < 8; j++) {
                 // 空きコマを探す
                 if (!(me.position[i][j]) && !(com.position[i][j])) {
-                    // もし置けるのであればtrue
+                    // もし置åけるのであればtrue
                     int[] positon = { i, j };
                     if ((boolean) me.canPlacing(positon, me, com).get("result")) {
                         available = true;
