@@ -10,9 +10,11 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,6 +26,7 @@ import logic.Logic;
 import player.Computer;
 import player.Me;
 import ui.controller.PlayingController;
+import ui.model.Model;
 
 public class View extends JFrame {
 
@@ -60,6 +63,7 @@ public class View extends JFrame {
     private Me me;
     private Computer computer;
     private Logic logic;
+    private Model model;
     private PlayingController controller;
 
     View(String title) {
@@ -67,6 +71,7 @@ public class View extends JFrame {
         me = new Me();
         computer = new Computer();
         logic = new Logic();
+        model = new Model();
         controller = new PlayingController();
 
         ImageIcon bStoneIcon = new ImageIcon(
@@ -98,6 +103,8 @@ public class View extends JFrame {
         openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+        		clip.start();
                 layout.show(getContentPane(), "panel2");
             }
         });
@@ -118,6 +125,8 @@ public class View extends JFrame {
         orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+        		clip.start();
                 logic.decideFirst(computer, me, orderLabel);
 
                 // 表示処理
@@ -133,6 +142,9 @@ public class View extends JFrame {
         startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+        		clip.start();
+            	
                 layout.show(getContentPane(), "panel3");
 
                 JLabel myStoneLabel;
@@ -171,7 +183,7 @@ public class View extends JFrame {
         emptyFrame = new JLabel(icon3);
         emptyFrame.setBounds(100, 100, 500, 500);
 
-        JLabel labelb = new JLabel("座標を表示");
+        JLabel labelb = new JLabel();
         labelb.setBounds(100, 100, 500, 500);
 
         JLabel myScoreLabel = new JLabel("自分のスコア : " + String.valueOf(me.getScore()));
@@ -248,9 +260,9 @@ public class View extends JFrame {
                 // どのマスが押されたのか
                 controller.clickedFrame(placedPosition, point2.x, point2.y);
                 if (logic.canClick) {
+                	
                     // コマを置く
                     if (me.isMyTurn) {
-                        System.out.println("Meのturn");
                         if ((boolean) me.canPlacing(placedPosition, computer, me).get("result")) {
                             me.placing(placedPosition, me, computer, error, llLliB, llLliW);
                             myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
@@ -272,7 +284,6 @@ public class View extends JFrame {
                     }
                     if (computer.isMyTurn) {
                         logic.canClick = false;
-                        System.out.println("Computerのturn");
                         TimerTask task = new TimerTask() {
                             public void run() {
                                 computer.placing(computer.decidePosition(computer, me), computer, me, error, llLliB,
@@ -286,15 +297,19 @@ public class View extends JFrame {
                         };
                         Timer timer = new Timer();
                         timer.schedule(task, 800);
-                        
-                        
                     }
 
                     logic.turns++;
 
                     // ゲームの進行状況
-                    // テスト用に表示
                     if (logic.isFinish(logic, me, computer)) {
+                    	try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							// TODO 自動生成された catch ブロック
+							e1.printStackTrace();
+						}
+                    	
                         layout.show(getContentPane(), "panel4");
 
                         myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
@@ -307,13 +322,15 @@ public class View extends JFrame {
                             winlose.setText("敗北");
                             winlose.setForeground(Color.BLUE);
                         } else if (me.getScore() == computer.getScore()) {
+                        	Clip clip = model.createClip(new File("src/util/sounds/引き分け.wav"));
+                    		clip.start();
+                    		
                             winlose.setText("相討ち");
                         }
                     }
                 }
             }
         });
-
         // テスト用
         JLabel num = new JLabel(
                 "0              1              2               3              4              5              6             7");
@@ -349,6 +366,9 @@ public class View extends JFrame {
         finishButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+        		clip.start();
+            	
                 Component c = (Component) e.getSource();
                 Window w = SwingUtilities.getWindowAncestor(c);
                 w.dispose();
@@ -358,6 +378,9 @@ public class View extends JFrame {
         gameRestart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+        		clip.start();
+            	
                 Component c = (Component) e.getSource();
                 Window w = SwingUtilities.getWindowAncestor(c);
                 w.dispose();

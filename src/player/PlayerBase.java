@@ -1,12 +1,16 @@
 package player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JLabel;
+
+import ui.model.Model;
 
 public class PlayerBase {
 	private int Score = 2;
@@ -20,6 +24,7 @@ public class PlayerBase {
 	public boolean isMyTurn = false;
 	Computer com;
 	Me me;
+	Model model = new Model();
 
 	public PlayerBase() {
 
@@ -31,6 +36,9 @@ public class PlayerBase {
 	}
 
 	public void Pass(PlayerBase me, PlayerBase enemy) {
+		Clip clip = model.createClip(new File("src/util/sounds/pass.wav"));
+		clip.start();
+		
 		int numPass = me.getPasses() + 1;
 		me.setPasses(numPass);
 		
@@ -169,7 +177,13 @@ public class PlayerBase {
 		Map<String,Object> values = me.canPlacing(placedPosition, enemy, me);
 		int x = placedPosition[0];
 		int y = placedPosition[1];
+		
 		if (!(me.position[x][y]) && !(enemy.position[x][y])) {
+			//音を再生
+			//音を再生する
+        	Clip clip = model.createClip(new File("src/util/sounds/placing.wav"));
+			clip.start();
+			
             // 置く石の種類を指定し、配置
             if (me.getFirst()) {
                 JLabel lliitem = llLliB[x][y];
