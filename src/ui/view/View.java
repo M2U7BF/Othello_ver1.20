@@ -40,6 +40,7 @@ public class View extends JFrame {
     JLabel wStone;
     JLabel emptyFrame;
     CardLayout layout;
+    PreparationView preparationView;
     JPanel panel1;
     JPanel panel2;
     JPanel panel3;
@@ -51,6 +52,8 @@ public class View extends JFrame {
     int order;
     JLabel myTurnLabel = new JLabel("あなたのターン");
     JLabel computerTurnLabel = new JLabel("相手のターン");
+    JLabel myStoneLabel;
+    JLabel comStoneLabel;
 
     public static String title = "othello";
 
@@ -115,40 +118,28 @@ public class View extends JFrame {
         panel1.add(label);
 
         panel2 = new JPanel();
-        panel2.setLayout(null);
-        orderLabel = new JLabel();
-        orderLabel.setBounds(200, 300, 400, 50);
-        orderLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 50));
-        orderButton = new JButton("順番を決める");
-        orderButton.setBounds(300, 500, 100, 50);
-        orderButton.addMouseListener(new MouseAdapter() {
+        preparationView = new PreparationView(panel2);
+        preparationView.orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
             	sounds.setFile(0);
             	sounds.play();
             	
-                logic.decideFirst(computer, me, orderLabel);
+                logic.decideFirst(computer, me, preparationView.orderLabel);
 
                 // 表示処理
-                orderLabel.setVisible(true);
-                startButton.setVisible(true);
-                orderButton.setVisible(false);
+                preparationView.orderLabel.setVisible(true);
+                preparationView.startButton.setVisible(true);
+                preparationView.orderButton.setVisible(false);
             }
         });
-        startButton = new JButton("ゲームスタート");
-        startButton.setBounds(400, 500, 150, 50);
-        startButton.setVisible(false);
-        orderLabel.setVisible(false);
-        startButton.addMouseListener(new MouseAdapter() {
+        preparationView.startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
             	sounds.setFile(0);
             	sounds.play();
             	
                 layout.show(getContentPane(), "panel3");
-
-                JLabel myStoneLabel;
-                JLabel comStoneLabel;
 
                 // 初期配置の表示
                 if (me.getFirst()) {
@@ -172,9 +163,6 @@ public class View extends JFrame {
                 }
             }
         });
-        panel2.add(orderLabel);
-        panel2.add(startButton);
-        panel2.add(orderButton);
 
         panel3 = new JPanel();
         panel3.setLayout(null);
