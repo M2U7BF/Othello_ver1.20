@@ -10,11 +10,9 @@ import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,7 +24,7 @@ import logic.Logic;
 import player.Computer;
 import player.Me;
 import ui.controller.PlayingController;
-import ui.model.Model;
+import util.Sound;
 
 public class View extends JFrame {
 
@@ -63,7 +61,7 @@ public class View extends JFrame {
     private Me me;
     private Computer computer;
     private Logic logic;
-    private Model model;
+    private Sound sounds;
     private PlayingController controller;
 
     View(String title) {
@@ -71,7 +69,7 @@ public class View extends JFrame {
         me = new Me();
         computer = new Computer();
         logic = new Logic();
-        model = new Model();
+        sounds = new Sound();
         controller = new PlayingController();
 
         ImageIcon bStoneIcon = new ImageIcon(
@@ -103,8 +101,11 @@ public class View extends JFrame {
         openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-        		clip.start();
+//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+//        		clip.start();
+            	sounds.setFile(0);
+            	sounds.play();
+            	
                 layout.show(getContentPane(), "panel2");
             }
         });
@@ -125,8 +126,11 @@ public class View extends JFrame {
         orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-        		clip.start();
+//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+//        		clip.start();
+            	sounds.setFile(0);
+            	sounds.play();
+            	
                 logic.decideFirst(computer, me, orderLabel);
 
                 // 表示処理
@@ -142,8 +146,10 @@ public class View extends JFrame {
         startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-        		clip.start();
+//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+//        		clip.start();
+            	sounds.setFile(0);
+            	sounds.play();
             	
                 layout.show(getContentPane(), "panel3");
 
@@ -316,14 +322,22 @@ public class View extends JFrame {
                         computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
                         turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
                         if (me.getScore() > computer.getScore()) {
-                            winlose.setText("勝利");
+                            sounds.setFile(5);
+                            sounds.play();
+                        	
+                        	winlose.setText("勝利");
                             winlose.setForeground(Color.ORANGE);
                         } else if (me.getScore() < computer.getScore()) {
+                        	sounds.setFile(2);
+                        	sounds.play();
+                        	
                             winlose.setText("敗北");
                             winlose.setForeground(Color.BLUE);
                         } else if (me.getScore() == computer.getScore()) {
-                        	Clip clip = model.createClip(new File("src/util/sounds/引き分け.wav"));
-                    		clip.start();
+//                        	Clip clip = model.createClip(new File("src/util/sounds/引き分け.wav"));
+//                    		clip.start();
+                        	sounds.setFile(1);
+                        	sounds.play();
                     		
                             winlose.setText("相討ち");
                         }
@@ -366,8 +380,10 @@ public class View extends JFrame {
         finishButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-        		clip.start();
+//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+//        		clip.start();
+            	sounds.setFile(0);
+            	sounds.play();
             	
                 Component c = (Component) e.getSource();
                 Window w = SwingUtilities.getWindowAncestor(c);
@@ -378,8 +394,10 @@ public class View extends JFrame {
         gameRestart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-        		clip.start();
+//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
+//        		clip.start();
+            	sounds.setFile(0);
+            	sounds.play();
             	
                 Component c = (Component) e.getSource();
                 Window w = SwingUtilities.getWindowAncestor(c);

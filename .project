@@ -14,6 +14,18 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/util/img</name>
+			<type>2</type>
+			<location>/Users/zuyaka/Documents/自分のドキュメント/Programming/Java/Project2(eclipse)/othello_ver1.2/src/util/img</location>
+		</link>
+		<link>
+			<name>src/util/sounds</name>
+			<type>2</type>
+			<location>/Users/zuyaka/Documents/自分のドキュメント/Programming/Java/Project2(eclipse)/othello_ver1.2/src/util/sounds</location>
+		</link>
+	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1656320102548</id>
