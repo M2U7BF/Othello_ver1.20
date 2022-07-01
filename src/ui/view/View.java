@@ -24,6 +24,7 @@ import logic.Logic;
 import player.Computer;
 import player.Me;
 import ui.controller.PlayingController;
+import util.Img;
 import util.Sound;
 
 public class View extends JFrame {
@@ -62,6 +63,7 @@ public class View extends JFrame {
     private Computer computer;
     private Logic logic;
     private Sound sounds;
+    private Img imgs;
     private PlayingController controller;
 
     View(String title) {
@@ -70,18 +72,14 @@ public class View extends JFrame {
         computer = new Computer();
         logic = new Logic();
         sounds = new Sound();
+        imgs = new Img();
         controller = new PlayingController();
 
-        ImageIcon bStoneIcon = new ImageIcon(
-                new ImageIcon("src/util/img/blackStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        ImageIcon wStoneIcon = new ImageIcon(
-                new ImageIcon("src/util/img/whiteStone.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        ImageIcon bStoneIcon2 = new ImageIcon(
-                new ImageIcon("src/util/img/blackStone.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon wStoneIcon2 = new ImageIcon(
-                new ImageIcon("src/util/img/whiteStone.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon icon3 = new ImageIcon(
-                new ImageIcon("src/util/img/board.png").getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
+        ImageIcon bStoneIcon = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        ImageIcon wStoneIcon = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        ImageIcon bStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+        ImageIcon wStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+        ImageIcon icon3 = new ImageIcon(new ImageIcon(imgs.img[2]).getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
 
         JLabel myResultScoreLabel = new JLabel();
         JLabel computerResultScoreLabel = new JLabel();
@@ -101,8 +99,6 @@ public class View extends JFrame {
         openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-//        		clip.start();
             	sounds.setFile(0);
             	sounds.play();
             	
@@ -126,8 +122,6 @@ public class View extends JFrame {
         orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-//        		clip.start();
             	sounds.setFile(0);
             	sounds.play();
             	
@@ -146,8 +140,6 @@ public class View extends JFrame {
         startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-//        		clip.start();
             	sounds.setFile(0);
             	sounds.play();
             	
@@ -308,20 +300,18 @@ public class View extends JFrame {
                     logic.turns++;
 
                     // ゲームの進行状況
-                    if (logic.isFinish(logic, me, computer)) {
-                    	try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e1) {
-							// TODO 自動生成された catch ブロック
-							e1.printStackTrace();
-						}
-                    	
+                    //テスト用
+                    if (
+//                    		true
+                    		logic.isFinish(logic, me, computer)
+                    		) {
                         layout.show(getContentPane(), "panel4");
 
                         myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
                         computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
                         turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
                         if (me.getScore() > computer.getScore()) {
+                        	sounds = new Sound();
                             sounds.setFile(5);
                             sounds.play();
                         	
@@ -334,8 +324,6 @@ public class View extends JFrame {
                             winlose.setText("敗北");
                             winlose.setForeground(Color.BLUE);
                         } else if (me.getScore() == computer.getScore()) {
-//                        	Clip clip = model.createClip(new File("src/util/sounds/引き分け.wav"));
-//                    		clip.start();
                         	sounds.setFile(1);
                         	sounds.play();
                     		
@@ -380,8 +368,6 @@ public class View extends JFrame {
         finishButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-//        		clip.start();
             	sounds.setFile(0);
             	sounds.play();
             	
@@ -394,8 +380,6 @@ public class View extends JFrame {
         gameRestart.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//            	Clip clip = model.createClip(new File("src/util/sounds/choicing.wav"));
-//        		clip.start();
             	sounds.setFile(0);
             	sounds.play();
             	

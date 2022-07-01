@@ -17,9 +17,9 @@ public class Logic {
         int order;
         Random rand = new Random();
 
-        // order = rand.nextInt(2);
-        // テスト用にorder = 1 にしている
-        order = 1;
+        // テスト用
+//        order = 1;
+      order = rand.nextInt(2);
         if (order == 1) {
             me.setFirst(true);
             com.setFirst(false);
