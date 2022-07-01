@@ -2,10 +2,8 @@ package util;
 
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-
 public class Img {
-public URL[] img = new URL[10];
+public URL[] img = new URL[20];
 
 	public Img() {
 		img[0] = getClass().getResource("img/blackStone.png");
@@ -17,5 +15,7 @@ public URL[] img = new URL[10];
 		img[6] = getClass().getResource("img/passerrorImage.png");
 		img[7] = getClass().getResource("img/whiteStone.png");
 		img[8] = getClass().getResource("img/whiteStone2.png");
+		img[9] = getClass().getResource("img/errorImage.png");
+		img[10] = getClass().getResource("img/passerrorImage.png");
 	};
 }

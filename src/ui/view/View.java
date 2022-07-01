@@ -80,6 +80,8 @@ public class View extends JFrame {
         ImageIcon bStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon wStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon icon3 = new ImageIcon(new ImageIcon(imgs.img[2]).getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
+        ImageIcon placingError = new ImageIcon(new ImageIcon(imgs.img[9]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
+        ImageIcon passError = new ImageIcon(new ImageIcon(imgs.img[10]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
 
         JLabel myResultScoreLabel = new JLabel();
         JLabel computerResultScoreLabel = new JLabel();
@@ -221,12 +223,14 @@ public class View extends JFrame {
         llLliW[4][4].setVisible(true);
 
         // エラー文の設定
-        JLabel error = new JLabel("コマを置けません");
-        error.setBounds(200, 40, 200, 50);
-        panel3.add(error);
-        error.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
-        error.setForeground(Color.RED);
-        error.setVisible(false);
+        JLabel canntPlacingError = new JLabel(placingError);
+        canntPlacingError.setBounds(100, 10, 200, 80);
+        panel3.add(canntPlacingError);
+        canntPlacingError.setVisible(false);
+        JLabel canntPassError = new JLabel(passError);
+        canntPassError.setBounds(100, 10, 200, 80);
+        panel3.add(canntPassError);
+        canntPassError.setVisible(false);
 
         // パスのボタン
         JButton passButton = new JButton("パスをする");
@@ -234,8 +238,8 @@ public class View extends JFrame {
         panel3.add(passButton);
         
         //手番の表示
-        myTurnLabel.setBounds(300,0,100,30);
-        computerTurnLabel.setBounds(300,0,100,30);
+        myTurnLabel.setBounds(400,50,100,30);
+        computerTurnLabel.setBounds(400,50,100,30);
         panel3.add(myTurnLabel);
         panel3.add(computerTurnLabel);
 
@@ -245,6 +249,15 @@ public class View extends JFrame {
                 if (!(me.meCanPlacing(me, computer))) {
                     me.Pass(me, computer);
                     myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
+                } else {
+                	canntPassError.setVisible(true);
+                    TimerTask task = new TimerTask() {
+                        public void run() {
+                            canntPassError.setVisible(false);
+                        }
+                    };
+                    Timer timer = new Timer();
+                    timer.schedule(task, 1000);
                 }
             }
         });
@@ -259,25 +272,34 @@ public class View extends JFrame {
                 // どのマスが押されたのか
                 controller.clickedFrame(placedPosition, point2.x, point2.y);
                 if (logic.canClick) {
-                	
+                	//テスト用
+//                	while(!(logic.isFinish(logic, me, computer)) && logic.turns < 80) {
                     // コマを置く
                     if (me.isMyTurn) {
-                        if ((boolean) me.canPlacing(placedPosition, computer, me).get("result")) {
-                            me.placing(placedPosition, me, computer, error, llLliB, llLliW);
+                    	//テスト用
+//                    	int[] myDecidePosition = computer.decidePosition(me, computer);
+                        if (
+                        		(boolean) me.canPlacing(placedPosition, computer, me).get("result")	
+                        		//テスト
+//                        		(boolean) me.canPlacing(myDecidePosition, computer, me).get("result")	
+                        ) {
+                            me.placing(placedPosition, me, computer, canntPlacingError, llLliB, llLliW);
+                        	//テスト用
+//                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW);
                             myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
                             
                             myTurnLabel.setVisible(false);
                         	computerTurnLabel.setVisible(true);
                         } else {
-                            System.out.println("エラー@View@Me");
-                            error.setVisible(true);
+//                            System.out.println("エラー@View@Me");
+                            canntPlacingError.setVisible(true);
                             TimerTask task = new TimerTask() {
                                 public void run() {
-                                    error.setVisible(false);
+                                    canntPlacingError.setVisible(false);
                                 }
                             };
                             Timer timer = new Timer();
-                            timer.schedule(task, 2000);
+                            timer.schedule(task, 1000);
                         }
                         
                     }
@@ -290,7 +312,7 @@ public class View extends JFrame {
                             		computer.Pass(computer, me);
                             		computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
                             	} else {
-                            		computer.placing(decidePosition, computer, me, error, llLliB,
+                            		computer.placing(decidePosition, computer, me, canntPlacingError, llLliB,
                                             llLliW);
                             	}
                                 
@@ -302,14 +324,18 @@ public class View extends JFrame {
                             }
                         };
                         Timer timer = new Timer();
+                        //テスト用
+//                        timer.schedule(task, 100);
                         timer.schedule(task, 800);
                     }
 
                     logic.turns++;
+                    //テスト用
+//                	}
 
                     // ゲームの進行状況
-                    //テスト用
                     if (
+                    		 //テスト用
 //                    		true
                     		logic.isFinish(logic, me, computer)
                     		) {
@@ -361,7 +387,7 @@ public class View extends JFrame {
         panel4.add(computerResultPassesLabel);
         turnsLabel.setBounds(100, 450, 150, 30);
         panel4.add(turnsLabel);
-        winlose.setBounds(100, 200, 500, 100);
+        winlose.setBounds(250, 200, 500, 100);
         winlose.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 100));
         panel4.add(winlose);
 

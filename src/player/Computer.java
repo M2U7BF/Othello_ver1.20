@@ -8,15 +8,15 @@ public class Computer extends PlayerBase {
     int positionY = 0;
 
     // 決める
-    public int[] decidePosition(Computer com, Me me) {
+    public int[] decidePosition(PlayerBase me, PlayerBase enemy) {
         int[] decidePosition = new int[2];
         ArrayList<int[]> arrays = new ArrayList<>();
         ArrayList<ArrayList<int[]>> arrays2 = new ArrayList<>();
 
         // 置かれているマスの座標をarraylistに格納
-        for (int i = 0; i < com.position.length; i++) {
-            for (int j = 0; j < com.position.length; j++) {
-                if (com.position[i][j]) {
+        for (int i = 0; i < me.position.length; i++) {
+            for (int j = 0; j < me.position.length; j++) {
+                if (me.position[i][j]) {
                     int[] list = new int[2];
                     list[0] = i;
                     list[1] = j;
@@ -29,7 +29,7 @@ public class Computer extends PlayerBase {
         for (int i = 0; i < arrays.size(); i++) {
             ArrayList<int[]> arrays3 = new ArrayList<>();
 
-            arrays3 = seekPosition(arrays.get(i), com, me);
+            arrays3 = seekPosition(arrays.get(i), me, enemy);
 
             if (arrays3.size() > 0) {
                 arrays2.add(arrays3);
@@ -58,7 +58,7 @@ public class Computer extends PlayerBase {
     }
 
     // 探す
-    public ArrayList<int[]> seekPosition(int[] placedPosition, Computer com, Me me) {
+    public ArrayList<int[]> seekPosition(int[] placedPosition, PlayerBase me, PlayerBase enemy) {
         //// ルール的におけるのか
         // 全方位を調べる
         // 上下左右、右上左上、右下左下
@@ -66,36 +66,36 @@ public class Computer extends PlayerBase {
         positionY = placedPosition[1];
 
         if (positionY > 0) {
-            directions[0] = com.position[positionX][positionY - 1];// 上
-            directions2[0] = me.position[positionX][positionY - 1];// 上
+            directions[0] = me.position[positionX][positionY - 1];// 上
+            directions2[0] = enemy.position[positionX][positionY - 1];// 上
         }
         if (positionX < 7 && positionY > 0) {
-            directions[1] = com.position[positionX + 1][positionY - 1];// 右上
-            directions2[1] = me.position[positionX + 1][positionY - 1];// 右上
+            directions[1] = me.position[positionX + 1][positionY - 1];// 右上
+            directions2[1] = enemy.position[positionX + 1][positionY - 1];// 右上
         }
         if (positionX < 7) {
-            directions[2] = com.position[positionX + 1][positionY];// 右
-            directions2[2] = me.position[positionX + 1][positionY];// 右
+            directions[2] = me.position[positionX + 1][positionY];// 右
+            directions2[2] = enemy.position[positionX + 1][positionY];// 右
         }
         if (positionX < 7 && positionY < 7) {
-            directions[3] = com.position[positionX + 1][positionY + 1];// 右下
-            directions2[3] = me.position[positionX + 1][positionY + 1];// 右下
+            directions[3] = me.position[positionX + 1][positionY + 1];// 右下
+            directions2[3] = enemy.position[positionX + 1][positionY + 1];// 右下
         }
         if (positionY < 7) {
-            directions[4] = com.position[positionX][positionY + 1];// 下
-            directions2[4] = me.position[positionX][positionY + 1];// 下
+            directions[4] = me.position[positionX][positionY + 1];// 下
+            directions2[4] = enemy.position[positionX][positionY + 1];// 下
         }
         if (positionX > 0 && positionY < 7) {
-            directions[5] = com.position[positionX - 1][positionY + 1];// 左下
-            directions2[5] = me.position[positionX - 1][positionY + 1];// 左下
+            directions[5] = me.position[positionX - 1][positionY + 1];// 左下
+            directions2[5] = enemy.position[positionX - 1][positionY + 1];// 左下
         }
         if (positionX > 0) {
-            directions[6] = com.position[positionX - 1][positionY];// 左
-            directions2[6] = me.position[positionX - 1][positionY];// 左
+            directions[6] = me.position[positionX - 1][positionY];// 左
+            directions2[6] = enemy.position[positionX - 1][positionY];// 左
         }
         if (positionX > 0 && positionY > 0) {
-            directions[7] = com.position[positionX - 1][positionY - 1];// 左上
-            directions2[7] = me.position[positionX - 1][positionY - 1];// 左上
+            directions[7] = me.position[positionX - 1][positionY - 1];// 左上
+            directions2[7] = enemy.position[positionX - 1][positionY - 1];// 左上
         }
 
         ArrayList<ArrayList<int[]>> turnOverlists = new ArrayList<>();
@@ -117,15 +117,15 @@ public class Computer extends PlayerBase {
         for (int j = 0; j < turnOverlists.size(); j++) {
             for (int k = 0; k < turnOverlists.get(j).size(); k++) {
                 //// 次の項目を連続けて確認していったとき、相手or空き。相手>次の項目をみる 空き>return
-                if (!(com.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]])
-                        && !(me.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]])) {
+                if (!(me.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]])
+                        && !(enemy.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]])) {
                     // 空きマスが見つかった
                     int[] empC = new int[2];
                     empC[0] = turnOverlists.get(j).get(k)[0];
                     empC[1] = turnOverlists.get(j).get(k)[1];
                     resultList.add(empC);
                     break;
-                } else if (me.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]]) {
+                } else if (enemy.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]]) {
                     // 敵のコマが置いてあった場合
                     continue;
                 } else {
