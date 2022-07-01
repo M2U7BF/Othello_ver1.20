@@ -50,7 +50,8 @@ public class Computer extends PlayerBase {
             decidePosition = arrays4.get(b);
         } else if (arrays2.size() == 0) {
             // 置けるマスが無い場合
-            Pass(com, me);
+            decidePosition[0] = 8;
+            decidePosition[1] = 8;
         }
 
         return decidePosition;

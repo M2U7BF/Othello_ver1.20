@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 import logic.Logic;
 import player.Computer;
 import player.Me;
-import ui.controller.PlayingController;
+import ui.controller.GameController;
 import util.Img;
 import util.Sound;
 
@@ -64,7 +64,7 @@ public class View extends JFrame {
     private Logic logic;
     private Sound sounds;
     private Img imgs;
-    private PlayingController controller;
+    private GameController controller;
 
     View(String title) {
 
@@ -73,7 +73,7 @@ public class View extends JFrame {
         logic = new Logic();
         sounds = new Sound();
         imgs = new Img();
-        controller = new PlayingController();
+        controller = new GameController();
 
         ImageIcon bStoneIcon = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         ImageIcon wStoneIcon = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -244,6 +244,7 @@ public class View extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (!(me.meCanPlacing(me, computer))) {
                     me.Pass(me, computer);
+                    myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
                 }
             }
         });
@@ -284,8 +285,15 @@ public class View extends JFrame {
                         logic.canClick = false;
                         TimerTask task = new TimerTask() {
                             public void run() {
-                                computer.placing(computer.decidePosition(computer, me), computer, me, error, llLliB,
-                                        llLliW);
+                            	int[] decidePosition = computer.decidePosition(computer, me);
+                            	if(decidePosition[0] == 8 && decidePosition[1] == 1) {
+                            		computer.Pass(computer, me);
+                            		computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+                            	} else {
+                            		computer.placing(decidePosition, computer, me, error, llLliB,
+                                            llLliW);
+                            	}
+                                
                                 computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
                                 logic.canClick = true;
                                 
