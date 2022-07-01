@@ -308,7 +308,7 @@ public class View extends JFrame {
                         TimerTask task = new TimerTask() {
                             public void run() {
                             	int[] decidePosition = computer.decidePosition(computer, me);
-                            	if(decidePosition[0] == 8 && decidePosition[1] == 1) {
+                            	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
                             		computer.Pass(computer, me);
                             		computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
                             	} else {
