@@ -37,21 +37,15 @@ public class ResultView {
 
 		panel4.setLayout(null);
 		myResultScoreLabel.setBounds(100, 400, 150, 30);
-
 		computerResultScoreLabel.setBounds(350, 400, 150, 30);
-
 		myResultPassesLabel.setBounds(100, 430, 150, 30);
-
 		computerResultPassesLabel.setBounds(350, 430, 150, 30);
-
-		turnsLabel.setBounds(100, 450, 150, 30);
-
-		winlose.setBounds(250, 200, 500, 100);
+		turnsLabel.setBounds(100, 490, 150, 30);
+		winlose.setBounds(100, 200, 500, 100);
 		winlose.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 100));
-
+		winlose.setHorizontalAlignment(JLabel.CENTER);
 		gameRestart = new JButton("新しいゲームを開始");
 		gameRestart.setBounds(450, 600, 150, 30);
-
 		finishButton = new JButton("終了する");
 		finishButton.setBounds(80, 600, 80, 30);
 
@@ -70,6 +64,8 @@ public class ResultView {
 		
 		myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
 		computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
+		myResultPassesLabel.setText("自分の総パス回数 : " + String.valueOf(me.getPasses()));
+		computerResultPassesLabel.setText("相手の総パス回数 : " + String.valueOf(me.getPasses()));
 		turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
 		if (me.getScore() > computer.getScore()) {
 		    sounds.setFile(5);
