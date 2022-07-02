@@ -57,8 +57,7 @@ public class Logic {
         if (!(logic.isEmpty(me, com)) || !(playersCanPlacing(me, com))) {
             finish = true;
         }
-        player = new PlayerBase();
-        if(!(player.somewhereCanPlacing(me, com)) && !(player.somewhereCanPlacing(com, me))) {
+        if(!(me.somewhereCanPlacing(me, com)) && !(me.somewhereCanPlacing(com, me))) {
         	finish = true;
         }
         return finish;

@@ -123,9 +123,7 @@ public class View extends JFrame {
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
                             
                             //meの置く処理
-                            gamingView.myScoreLabel.setText(me.name + "のスコア : " + String.valueOf(me.getScore()));
-                            gamingView.myTurnLabel.setVisible(false);
-                            gamingView.computerTurnLabel.setVisible(true);
+                            gamingView.placeAnimation(me,me);
                         } else {
 //                            System.out.println("エラー@View@Me");
                         	gamingView.canntPlacingError();
@@ -141,8 +139,8 @@ public class View extends JFrame {
                             		computer.Pass(computer, me);
                             		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
                             	} else if(
-//                            			true //テスト用
-                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
+                            			true //テスト用
+//                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
                             			){
                             		computer.placing(decidePosition, computer, me, gamingView.canntPlacingError, gamingView.llLliB,
                             				gamingView.llLliW);
@@ -155,9 +153,7 @@ public class View extends JFrame {
                                 logic.canClick = true;
                                 
                                 //computerの置く処理
-                                gamingView.computerScoreLabel.setText(computer.name + "のスコア : " + String.valueOf(computer.getScore()));
-                                gamingView.computerTurnLabel.setVisible(false);
-                                gamingView.myTurnLabel.setVisible(true);
+                                gamingView.placeAnimation(computer,me);
                             }
                         };
                         Timer timer = new Timer();

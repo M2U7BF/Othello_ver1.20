@@ -187,4 +187,27 @@ public class GamingView {
         Timer timer = new Timer();
         timer.schedule(task, 1000);
 	}
+    
+    public void placeAnimation(PlayerBase player,Me me) {
+    	JLabel myScoreJLabel = new JLabel();
+    	JLabel enemyScoreJLabel = new JLabel();
+    	JLabel myTurnJLabel = new JLabel();
+    	JLabel enemyTurnJLabel = new JLabel();
+    	
+    	if(player.name == me.name) {
+    		myScoreJLabel =  myScoreLabel;
+    		
+    		myTurnJLabel = myTurnLabel;
+    		enemyTurnJLabel = computerTurnLabel;
+    	}else {
+    		myScoreJLabel = computerScoreLabel;
+    		
+    		myTurnJLabel = computerTurnLabel;
+    		enemyTurnJLabel = myTurnLabel;
+    	}
+    	
+    	myScoreJLabel.setText(player.name + "のスコア : " + String.valueOf(player.getScore()));
+        myTurnJLabel.setVisible(false);
+        enemyTurnJLabel.setVisible(true);
+	}
 }
