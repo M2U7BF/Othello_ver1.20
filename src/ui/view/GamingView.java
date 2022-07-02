@@ -1,6 +1,10 @@
 package ui.view;
 
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -123,6 +127,28 @@ public class GamingView {
         panel3.add(computerTurnLabel);
         panel3.add(labelb);
         panel3.add(emptyFrame);
+        
+        
+        passButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!(me.somewhereCanPlacing(me, computer))) {
+                    me.Pass(me, computer);
+                    myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
+                } else {
+                	canntPassError.setVisible(true);
+                    TimerTask task = new TimerTask() {
+                        public void run() {
+                        	canntPassError.setVisible(false);
+                        }
+                    };
+                    Timer timer = new Timer();
+                    timer.schedule(task, 1000);
+                }
+            }
+        });
+        
+        
     }
     
     public void started(Me me,JPanel panel3) {
@@ -146,6 +172,6 @@ public class GamingView {
         }
         
         panel3.add(myStoneLabel);
-        panel3.add(comStoneLabel);  
+        panel3.add(comStoneLabel);
 	}
 }

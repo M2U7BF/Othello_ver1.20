@@ -113,25 +113,6 @@ public class View extends JFrame {
             }
         });
 
-        gamingView.passButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (!(me.meCanPlacing(me, computer))) {
-                    me.Pass(me, computer);
-                    gamingView.myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
-                } else {
-                	gamingView.canntPassError.setVisible(true);
-                    TimerTask task = new TimerTask() {
-                        public void run() {
-                        	gamingView.canntPassError.setVisible(false);
-                        }
-                    };
-                    Timer timer = new Timer();
-                    timer.schedule(task, 1000);
-                }
-            }
-        });
-
         gamingView.labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
