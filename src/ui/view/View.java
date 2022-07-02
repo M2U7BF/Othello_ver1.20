@@ -1,11 +1,8 @@
 package ui.view;
 
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Point;
-import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
@@ -14,7 +11,6 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import logic.Logic;
 import player.Computer;
@@ -72,7 +68,7 @@ public class View extends JFrame {
         panel4 = new JPanel();
         
         startView = new StartView(panel1); 
-        preparationView = new PreparationView(panel2);
+        preparationView = new PreparationView(panel2, me, computer);
         gamingView = new GamingView(panel3,me,computer);
         resultView = new ResultView(panel4);
         
@@ -80,6 +76,7 @@ public class View extends JFrame {
         setBounds(200, 100, 700, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
+        //画面遷移1
         startView.openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -90,18 +87,7 @@ public class View extends JFrame {
             }
         });
         
-        preparationView.orderButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	sounds.setFile(0);
-            	sounds.play();
-            	
-                logic.decideFirst(computer, me, preparationView.orderLabel);
-                
-                preparationView.orderDecided();
-            }
-        });
-        
+        //画面遷移2
         preparationView.startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -118,25 +104,20 @@ public class View extends JFrame {
             public void mouseClicked(MouseEvent e) {
 
                 Point point2 = e.getPoint();
-                // テスト用
-//                labelb.setText("全体: x:" + point2.x + ",y:" + point2.y);
+//                labelb.setText("全体: x:" + point2.x + ",y:" + point2.y); // テスト用
                 // どのマスが押されたのか
                 controller.clickedFrame(placedPosition, point2.x, point2.y);
                 if (logic.canClick) {
-                	//テスト用
-//                	while(!(logic.isFinish(logic, me, computer)) && logic.turns < 80) {
+//                	while(!(logic.isFinish(logic, me, computer)) && logic.turns < 80) { //テスト用
                     // コマを置く
                     if (me.isMyTurn) {
-                    	//テスト用
-//                    	int[] myDecidePosition = computer.decidePosition(me, computer);
+//                    	int[] myDecidePosition = computer.decidePosition(me, computer); //テスト用
                         if (
                         		(boolean) me.canPlacing(placedPosition, computer, me).get("result")	
-                        		//テスト
-//                        		(boolean) me.canPlacing(myDecidePosition, computer, me).get("result")	
+//                        		(boolean) me.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
                             me.placing(placedPosition, me, computer, gamingView.canntPlacingError, gamingView.llLliB, gamingView.llLliW);
-                        	//テスト用
-//                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW);
+//                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
                             gamingView.myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
                             
                             gamingView.myTurnLabel.setVisible(false);
@@ -175,8 +156,7 @@ public class View extends JFrame {
                             }
                         };
                         Timer timer = new Timer();
-                        //テスト用
-//                        timer.schedule(task, 100);
+//                        timer.schedule(task, 100); //テスト用
                         timer.schedule(task, 800);
                     }
 
@@ -186,34 +166,11 @@ public class View extends JFrame {
 
                     // ゲームの進行状況
                     if (
-                    		 //テスト用
-//                    		true
-                    		logic.isFinish(logic, me, computer)
-                    		) {
+                		true //テスト用
+//                    	logic.isFinish(logic, me, computer)
+                    	) {
                         layout.show(getContentPane(), "panel4");
-
-                        resultView.myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
-                        resultView.computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
-                        resultView.turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
-                        if (me.getScore() > computer.getScore()) {
-                        	sounds = new Sound();
-                            sounds.setFile(5);
-                            sounds.play();
-                        	
-                            resultView.winlose.setText("勝利");
-                            resultView.winlose.setForeground(Color.ORANGE);
-                        } else if (me.getScore() < computer.getScore()) {
-                        	sounds.setFile(2);
-                        	sounds.play();
-                        	
-                        	resultView.winlose.setText("敗北");
-                        	resultView.winlose.setForeground(Color.BLUE);
-                        } else if (me.getScore() == computer.getScore()) {
-                        	sounds.setFile(1);
-                        	sounds.play();
-                    		
-                        	resultView.winlose.setText("相討ち");
-                        }
+                        resultView.finished(logic, me, computer);
                     }
                 }
             }
@@ -223,33 +180,6 @@ public class View extends JFrame {
                 "0              1              2               3              4              5              6             7");
         num.setBounds(100, 80, 500, 50);
 //        panel3.add(num);
-
-
-        resultView.finishButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	sounds.setFile(0);
-            	sounds.play();
-            	
-                Component c = (Component) e.getSource();
-                Window w = SwingUtilities.getWindowAncestor(c);
-                w.dispose();
-            }
-        });
-
-        resultView.gameRestart.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	sounds.setFile(0);
-            	sounds.play();
-            	
-                Component c = (Component) e.getSource();
-                Window w = SwingUtilities.getWindowAncestor(c);
-                w.dispose();
-
-                main(null);
-            }
-        });
 
         layout = new CardLayout();
 

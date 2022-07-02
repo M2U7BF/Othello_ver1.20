@@ -1,10 +1,21 @@
 package ui.view;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import logic.Logic;
+import player.Computer;
+import player.Me;
+import util.Sound;
 
 public class ResultView {
 	public JLabel myResultScoreLabel;
@@ -52,5 +63,58 @@ public class ResultView {
 		panel4.add(winlose);
 		panel4.add(gameRestart);
 		panel4.add(finishButton);
+	}
+
+	public void finished(Logic logic, Me me, Computer computer) {
+		Sound sounds = new Sound();
+		
+		myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
+		computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
+		turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
+		if (me.getScore() > computer.getScore()) {
+		    sounds.setFile(5);
+		    sounds.play();
+			
+		    winlose.setText("勝利");
+		    winlose.setForeground(Color.ORANGE);
+		} else if (me.getScore() < computer.getScore()) {
+			sounds.setFile(2);
+			sounds.play();
+			
+			winlose.setText("敗北");
+			winlose.setForeground(Color.BLUE);
+		} else if (me.getScore() == computer.getScore()) {
+			sounds.setFile(1);
+			sounds.play();
+			
+			winlose.setText("相討ち");
+		}
+		
+		finishButton.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	        	sounds.setFile(0);
+	        	sounds.play();
+	        	
+	            Component c = (Component) e.getSource();
+	            Window w = SwingUtilities.getWindowAncestor(c);
+	            w.dispose();
+	        }
+	    });
+		
+		gameRestart.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	sounds.setFile(0);
+            	sounds.play();
+            	
+                Component c = (Component) e.getSource();
+                Window w = SwingUtilities.getWindowAncestor(c);
+                w.dispose();
+
+                View view = new View("othello");
+                view.main(null);
+            }
+        });
 	}
 }
