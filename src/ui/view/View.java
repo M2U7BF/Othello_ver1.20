@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
@@ -12,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,8 +42,6 @@ public class View extends JFrame {
     int placedPosition[] = new int[2];
     JLabel[][] lli = new JLabel[8][8];
     int order;
-    JLabel myStoneLabel;
-    JLabel comStoneLabel;
 
     public static String title = "othello";
 
@@ -69,28 +65,31 @@ public class View extends JFrame {
         sounds = new Sound();
         imgs = new Img();
         controller = new GameController();
-        
-        ImageIcon bStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon wStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 
+        panel1 = new JPanel();
+        panel2 = new JPanel();
+        panel3 = new JPanel();
+        panel4 = new JPanel();
+        
+        startView = new StartView(panel1); 
+        preparationView = new PreparationView(panel2);
+        gamingView = new GamingView(panel3,me,computer);
+        resultView = new ResultView(panel4);
+        
         setTitle(title);
         setBounds(200, 100, 700, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        panel1 = new JPanel();
-        startView = new StartView(panel1); 
+       
         startView.openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
             	sounds.setFile(0);
             	sounds.play();
-            	
-                layout.show(getContentPane(), "panel2");
+                
+            	layout.show(getContentPane(), "panel2");
             }
         });
-
-        panel2 = new JPanel();
-        preparationView = new PreparationView(panel2);
+        
         preparationView.orderButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -98,46 +97,21 @@ public class View extends JFrame {
             	sounds.play();
             	
                 logic.decideFirst(computer, me, preparationView.orderLabel);
-
-                // 表示処理
-                preparationView.orderLabel.setVisible(true);
-                preparationView.startButton.setVisible(true);
-                preparationView.orderButton.setVisible(false);
+                
+                preparationView.orderDecided();
             }
         });
+        
         preparationView.startButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
             	sounds.setFile(0);
             	sounds.play();
             	
+            	gamingView.started(me,panel3);
                 layout.show(getContentPane(), "panel3");
-
-                // 初期配置の表示
-                if (me.getFirst()) {
-                    myStoneLabel = new JLabel(bStoneIcon2);
-                    comStoneLabel = new JLabel(wStoneIcon2);
-                } else {
-                    myStoneLabel = new JLabel(wStoneIcon2);
-                    comStoneLabel = new JLabel(bStoneIcon2);
-                }
-                myStoneLabel.setBounds(70, 650, 30, 30);
-                comStoneLabel.setBounds(370, 650, 30, 30);
-                panel3.add(myStoneLabel);
-                panel3.add(comStoneLabel);
-                
-                if(me.getFirst()) {
-        	        gamingView.myTurnLabel.setVisible(true);
-        	        gamingView.computerTurnLabel.setVisible(false);
-                }else if(!(me.getFirst())) {
-                	gamingView.myTurnLabel.setVisible(false);
-                	gamingView.computerTurnLabel.setVisible(true);
-                }
             }
         });
-
-        panel3 = new JPanel();
-        gamingView = new GamingView(panel3,me,computer);
 
         gamingView.passButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -269,8 +243,6 @@ public class View extends JFrame {
         num.setBounds(100, 80, 500, 50);
 //        panel3.add(num);
 
-        panel4 = new JPanel();
-        resultView = new ResultView(panel4);
 
         resultView.finishButton.addMouseListener(new MouseAdapter() {
             @Override

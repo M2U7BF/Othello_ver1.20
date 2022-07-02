@@ -27,4 +27,10 @@ public class PreparationView {
 	  panel2.add(startButton);
 	  panel2.add(orderButton);
 	}
+	
+	public void orderDecided() {
+		orderLabel.setVisible(true);
+		startButton.setVisible(true);
+		orderButton.setVisible(false);
+	}
 }
