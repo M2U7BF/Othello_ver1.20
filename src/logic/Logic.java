@@ -6,11 +6,13 @@ import javax.swing.JLabel;
 
 import player.Computer;
 import player.Me;
+import player.PlayerBase;
 
 public class Logic {
     int maxNumPass;
     public int turns = 0;
     public boolean canClick = true;
+    PlayerBase player;
     // boolean[][] isEmpty;
 
     public void decideFirst(Computer com, Me me, JLabel orderLabel) {
@@ -54,6 +56,10 @@ public class Logic {
         boolean finish = false;
         if (!(logic.isEmpty(me, com)) || !(playersCanPlacing(me, com))) {
             finish = true;
+        }
+        player = new PlayerBase();
+        if(!(player.somewhereCanPlacing(me, com)) && !(player.somewhereCanPlacing(com, me))) {
+        	finish = true;
         }
         return finish;
     }

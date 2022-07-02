@@ -171,7 +171,6 @@ public class PlayerBase {
 		return values;
 	}
 	
-	
 	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,JLabel error,JLabel[][] llLliB,JLabel[][] llLliW) {
 		Map<String,Object> values = me.canPlacing(placedPosition, enemy, me);
 		int x = placedPosition[0];
