@@ -3,8 +3,6 @@ package player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JLabel;
 
@@ -172,57 +170,43 @@ public class PlayerBase {
 		return values;
 	}
 	
-	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,JLabel error,JLabel[][] llLliB,JLabel[][] llLliW) {
+	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,JLabel[][] llLliB,JLabel[][] llLliW) {
 		PlayerBase player = new PlayerBase();
 		Map<String,Object> values = player.canPlacing(placedPosition, me, enemy);
 		int x = placedPosition[0];
 		int y = placedPosition[1];
 		
-		if (!(me.position[x][y]) && !(enemy.position[x][y])) {
-			//音を再生
-			//音を再生する
-			sounds = new Sound();
-			sounds.setFile(4);
-			sounds.play();
-			
-            // 置く石の種類を指定し、配置
-            if (me.getFirst()) {
-                JLabel lliitem = llLliB[x][y];
-                lliitem.setVisible(true);
-            } else if (!(me.getFirst())){
-                JLabel lliitem = llLliW[x][y];
-                lliitem.setVisible(true);
-            }
+		//音を再生
+		//音を再生する
+		sounds = new Sound();
+		sounds.setFile(4);
+		sounds.play();
+		
+        // 置く石の種類を指定し、配置
+//            if (me.getFirst()) {
+//                JLabel lliitem = llLliB[x][y];
+//                lliitem.setVisible(true);
+//            } else if (!(me.getFirst())){
+//                JLabel lliitem = llLliW[x][y];
+//                lliitem.setVisible(true);
+//            }
 
-            // 置いたことをログする
-            me.position[x][y] = true;
+        // 置いたことをログする
+        me.position[x][y] = true;
+        
+        //覆せるコマを全て覆す
+        ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
+        turnOver(me, enemy, turnOverList, llLliB, llLliW);
+        
+        //// コマを置いたときの処理
+        int meScore = me.getScore() + 1;
+        me.setScore(meScore);
+        
+        //ターン交代
+        me.isMyTurn = false;
+        enemy.isMyTurn = true;
             
-            //覆せるコマを全て覆す
-            ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
-            turnOver(me, enemy, turnOverList, llLliB, llLliW);
-            
-            //// コマを置いたときの処理
-            int meScore = me.getScore() + 1;
-            me.setScore(meScore);
-            
-            //ターン交代
-            me.isMyTurn = false;
-            enemy.isMyTurn = true;
-            
-        } else {
-        	System.out.println("error@PlayerBase");
-            error.setVisible(true);
-
-            TimerTask task = new TimerTask() {
-                public void run() {
-                    // タイマーで実行したい処理
-                    error.setVisible(false);
-                }
-            };
-
-            Timer timer = new Timer();
-            timer.schedule(task, 2000);
-        }
+        
 	}
 
 	public ArrayList<int[]> SearchList2(int i,int x, int y){

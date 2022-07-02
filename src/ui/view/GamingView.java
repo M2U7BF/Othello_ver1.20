@@ -188,11 +188,21 @@ public class GamingView {
         timer.schedule(task, 1000);
 	}
     
-    public void placeAnimation(PlayerBase player,Me me) {
+    public void placeAnimation(int[] decidedPosition,PlayerBase player,Me me) {
     	JLabel myScoreJLabel = new JLabel();
-    	JLabel enemyScoreJLabel = new JLabel();
     	JLabel myTurnJLabel = new JLabel();
     	JLabel enemyTurnJLabel = new JLabel();
+    	int x = decidedPosition[0];
+    	int y = decidedPosition[1];
+    	
+    	//コマの種類を判定
+    	if (player.getFirst()) {
+            JLabel lliitem = llLliB[x][y];
+            lliitem.setVisible(true);
+        } else {
+            JLabel lliitem = llLliW[x][y];
+            lliitem.setVisible(true);
+        }
     	
     	if(player.name == me.name) {
     		myScoreJLabel =  myScoreLabel;

@@ -119,11 +119,11 @@ public class View extends JFrame {
                         		(boolean) player.canPlacing(placedPosition, me, computer).get("result")	
 //                        		(boolean) player.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
-                            me.placing(placedPosition, me, computer, gamingView.canntPlacingError, gamingView.llLliB, gamingView.llLliW);
+                            me.placing(placedPosition, me, computer, gamingView.llLliB, gamingView.llLliW);
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
                             
                             //meの置く処理
-                            gamingView.placeAnimation(me,me);
+                            gamingView.placeAnimation(placedPosition, me, me);
                         } else {
 //                            System.out.println("エラー@View@Me");
                         	gamingView.canntPlacingError();
@@ -142,8 +142,11 @@ public class View extends JFrame {
                             			true //テスト用
 //                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
                             			){
-                            		computer.placing(decidePosition, computer, me, gamingView.canntPlacingError, gamingView.llLliB,
+                            		
+                            		computer.placing(decidePosition, computer, me, gamingView.llLliB,
                             				gamingView.llLliW);
+                            		//computerの置く処理
+                                    gamingView.placeAnimation(decidePosition,computer,me);
                             	} else {
                             		computer.Pass(computer, me);
                             		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません");
@@ -151,9 +154,6 @@ public class View extends JFrame {
                             	}
                                 
                                 logic.canClick = true;
-                                
-                                //computerの置く処理
-                                gamingView.placeAnimation(computer,me);
                             }
                         };
                         Timer timer = new Timer();
