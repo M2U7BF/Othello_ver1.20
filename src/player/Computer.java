@@ -6,6 +6,10 @@ import java.util.Random;
 public class Computer extends PlayerBase {
     int positionX = 0;
     int positionY = 0;
+    
+    public Computer() {
+    	this.name = "相手";
+	}
 
     // 決める
     public int[] decidePosition(PlayerBase me, PlayerBase enemy) {

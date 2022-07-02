@@ -68,13 +68,13 @@ public class GamingView {
         labelb = new JLabel();
         labelb.setBounds(100, 100, 500, 500);
 
-        myScoreLabel = new JLabel("自分のスコア : " + String.valueOf(me.getScore()));
+        myScoreLabel = new JLabel(me.name + "のスコア : " + String.valueOf(me.getScore()));
         myScoreLabel.setBounds(100, 650, 150, 30);
-        computerScoreLabel = new JLabel("相手のスコア : " + String.valueOf(computer.getScore()));
+        computerScoreLabel = new JLabel(computer.name + "のスコア : " + String.valueOf(computer.getScore()));
         computerScoreLabel.setBounds(400, 650, 150, 30);
-        myPassesLabel = new JLabel("自分のパス回数 : " + String.valueOf(me.getPasses()));
+        myPassesLabel = new JLabel(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
         myPassesLabel.setBounds(100, 680, 150, 30);
-        computerPassesLabel = new JLabel("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+        computerPassesLabel = new JLabel(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
         computerPassesLabel.setBounds(400, 680, 150, 30);
 
         // 全てのコマを配置
@@ -136,7 +136,7 @@ public class GamingView {
             		//DO NOTHING
             	}else if (!(me.somewhereCanPlacing(me, computer))) {
                     me.Pass(me, computer);
-                    myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
+                    myPassesLabel.setText(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
                 } else {
                 	canntPassError.setVisible(true);
                     TimerTask task = new TimerTask() {
@@ -175,5 +175,16 @@ public class GamingView {
         
         panel3.add(myStoneLabel);
         panel3.add(comStoneLabel);
+	}
+
+    public void canntPlacingError() {
+    	canntPlacingError.setVisible(true);
+        TimerTask task = new TimerTask() {
+            public void run() {
+            	canntPlacingError.setVisible(false);
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, 1000);
 	}
 }

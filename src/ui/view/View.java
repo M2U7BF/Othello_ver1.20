@@ -117,24 +117,18 @@ public class View extends JFrame {
 //                    	int[] myDecidePosition = computer.decidePosition(me, computer); //テスト用
                         if (
                         		(boolean) player.canPlacing(placedPosition, me, computer).get("result")	
-//                        		(boolean) me.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
+//                        		(boolean) player.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
                             me.placing(placedPosition, me, computer, gamingView.canntPlacingError, gamingView.llLliB, gamingView.llLliW);
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
-                            gamingView.myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
                             
+                            //meの置く処理
+                            gamingView.myScoreLabel.setText(me.name + "のスコア : " + String.valueOf(me.getScore()));
                             gamingView.myTurnLabel.setVisible(false);
                             gamingView.computerTurnLabel.setVisible(true);
                         } else {
 //                            System.out.println("エラー@View@Me");
-                        	gamingView.canntPlacingError.setVisible(true);
-                            TimerTask task = new TimerTask() {
-                                public void run() {
-                                	gamingView.canntPlacingError.setVisible(false);
-                                }
-                            };
-                            Timer timer = new Timer();
-                            timer.schedule(task, 1000);
+                        	gamingView.canntPlacingError();
                         }
                         
                     }
@@ -145,7 +139,7 @@ public class View extends JFrame {
                             	int[] decidePosition = computer.decidePosition(computer, me);
                             	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
                             		computer.Pass(computer, me);
-                            		gamingView.computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
                             	} else if(
 //                            			true //テスト用
                             			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
@@ -155,12 +149,13 @@ public class View extends JFrame {
                             	} else {
                             		computer.Pass(computer, me);
                             		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません");
-                            		gamingView.computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
                             	}
                                 
-                            	gamingView.computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
                                 logic.canClick = true;
                                 
+                                //computerの置く処理
+                                gamingView.computerScoreLabel.setText(computer.name + "のスコア : " + String.valueOf(computer.getScore()));
                                 gamingView.computerTurnLabel.setVisible(false);
                                 gamingView.myTurnLabel.setVisible(true);
                             }
