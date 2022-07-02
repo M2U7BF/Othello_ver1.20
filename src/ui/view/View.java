@@ -30,28 +30,29 @@ import util.Sound;
 public class View extends JFrame {
 
     JButton openButton;
-    JButton orderButton;
-    JButton startButton;
+//    JButton orderButton;
+//    JButton startButton;
     JLabel label2;
     JLabel label3;
     JLabel label4;
-    JLabel orderLabel;
-    JLabel bStone;
-    JLabel wStone;
+//    JLabel orderLabel;
+//    JLabel bStone;
+//    JLabel wStone;
     JLabel emptyFrame;
     CardLayout layout;
     PreparationView preparationView;
+    GamingView gamingView;
     JPanel panel1;
     JPanel panel2;
     JPanel panel3;
     JPanel panel4;
     int placedPosition[] = new int[2];
     JLabel[][] lli = new JLabel[8][8];
-    JLabel llLliB[][] = new JLabel[8][8];
-    JLabel llLliW[][] = new JLabel[8][8];
+//    JLabel llLliB[][] = new JLabel[8][8];
+//    JLabel llLliW[][] = new JLabel[8][8];
     int order;
-    JLabel myTurnLabel = new JLabel("あなたのターン");
-    JLabel computerTurnLabel = new JLabel("相手のターン");
+//    JLabel myTurnLabel = new JLabel("あなたのターン");
+//    JLabel computerTurnLabel = new JLabel("相手のターン");
     JLabel myStoneLabel;
     JLabel comStoneLabel;
 
@@ -77,15 +78,10 @@ public class View extends JFrame {
         sounds = new Sound();
         imgs = new Img();
         controller = new GameController();
-
-        ImageIcon bStoneIcon = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        ImageIcon wStoneIcon = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        
         ImageIcon bStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon wStoneIcon2 = new ImageIcon(new ImageIcon(imgs.img[7]).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon icon3 = new ImageIcon(new ImageIcon(imgs.img[2]).getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
-        ImageIcon placingError = new ImageIcon(new ImageIcon(imgs.img[9]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
-        ImageIcon passError = new ImageIcon(new ImageIcon(imgs.img[10]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
-
+        
         JLabel myResultScoreLabel = new JLabel();
         JLabel computerResultScoreLabel = new JLabel();
         JLabel myResultPassesLabel = new JLabel();
@@ -155,93 +151,94 @@ public class View extends JFrame {
                 panel3.add(comStoneLabel);
                 
                 if(me.getFirst()) {
-        	        myTurnLabel.setVisible(true);
-        	        computerTurnLabel.setVisible(false);
+        	        gamingView.myTurnLabel.setVisible(true);
+        	        gamingView.computerTurnLabel.setVisible(false);
                 }else if(!(me.getFirst())) {
-                	myTurnLabel.setVisible(false);
-        	        computerTurnLabel.setVisible(true);
+                	gamingView.myTurnLabel.setVisible(false);
+                	gamingView.computerTurnLabel.setVisible(true);
                 }
             }
         });
 
         panel3 = new JPanel();
-        panel3.setLayout(null);
-        bStone = new JLabel();
-        wStone = new JLabel();
-        emptyFrame = new JLabel(icon3);
-        emptyFrame.setBounds(100, 100, 500, 500);
+        gamingView = new GamingView(panel3,me,computer);
+//        panel3.setLayout(null);
+//        bStone = new JLabel();
+//        wStone = new JLabel();
+//        emptyFrame = new JLabel(icon3);
+//        emptyFrame.setBounds(100, 100, 500, 500);
 
-        JLabel labelb = new JLabel();
-        labelb.setBounds(100, 100, 500, 500);
+//        JLabel labelb = new JLabel();
+//        labelb.setBounds(100, 100, 500, 500);
 
-        JLabel myScoreLabel = new JLabel("自分のスコア : " + String.valueOf(me.getScore()));
-        myScoreLabel.setBounds(100, 650, 150, 30);
-        panel3.add(myScoreLabel);
-        JLabel computerScoreLabel = new JLabel("相手のスコア : " + String.valueOf(computer.getScore()));
-        computerScoreLabel.setBounds(400, 650, 150, 30);
-        panel3.add(computerScoreLabel);
-        JLabel myPassesLabel = new JLabel("自分のパス回数 : " + String.valueOf(me.getPasses()));
-        myPassesLabel.setBounds(100, 680, 150, 30);
-        panel3.add(myPassesLabel);
-        JLabel computerPassesLabel = new JLabel("相手のパス回数 : " + String.valueOf(computer.getPasses()));
-        computerPassesLabel.setBounds(400, 680, 150, 30);
-        panel3.add(computerPassesLabel);
+//        JLabel myScoreLabel = new JLabel("自分のスコア : " + String.valueOf(me.getScore()));
+//        myScoreLabel.setBounds(100, 650, 150, 30);
+//        panel3.add(myScoreLabel);
+//        JLabel computerScoreLabel = new JLabel("相手のスコア : " + String.valueOf(computer.getScore()));
+//        computerScoreLabel.setBounds(400, 650, 150, 30);
+//        panel3.add(computerScoreLabel);
+//        JLabel myPassesLabel = new JLabel("自分のパス回数 : " + String.valueOf(me.getPasses()));
+//        myPassesLabel.setBounds(100, 680, 150, 30);
+//        panel3.add(myPassesLabel);
+//        JLabel computerPassesLabel = new JLabel("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+//        computerPassesLabel.setBounds(400, 680, 150, 30);
+//        panel3.add(computerPassesLabel);
 
         // 全てのコマを配置
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                llLliB[i][j] = new JLabel(bStoneIcon);
-                llLliB[i][j].setVerticalAlignment(JLabel.CENTER);
-                llLliB[i][j].setBounds(105 + 63 * i, 105 + 63 * j, 50, 50);
-                llLliB[i][j].setVisible(false);
-                panel3.add(llLliB[i][j]);
-
-                llLliW[i][j] = new JLabel(wStoneIcon);
-                llLliW[i][j].setVerticalAlignment(JLabel.CENTER);
-                llLliW[i][j].setBounds(105 + 63 * i, 105 + 63 * j, 50, 50);
-                llLliW[i][j].setVisible(false);
-                panel3.add(llLliW[i][j]);
-
-            }
-        }
+//        for (int i = 0; i < 8; i++) {
+//            for (int j = 0; j < 8; j++) {
+//                llLliB[i][j] = new JLabel(bStoneIcon);
+//                llLliB[i][j].setVerticalAlignment(JLabel.CENTER);
+//                llLliB[i][j].setBounds(105 + 63 * i, 105 + 63 * j, 50, 50);
+//                llLliB[i][j].setVisible(false);
+//                panel3.add(llLliB[i][j]);
+//
+//                llLliW[i][j] = new JLabel(wStoneIcon);
+//                llLliW[i][j].setVerticalAlignment(JLabel.CENTER);
+//                llLliW[i][j].setBounds(105 + 63 * i, 105 + 63 * j, 50, 50);
+//                llLliW[i][j].setVisible(false);
+//                panel3.add(llLliW[i][j]);
+//
+//            }
+//        }
         // コマの初期配置の表示
-        llLliB[3][4].setVisible(true);
-        llLliB[4][3].setVisible(true);
-        llLliW[3][3].setVisible(true);
-        llLliW[4][4].setVisible(true);
+//        llLliB[3][4].setVisible(true);
+//        llLliB[4][3].setVisible(true);
+//        llLliW[3][3].setVisible(true);
+//        llLliW[4][4].setVisible(true);
 
-        // エラー文の設定
-        JLabel canntPlacingError = new JLabel(placingError);
-        canntPlacingError.setBounds(100, 10, 200, 80);
-        panel3.add(canntPlacingError);
-        canntPlacingError.setVisible(false);
-        JLabel canntPassError = new JLabel(passError);
-        canntPassError.setBounds(100, 10, 200, 80);
-        panel3.add(canntPassError);
-        canntPassError.setVisible(false);
+//        // エラー文の設定
+//        JLabel canntPlacingError = new JLabel(placingError);
+//        canntPlacingError.setBounds(100, 10, 200, 80);
+//        panel3.add(canntPlacingError);
+//        canntPlacingError.setVisible(false);
+//        JLabel canntPassError = new JLabel(passError);
+//        canntPassError.setBounds(100, 10, 200, 80);
+//        panel3.add(canntPassError);
+//        canntPassError.setVisible(false);
+//
+//        // パスのボタン
+//        JButton passButton = new JButton("パスをする");
+//        passButton.setBounds(100, 720, 100, 30);
+//        panel3.add(passButton);
+//        
+//        //手番の表示
+//        myTurnLabel.setBounds(400,50,100,30);
+//        computerTurnLabel.setBounds(400,50,100,30);
+//        panel3.add(myTurnLabel);
+//        panel3.add(computerTurnLabel);
 
-        // パスのボタン
-        JButton passButton = new JButton("パスをする");
-        passButton.setBounds(100, 720, 100, 30);
-        panel3.add(passButton);
-        
-        //手番の表示
-        myTurnLabel.setBounds(400,50,100,30);
-        computerTurnLabel.setBounds(400,50,100,30);
-        panel3.add(myTurnLabel);
-        panel3.add(computerTurnLabel);
-
-        passButton.addMouseListener(new MouseAdapter() {
+        gamingView.passButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!(me.meCanPlacing(me, computer))) {
                     me.Pass(me, computer);
-                    myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
+                    gamingView.myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
                 } else {
-                	canntPassError.setVisible(true);
+                	gamingView.canntPassError.setVisible(true);
                     TimerTask task = new TimerTask() {
                         public void run() {
-                            canntPassError.setVisible(false);
+                        	gamingView.canntPassError.setVisible(false);
                         }
                     };
                     Timer timer = new Timer();
@@ -250,7 +247,7 @@ public class View extends JFrame {
             }
         });
 
-        labelb.addMouseListener(new MouseAdapter() {
+        gamingView.labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -271,19 +268,19 @@ public class View extends JFrame {
                         		//テスト
 //                        		(boolean) me.canPlacing(myDecidePosition, computer, me).get("result")	
                         ) {
-                            me.placing(placedPosition, me, computer, canntPlacingError, llLliB, llLliW);
+                            me.placing(placedPosition, me, computer, gamingView.canntPlacingError, gamingView.llLliB, gamingView.llLliW);
                         	//テスト用
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW);
-                            myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
+                            gamingView.myScoreLabel.setText("自分のスコア : " + String.valueOf(me.getScore()));
                             
-                            myTurnLabel.setVisible(false);
-                        	computerTurnLabel.setVisible(true);
+                            gamingView.myTurnLabel.setVisible(false);
+                            gamingView.computerTurnLabel.setVisible(true);
                         } else {
 //                            System.out.println("エラー@View@Me");
-                            canntPlacingError.setVisible(true);
+                        	gamingView.canntPlacingError.setVisible(true);
                             TimerTask task = new TimerTask() {
                                 public void run() {
-                                    canntPlacingError.setVisible(false);
+                                	gamingView.canntPlacingError.setVisible(false);
                                 }
                             };
                             Timer timer = new Timer();
@@ -298,17 +295,17 @@ public class View extends JFrame {
                             	int[] decidePosition = computer.decidePosition(computer, me);
                             	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
                             		computer.Pass(computer, me);
-                            		computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
+                            		gamingView.computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
                             	} else {
-                            		computer.placing(decidePosition, computer, me, canntPlacingError, llLliB,
-                                            llLliW);
+                            		computer.placing(decidePosition, computer, me, gamingView.canntPlacingError, gamingView.llLliB,
+                            				gamingView.llLliW);
                             	}
                                 
-                                computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
+                            	gamingView.computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
                                 logic.canClick = true;
                                 
-                                computerTurnLabel.setVisible(false);
-                            	myTurnLabel.setVisible(true);
+                                gamingView.computerTurnLabel.setVisible(false);
+                                gamingView.myTurnLabel.setVisible(true);
                             }
                         };
                         Timer timer = new Timer();
@@ -360,8 +357,9 @@ public class View extends JFrame {
                 "0              1              2               3              4              5              6             7");
         num.setBounds(100, 80, 500, 50);
 //        panel3.add(num);
-        panel3.add(labelb);
-        panel3.add(emptyFrame);
+        
+//        panel3.add(labelb);
+//        panel3.add(emptyFrame);
 
         panel4 = new JPanel();
         panel4.setLayout(null);
