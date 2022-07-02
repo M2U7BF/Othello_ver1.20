@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Window;
@@ -14,7 +13,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,7 +27,7 @@ import util.Sound;
 
 public class View extends JFrame {
 
-    JButton openButton;
+//    JButton openButton;
     JLabel label2;
     JLabel label3;
     JLabel label4;
@@ -38,6 +36,7 @@ public class View extends JFrame {
     PreparationView preparationView;
     GamingView gamingView;
     ResultView resultView;
+    StartView startView;
     JPanel panel1;
     JPanel panel2;
     JPanel panel3;
@@ -79,10 +78,8 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel1 = new JPanel();
-        panel1.setLayout(null);
-        openButton = new JButton("はじめる");
-        openButton.setBounds(300, 500, 100, 50);
-        openButton.addMouseListener(new MouseAdapter() {
+        startView = new StartView(panel1); 
+        startView.openButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
             	sounds.setFile(0);
@@ -91,12 +88,6 @@ public class View extends JFrame {
                 layout.show(getContentPane(), "panel2");
             }
         });
-        JLabel label = new JLabel("OTHELLO");
-        label.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 50));
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setBounds(150, 200, 400, 100);
-        panel1.add(openButton);
-        panel1.add(label);
 
         panel2 = new JPanel();
         preparationView = new PreparationView(panel2);
