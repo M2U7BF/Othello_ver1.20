@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import logic.Logic;
 import player.Computer;
 import player.Me;
+import player.PlayerBase;
 import ui.controller.GameController;
 import util.Img;
 import util.Sound;
@@ -45,7 +46,8 @@ public class View extends JFrame {
         View frame = new View("othello");
         frame.setVisible(true);
     }
-
+    
+    private PlayerBase player;
     private Me me;
     private Computer computer;
     private Logic logic;
@@ -54,7 +56,8 @@ public class View extends JFrame {
     private GameController controller;
 
     View(String title) {
-
+    	
+    	player = new PlayerBase();
         me = new Me();
         computer = new Computer();
         logic = new Logic();
@@ -113,7 +116,7 @@ public class View extends JFrame {
                     if (me.isMyTurn) {
 //                    	int[] myDecidePosition = computer.decidePosition(me, computer); //テスト用
                         if (
-                        		(boolean) me.canPlacing(placedPosition, computer, me).get("result")	
+                        		(boolean) player.canPlacing(placedPosition, me, computer).get("result")	
 //                        		(boolean) me.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
                             me.placing(placedPosition, me, computer, gamingView.canntPlacingError, gamingView.llLliB, gamingView.llLliW);
@@ -143,9 +146,16 @@ public class View extends JFrame {
                             	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
                             		computer.Pass(computer, me);
                             		gamingView.computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
-                            	} else {
+                            	} else if(
+//                            			true //テスト用
+                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
+                            			){
                             		computer.placing(decidePosition, computer, me, gamingView.canntPlacingError, gamingView.llLliB,
                             				gamingView.llLliW);
+                            	} else {
+                            		computer.Pass(computer, me);
+                            		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません");
+                            		gamingView.computerPassesLabel.setText("相手のパス回数 : " + String.valueOf(computer.getPasses()));
                             	}
                                 
                             	gamingView.computerScoreLabel.setText("相手のスコア : " + String.valueOf(computer.getScore()));
@@ -166,8 +176,8 @@ public class View extends JFrame {
 
                     // ゲームの進行状況
                     if (
-                		true //テスト用
-//                    	logic.isFinish(logic, me, computer)
+//                		true //テスト用
+                    	logic.isFinish(logic, me, computer)
                     	) {
                         layout.show(getContentPane(), "panel4");
                         resultView.finished(logic, me, computer);

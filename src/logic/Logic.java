@@ -65,6 +65,7 @@ public class Logic {
     }
 
     public boolean playersCanPlacing(Me me, Computer com) {
+        PlayerBase player = new PlayerBase();
         // 空きコマに対しcanPlacing実行
         boolean available = false;
 
@@ -74,8 +75,8 @@ public class Logic {
                 if (!(me.position[i][j]) && !(com.position[i][j])) {
                     // もし置けるのであればtrue
                     int[] positon = { i, j };
-                    if ((boolean) me.canPlacing(positon, me, com).get("result") ||
-                            (boolean) me.canPlacing(positon, com, me).get("result")) {
+                    if ((boolean) player.canPlacing(positon, me, com).get("result") ||
+                            (boolean) player.canPlacing(positon, com, me).get("result")) {
                         available = true;
                         break;
                     } else {

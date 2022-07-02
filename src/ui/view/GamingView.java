@@ -132,7 +132,9 @@ public class GamingView {
         passButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!(me.somewhereCanPlacing(me, computer))) {
+            	if(!(me.isMyTurn)){
+            		//DO NOTHING
+            	}else if (!(me.somewhereCanPlacing(me, computer))) {
                     me.Pass(me, computer);
                     myPassesLabel.setText("自分のパス回数 : " + String.valueOf(me.getPasses()));
                 } else {

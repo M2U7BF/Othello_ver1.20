@@ -88,7 +88,7 @@ public class PlayerBase {
 	}
 	
 	//ルール的におけるのかを調べる。
-	public Map<String, Object> canPlacing(int[] placedPosition, PlayerBase enemy, PlayerBase me) {
+	public Map<String, Object> canPlacing(int[] placedPosition, PlayerBase me,PlayerBase enemy) {
 		positionX = placedPosition[0];
 		positionY = placedPosition[1];
 		
@@ -172,7 +172,8 @@ public class PlayerBase {
 	}
 	
 	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,JLabel error,JLabel[][] llLliB,JLabel[][] llLliW) {
-		Map<String,Object> values = me.canPlacing(placedPosition, enemy, me);
+		PlayerBase player = new PlayerBase();
+		Map<String,Object> values = player.canPlacing(placedPosition, me, enemy);
 		int x = placedPosition[0];
 		int y = placedPosition[1];
 		
@@ -272,7 +273,8 @@ public class PlayerBase {
 			}
 	
     public boolean somewhereCanPlacing(PlayerBase me, PlayerBase enemy) {
-        // 空きコマに対しcanPlacing実行
+        PlayerBase player = new PlayerBase();
+		// 空きコマに対しcanPlacing実行
         boolean available = false;
 
         for (int i = 0; i < 8; i++) {
@@ -281,7 +283,7 @@ public class PlayerBase {
                 if (!(me.position[i][j]) && !(enemy.position[i][j])) {
                     // もし置けるのであればtrue
                     int[] positon = { i, j };
-                    if ((boolean) me.canPlacing(positon, me, enemy).get("result")) {
+                    if ((boolean) player.canPlacing(positon, me, enemy).get("result")) {
                         available = true;
                         break;
                     } else {

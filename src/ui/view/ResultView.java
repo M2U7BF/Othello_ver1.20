@@ -65,7 +65,7 @@ public class ResultView {
 		myResultScoreLabel.setText("自分の総スコア : " + String.valueOf(me.getScore()));
 		computerResultScoreLabel.setText("相手の総スコア : " + String.valueOf(computer.getScore()));
 		myResultPassesLabel.setText("自分の総パス回数 : " + String.valueOf(me.getPasses()));
-		computerResultPassesLabel.setText("相手の総パス回数 : " + String.valueOf(me.getPasses()));
+		computerResultPassesLabel.setText("相手の総パス回数 : " + String.valueOf(computer.getPasses()));
 		turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
 		if (me.getScore() > computer.getScore()) {
 		    sounds.setFile(5);
