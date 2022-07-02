@@ -117,6 +117,8 @@ public class View extends JFrame {
 //                    	int[] myDecidePosition = computer.decidePosition(me, computer); //テスト用
                         if (
                         		(boolean) player.canPlacing(placedPosition, me, computer).get("result")	
+                        		&& !(computer.position[placedPosition[0]][placedPosition[1]]) 
+                        		&& !(me.position[placedPosition[0]][placedPosition[1]])
 //                        		(boolean) player.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
                             me.placing(placedPosition, me, computer, gamingView.llLliB, gamingView.llLliW);

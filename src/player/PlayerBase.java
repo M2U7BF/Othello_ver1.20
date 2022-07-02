@@ -128,11 +128,12 @@ public class PlayerBase {
 		
 		ArrayList<ArrayList<int[]>> arrayA = new ArrayList<>();
 		ArrayList<ArrayList<int[]>> resultList = new ArrayList<>();
-
-		for (int i = 0; i < 7; i++) {
-			////当コマの周囲に相手のコマがあるか。なければcontinue
+		
+		//8方位探索
+		for (int i = 0; i < 8; i++) {
+			////当マスの周囲に相手のコマがあるか。なければcontinue
 			if (directions[i] && !(directions2[i])) {
-				//相手のコマがる場合、その位置に間する探索リストを制作
+				//相手のコマがる場合、その位置に間する探索リストを作成
 				ArrayList<int[]> searchList = new ArrayList<>();
 				searchList = SearchList2(i,positionX,positionY);
 				arrayA.add(searchList);
@@ -205,8 +206,6 @@ public class PlayerBase {
         //ターン交代
         me.isMyTurn = false;
         enemy.isMyTurn = true;
-            
-        
 	}
 
 	public ArrayList<int[]> SearchList2(int i,int x, int y){
