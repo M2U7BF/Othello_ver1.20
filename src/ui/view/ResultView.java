@@ -19,9 +19,9 @@ import util.Sound;
 
 public class ResultView {
 	public JLabel myResultScoreLabel;
-	public JLabel computerResultScoreLabel;
+	public JLabel enemyResultScoreLabel;
 	public JLabel myResultPassesLabel;
-	public JLabel computerResultPassesLabel;
+	public JLabel enemyResultPassesLabel;
 	public JLabel turnsLabel;
 	public JLabel winlose;
 	public JButton gameRestart;
@@ -29,30 +29,37 @@ public class ResultView {
 
 	public ResultView(JPanel panel4) {
 		myResultScoreLabel = new JLabel();
-		computerResultScoreLabel = new JLabel();
+		enemyResultScoreLabel = new JLabel();
 		myResultPassesLabel = new JLabel();
-		computerResultPassesLabel = new JLabel();
+		enemyResultPassesLabel = new JLabel();
 		turnsLabel = new JLabel();
 		winlose = new JLabel();
 
 		panel4.setLayout(null);
-		myResultScoreLabel.setBounds(100, 400, 150, 30);
-		computerResultScoreLabel.setBounds(350, 400, 150, 30);
-		myResultPassesLabel.setBounds(100, 430, 150, 30);
-		computerResultPassesLabel.setBounds(350, 430, 150, 30);
-		turnsLabel.setBounds(100, 490, 150, 30);
+		myResultScoreLabel.setBounds(100, 400, 260, 30);
+		myResultScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+		enemyResultScoreLabel.setBounds(350, 400, 260, 30);
+		enemyResultScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+		myResultPassesLabel.setBounds(100, 450, 260, 30);
+		myResultPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+		enemyResultPassesLabel.setBounds(350, 450, 260, 30);
+		enemyResultPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+		turnsLabel.setBounds(100, 500, 200, 30);
+		turnsLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
 		winlose.setBounds(100, 200, 500, 100);
 		winlose.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 100));
 		winlose.setHorizontalAlignment(JLabel.CENTER);
 		gameRestart = new JButton("新しいゲームを開始");
-		gameRestart.setBounds(450, 600, 150, 30);
+		gameRestart.setBounds(400, 600, 200, 60);
+		gameRestart.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
 		finishButton = new JButton("終了する");
-		finishButton.setBounds(80, 600, 80, 30);
+		finishButton.setBounds(80, 600, 120, 60);
+		finishButton.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
 
 		panel4.add(myResultScoreLabel);
-		panel4.add(computerResultScoreLabel);
+		panel4.add(enemyResultScoreLabel);
 		panel4.add(myResultPassesLabel);
-		panel4.add(computerResultPassesLabel);
+		panel4.add(enemyResultPassesLabel);
 		panel4.add(turnsLabel);
 		panel4.add(winlose);
 		panel4.add(gameRestart);
@@ -63,9 +70,9 @@ public class ResultView {
 		Sound sounds = new Sound();
 		
 		myResultScoreLabel.setText(me.name + "の総スコア : " + String.valueOf(me.getScore()));
-		computerResultScoreLabel.setText(computer.name + "の総スコア : " + String.valueOf(computer.getScore()));
+		enemyResultScoreLabel.setText(computer.name + "の総スコア : " + String.valueOf(computer.getScore()));
 		myResultPassesLabel.setText(me.name + "の総パス回数 : " + String.valueOf(me.getPasses()));
-		computerResultPassesLabel.setText(computer.name + "の総パス回数 : " + String.valueOf(computer.getPasses()));
+		enemyResultPassesLabel.setText(computer.name + "の総パス回数 : " + String.valueOf(computer.getPasses()));
 		turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
 		if (me.getScore() > computer.getScore()) {
 		    sounds.setFile(5);

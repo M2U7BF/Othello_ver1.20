@@ -1,5 +1,6 @@
 package ui.view;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -50,7 +51,9 @@ public class GamingView {
         llLliW = new JLabel[8][8];
         
         myTurnLabel = new JLabel("あなたのターン");
+        myTurnLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         computerTurnLabel = new JLabel("相手のターン");
+        computerTurnLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
         
         imgs = new Img();
         bStoneIcon = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -71,13 +74,17 @@ public class GamingView {
         labelb.setBounds(100, 100, 500, 500);
 
         myScoreLabel = new JLabel(me.name + "のスコア : " + String.valueOf(me.getScore()));
-        myScoreLabel.setBounds(100, 650, 150, 30);
+        myScoreLabel.setBounds(100, 650, 200, 30);
+        myScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
         computerScoreLabel = new JLabel(computer.name + "のスコア : " + String.valueOf(computer.getScore()));
-        computerScoreLabel.setBounds(400, 650, 150, 30);
+        computerScoreLabel.setBounds(400, 650, 200, 30);
+        computerScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
         myPassesLabel = new JLabel(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
         myPassesLabel.setBounds(100, 680, 150, 30);
+        myPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
         computerPassesLabel = new JLabel(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
         computerPassesLabel.setBounds(400, 680, 150, 30);
+        computerPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
 
         // 全てのコマを配置
         for (int i = 0; i < 8; i++) {
@@ -112,11 +119,11 @@ public class GamingView {
 
         // パスのボタン
         passButton = new JButton("パスをする");
-        passButton.setBounds(100, 720, 100, 30);
+        passButton.setBounds(100, 710, 100, 50);
 
         // 手番の表示
-        myTurnLabel.setBounds(400, 50, 100, 30);
-        computerTurnLabel.setBounds(400, 50, 100, 30);
+        myTurnLabel.setBounds(400, 50, 150, 30);
+        computerTurnLabel.setBounds(400, 50, 150, 30);
         
         // テスト用
         JLabel num = new JLabel(
@@ -140,6 +147,7 @@ public class GamingView {
         passButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	
             	if(!(me.isMyTurn)){
             		//DO NOTHING
             	}else if (!(me.somewhereCanPlacing(me, computer))) {

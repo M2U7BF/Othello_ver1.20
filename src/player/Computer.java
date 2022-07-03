@@ -9,6 +9,7 @@ import ui.view.GamingView;
 public class Computer extends PlayerBase {
     int positionX = 0;
     int positionY = 0;
+    public int strength;
     
     public Computer() {
     	this.name = "相手";
@@ -69,8 +70,12 @@ public class Computer extends PlayerBase {
         }
 
         if (arrays2.size() > 0) {
-        	decidePosition = ChoicePosition(arrays2);
-//        	decidePosition = randomChoice(arrays2);
+        	if(strength == 0) {
+        		decidePosition = randomChoice(arrays2);
+        	}
+        	if(strength == 1) {
+        		decidePosition = ChoicePosition(arrays2);
+        	}
         } else if (arrays2.size() == 0) {
             // 置けるマスが無い場合
             decidePosition[0] = 8;

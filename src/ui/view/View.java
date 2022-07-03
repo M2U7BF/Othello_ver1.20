@@ -100,6 +100,12 @@ public class View extends JFrame {
             	sounds.setFile(0);
             	sounds.play();
             	
+            	if(preparationView.dificultyRadio[0].isSelected()) {
+            		computer.strength = 0;
+            	}else if(preparationView.dificultyRadio[1].isSelected()) {
+            		computer.strength = 1;
+            	}
+            	
             	gamingView.started(me,panel3);
                 layout.show(getContentPane(), "panel3");
             }
@@ -165,17 +171,11 @@ public class View extends JFrame {
                                 
                                 
                                 // ゲームの進行状況
-//                                try {
-//                					Thread.sleep(800);
-//                				} catch (InterruptedException e2) {
-//                					// TODO 自動生成された catch ブロック
-//                					e2.printStackTrace();
-//                				}
                                 if (
 //                            		true //テスト用
                                 	logic.isFinish(logic, me, computer)
                                 	) {
-                                	System.out.println("ゲームを終了しています ....");
+//                                	System.out.println("ゲームを終了しています ....");
                                 	layout.show(getContentPane(), "panel4");
                                     resultView.finished(logic, me, computer);
                                 }
@@ -189,12 +189,6 @@ public class View extends JFrame {
                     logic.turns++;
                     //テスト用
 //                	}
-                }
-                
-                if(gamingView.isfinish) {
-//                	System.out.println("ゲームを終了しています ....");
-//                	layout.show(getContentPane(), "panel4");
-//                    resultView.finished(logic, me, computer);
                 }
             }
         });
