@@ -122,7 +122,7 @@ public class View extends JFrame {
                         		&& !(me.position[placedPosition[0]][placedPosition[1]])
 //                        		(boolean) player.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
-                            me.placing(placedPosition, me, computer, gamingView.llLliB, gamingView.llLliW);
+                            me.placing(placedPosition, me, computer, gamingView);
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
                             
                             //meの置く処理
@@ -146,8 +146,8 @@ public class View extends JFrame {
                             			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
                             			){
                             		
-                            		computer.placing(decidePosition, computer, me, gamingView.llLliB,
-                            				gamingView.llLliW);
+                            		computer.placing(decidePosition, computer, me,
+                            				gamingView);
                             		//computerの置く処理
                                     gamingView.placeAnimation(decidePosition,computer,me);
                             	} else {

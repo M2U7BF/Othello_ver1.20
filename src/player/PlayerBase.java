@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.swing.JLabel;
 
+import ui.view.GamingView;
 import util.Sound;
 
 public class PlayerBase {
@@ -43,8 +44,46 @@ public class PlayerBase {
 		me.isMyTurn = false;
         enemy.isMyTurn = true;
 	}
+	
+	public void turnOver(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList, GamingView gamingView) {
+		JLabel[][] lliitem = new JLabel[8][8];
+		JLabel[][] enemyLliitem = new JLabel[8][8];
+		
+		// 置く石の種類を指定
+		if (me.getFirst()) {
+            lliitem = gamingView.llLliB;
+            enemyLliitem = gamingView.llLliW;
+        } else if (!(me.getFirst())){
+            lliitem = gamingView.llLliW;
+            enemyLliitem = gamingView.llLliB;
+        }
+		
+		for(int i=0; i<turnOverList.size(); i++) {
+			for(int j=0; j<turnOverList.get(i).size(); j++) {
+				int x = turnOverList.get(i).get(j)[0];
+				int y = turnOverList.get(i).get(j)[1];
+				if(enemy.position[x][y] && !(me.position[x][y])) {
+					//表示
+			        lliitem[x][y].setVisible(true);
+			        enemyLliitem[x][y].setVisible(false);
+			
+			        // 置いたことをログする
+			        me.position[x][y] = true;
+			        enemy.position[x][y] = false;
+			        
+			        //// コマを置いたときの処理
+			        int myScore = me.getScore() +1;
+			        me.setScore(myScore);
+			        int enemyScore = enemy.getScore() -1;
+			        enemy.setScore(enemyScore);
+				}else if(me.position[x][y] && !(enemy.position[x][y])) {
+					break;
+				}
+			}
+		}
+	}
 
-	public void turnOver(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList, JLabel[][] llLliB, JLabel[][] llLliW) {
+	public void turnOver2(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList, JLabel[][] llLliB, JLabel[][] llLliW) {
 		JLabel[][] lliitem = new JLabel[8][8];
 		JLabel[][] enemyLliitem = new JLabel[8][8];
 		
@@ -159,7 +198,7 @@ public class PlayerBase {
 		return values;
 	}
 
-	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,JLabel[][] llLliB,JLabel[][] llLliW) {
+	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,GamingView gamingView) {
 		PlayerBase player = new PlayerBase();
 		Map<String,Object> values = player.canPlacing(placedPosition, me, enemy);
 		int x = placedPosition[0];
@@ -170,22 +209,13 @@ public class PlayerBase {
 		sounds = new Sound();
 		sounds.setFile(4);
 		sounds.play();
-		
-        // 置く石の種類を指定し、配置
-//            if (me.getFirst()) {
-//                JLabel lliitem = llLliB[x][y];
-//                lliitem.setVisible(true);
-//            } else if (!(me.getFirst())){
-//                JLabel lliitem = llLliW[x][y];
-//                lliitem.setVisible(true);
-//            }
 
         // 置いたことをログする
         me.position[x][y] = true;
         
         //覆せるコマを全て覆す
         ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
-        turnOver(me, enemy, turnOverList, llLliB, llLliW);
+        turnOver(me, enemy, turnOverList, gamingView);
         
         //// コマを置いたときの処理
         int meScore = me.getScore() + 1;
