@@ -144,32 +144,8 @@ public class View extends JFrame {
                             public void run() {
                             	
                             	computer.turnAction(computer, me, gamingView);
-                            	
-//                            	int[] decidePosition = computer.decidePosition(computer, me);
-//                            	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
-//                            		computer.Pass(computer, me);
-//                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
-//                            	} else if(
-////                            			true //テスト用
-//                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
-//                            			){
-//                            		Map<String,Object> values = player.canPlacing(decidePosition, computer, me);
-//                                	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
-//                                	
-//                                    gamingView.placeAnimation(decidePosition,computer);
-//                                    gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
-//                                    
-//                                	computer.placing(decidePosition, computer, me,
-//                            				turnOverList);
-//                            	} else {
-//                            		computer.Pass(computer, me);
-//                            		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
-//                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
-//                            	}
-                                
+                            	                                
                                 logic.canClick = true;
-                                
-                                
                                 //盤の状況を出力
                                 for(int i= 0; i<8; i++) {
                                 	String[] b = new String[8];
@@ -187,12 +163,21 @@ public class View extends JFrame {
                                 	System.out.println(Arrays.toString(b));
                                 }
                                 
+                                
                                 // ゲームの進行状況
+//                                try {
+//                					Thread.sleep(800);
+//                				} catch (InterruptedException e2) {
+//                					// TODO 自動生成された catch ブロック
+//                					e2.printStackTrace();
+//                				}
                                 if (
 //                            		true //テスト用
                                 	logic.isFinish(logic, me, computer)
                                 	) {
-                                	gamingView.isfinish = true;
+                                	System.out.println("ゲームを終了しています ....");
+                                	layout.show(getContentPane(), "panel4");
+                                    resultView.finished(logic, me, computer);
                                 }
                             }
                         };
@@ -205,10 +190,11 @@ public class View extends JFrame {
                     //テスト用
 //                	}
                 }
+                
                 if(gamingView.isfinish) {
-                	System.out.println("ゲームを終了しています ....");
-                	layout.show(getContentPane(), "panel4");
-                    resultView.finished(logic, me, computer);
+//                	System.out.println("ゲームを終了しています ....");
+//                	layout.show(getContentPane(), "panel4");
+//                    resultView.finished(logic, me, computer);
                 }
             }
         });

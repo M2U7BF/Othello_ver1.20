@@ -251,15 +251,6 @@ public class GamingView {
 			        lliitem[x][y].setVisible(true);
 			        enemyLliitem[x][y].setVisible(false);
 			
-			        // 置いたことをログする
-//			        me.position[x][y] = true;
-//			        enemy.position[x][y] = false;
-			        
-			        //// コマを置いたときの処理
-//			        int myScore = me.getScore() +1;
-//			        me.setScore(myScore);
-//			        int enemyScore = enemy.getScore() -1;
-//			        enemy.setScore(enemyScore);
 				}else if(me.position[x][y] && !(enemy.position[x][y])) {
 					break;
 				}
