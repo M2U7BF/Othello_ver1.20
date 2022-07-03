@@ -142,8 +142,8 @@ public class View extends JFrame {
                             		computer.Pass(computer, me);
                             		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
                             	} else if(
-                            			true //テスト用
-//                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
+//                            			true //テスト用
+                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
                             			){
                             		
                             		computer.placing(decidePosition, computer, me, gamingView.llLliB,
@@ -175,6 +175,17 @@ public class View extends JFrame {
                                 	}
                                 	System.out.println(Arrays.toString(b));
                                 }
+                                
+                                // ゲームの進行状況
+                                if (
+//                            		true //テスト用
+                                	logic.isFinish(logic, me, computer)
+                                	) {
+                                	System.out.println("ゲームを終了しています ....");
+                                	layout.show(getContentPane(), "panel4");
+                                    resultView.finished(logic, me, computer);
+                                	
+                                }
                             }
                         };
                         Timer timer = new Timer();
@@ -185,15 +196,6 @@ public class View extends JFrame {
                     logic.turns++;
                     //テスト用
 //                	}
-
-                    // ゲームの進行状況
-                    if (
-//                		true //テスト用
-                    	logic.isFinish(logic, me, computer)
-                    	) {
-                        layout.show(getContentPane(), "panel4");
-                        resultView.finished(logic, me, computer);
-                    }
                 }
             }
         });
