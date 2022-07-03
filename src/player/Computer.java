@@ -70,47 +70,47 @@ public class Computer extends PlayerBase {
         positionY = placedPosition[1];
         
         
-        int[][] change = {{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1}};
-		
-		if(positionX < 7 && positionX > 0 && positionY < 7 && positionY > 0) {
-			for(int i=0; i < 8; i++) {
-				directions[i] = enemy.position[positionX + change[i][0]][positionY + change[i][1]];
-				directions2[i] = me.position[positionX + change[i][0]][positionY + change[i][1]];
-			}
-		}
+//        int[][] change = {{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1}};
+//		
+//		if(positionX < 7 && positionX > 0 && positionY < 7 && positionY > 0) {
+//			for(int i=0; i < 8; i++) {
+//				directions[i] = enemy.position[positionX + change[i][0]][positionY + change[i][1]];
+//				directions2[i] = me.position[positionX + change[i][0]][positionY + change[i][1]];
+//			}
+//		}
 
-//        if (positionY > 0) {
-//            directions[0] = me.position[positionX][positionY - 1];// 上
-//            directions2[0] = enemy.position[positionX][positionY - 1];// 上
-//        }
-//        if (positionX < 7 && positionY > 0) {
-//            directions[1] = me.position[positionX + 1][positionY - 1];// 右上
-//            directions2[1] = enemy.position[positionX + 1][positionY - 1];// 右上
-//        }
-//        if (positionX < 7) {
-//            directions[2] = me.position[positionX + 1][positionY];// 右
-//            directions2[2] = enemy.position[positionX + 1][positionY];// 右
-//        }
-//        if (positionX < 7 && positionY < 7) {
-//            directions[3] = me.position[positionX + 1][positionY + 1];// 右下
-//            directions2[3] = enemy.position[positionX + 1][positionY + 1];// 右下
-//        }
-//        if (positionY < 7) {
-//            directions[4] = me.position[positionX][positionY + 1];// 下
-//            directions2[4] = enemy.position[positionX][positionY + 1];// 下
-//        }
-//        if (positionX > 0 && positionY < 7) {
-//            directions[5] = me.position[positionX - 1][positionY + 1];// 左下
-//            directions2[5] = enemy.position[positionX - 1][positionY + 1];// 左下
-//        }
-//        if (positionX > 0) {
-//            directions[6] = me.position[positionX - 1][positionY];// 左
-//            directions2[6] = enemy.position[positionX - 1][positionY];// 左
-//        }
-//        if (positionX > 0 && positionY > 0) {
-//            directions[7] = me.position[positionX - 1][positionY - 1];// 左上
-//            directions2[7] = enemy.position[positionX - 1][positionY - 1];// 左上
-//        }
+        if (positionY > 0) {
+            directions[0] = me.position[positionX][positionY - 1];// 上
+            directions2[0] = enemy.position[positionX][positionY - 1];// 上
+        }
+        if (positionX < 7 && positionY > 0) {
+            directions[1] = me.position[positionX + 1][positionY - 1];// 右上
+            directions2[1] = enemy.position[positionX + 1][positionY - 1];// 右上
+        }
+        if (positionX < 7) {
+            directions[2] = me.position[positionX + 1][positionY];// 右
+            directions2[2] = enemy.position[positionX + 1][positionY];// 右
+        }
+        if (positionX < 7 && positionY < 7) {
+            directions[3] = me.position[positionX + 1][positionY + 1];// 右下
+            directions2[3] = enemy.position[positionX + 1][positionY + 1];// 右下
+        }
+        if (positionY < 7) {
+            directions[4] = me.position[positionX][positionY + 1];// 下
+            directions2[4] = enemy.position[positionX][positionY + 1];// 下
+        }
+        if (positionX > 0 && positionY < 7) {
+            directions[5] = me.position[positionX - 1][positionY + 1];// 左下
+            directions2[5] = enemy.position[positionX - 1][positionY + 1];// 左下
+        }
+        if (positionX > 0) {
+            directions[6] = me.position[positionX - 1][positionY];// 左
+            directions2[6] = enemy.position[positionX - 1][positionY];// 左
+        }
+        if (positionX > 0 && positionY > 0) {
+            directions[7] = me.position[positionX - 1][positionY - 1];// 左上
+            directions2[7] = enemy.position[positionX - 1][positionY - 1];// 左上
+        }
 
         ArrayList<ArrayList<int[]>> turnOverlists = new ArrayList<>();
         ArrayList<int[]> resultList = new ArrayList<>();

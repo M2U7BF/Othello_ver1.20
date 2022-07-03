@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -89,7 +90,7 @@ public class View extends JFrame {
             	layout.show(getContentPane(), "panel2");
             }
         });
-        
+            
         //画面遷移2
         preparationView.startButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -156,6 +157,24 @@ public class View extends JFrame {
                             	}
                                 
                                 logic.canClick = true;
+                                
+                                
+                                //盤の状況を出力
+                                for(int i= 0; i<8; i++) {
+                                	String[] b = new String[8];
+                                	for(int j=0; j<8;j++) {
+                                		String a = new String();
+                                		if(me.position[j][i] && !(computer.position[j][i])) {
+                                			a = "M";
+                                		} else if(computer.position[j][i] && !(me.position[j][i])){
+                                			a = "C";
+                                		} else if (!(computer.position[j][i]) && !(me.position[j][i])) {
+                							a = "_";
+                						} else {a = "■";}
+                                		b[j] = a;
+                                	}
+                                	System.out.println(Arrays.toString(b));
+                                }
                             }
                         };
                         Timer timer = new Timer();
@@ -178,11 +197,6 @@ public class View extends JFrame {
                 }
             }
         });
-        // テスト用
-        JLabel num = new JLabel(
-                "0              1              2               3              4              5              6             7");
-        num.setBounds(100, 80, 500, 50);
-//        panel3.add(num);
 
         layout = new CardLayout();
 
