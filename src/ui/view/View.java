@@ -5,7 +5,9 @@ import java.awt.Container;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -116,17 +118,19 @@ public class View extends JFrame {
                     // コマを置く
                     if (me.isMyTurn) {
 //                    	int[] myDecidePosition = computer.decidePosition(me, computer); //テスト用
-                        if (
+                    	Map<String,Object> values = player.canPlacing(placedPosition, me, computer);
+                    	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
+                    	if (
                         		(boolean) player.canPlacing(placedPosition, me, computer).get("result")	
                         		&& !(computer.position[placedPosition[0]][placedPosition[1]]) 
                         		&& !(me.position[placedPosition[0]][placedPosition[1]])
 //                        		(boolean) player.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
-                            me.placing(placedPosition, me, computer, gamingView);
+                    		gamingView.placeAnimation(placedPosition, me, me);
+                    		gamingView.turnOverAnimation(me, computer, turnOverList, gamingView);
+                    		me.placing(placedPosition, me, computer,turnOverList);
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
                             
-                            //meの置く処理
-                            gamingView.placeAnimation(placedPosition, me, me);
                         } else {
 //                            System.out.println("エラー@View@Me");
                         	gamingView.canntPlacingError();
@@ -145,11 +149,14 @@ public class View extends JFrame {
 //                            			true //テスト用
                             			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
                             			){
-                            		
-                            		computer.placing(decidePosition, computer, me,
-                            				gamingView);
-                            		//computerの置く処理
+                            		Map<String,Object> values = player.canPlacing(decidePosition, computer, me);
+                                	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
+                                	
                                     gamingView.placeAnimation(decidePosition,computer,me);
+                                    gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
+                                    
+                                	computer.placing(decidePosition, computer, me,
+                            				turnOverList);
                             	} else {
                             		computer.Pass(computer, me);
                             		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");

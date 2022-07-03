@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.swing.JLabel;
 
-import ui.view.GamingView;
 import util.Sound;
 
 public class PlayerBase {
@@ -198,9 +197,9 @@ public class PlayerBase {
 		return values;
 	}
 
-	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,GamingView gamingView) {
+	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,ArrayList<ArrayList<int[]>> turnOverList) {
 		PlayerBase player = new PlayerBase();
-		Map<String,Object> values = player.canPlacing(placedPosition, me, enemy);
+//		Map<String,Object> values = player.canPlacing(placedPosition, me, enemy);
 		int x = placedPosition[0];
 		int y = placedPosition[1];
 		
@@ -214,8 +213,8 @@ public class PlayerBase {
         me.position[x][y] = true;
         
         //覆せるコマを全て覆す
-        ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
-        gamingView.turnOverAnimation(me, enemy, turnOverList, gamingView);
+//        ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
+//        gamingView.turnOverAnimation(me, enemy, turnOverList, gamingView);
         turnOver(me, enemy, turnOverList);
         
         //// コマを置いたときの処理
