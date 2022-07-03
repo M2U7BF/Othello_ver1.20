@@ -195,7 +195,7 @@ public class GamingView {
         timer.schedule(task, 1000);
 	}
     
-    public void placeAnimation(int[] decidedPosition,PlayerBase player,Me me) {
+    public void placeAnimation(int[] decidedPosition,PlayerBase player) {
     	JLabel myScoreJLabel = new JLabel();
     	JLabel myTurnJLabel = new JLabel();
     	JLabel enemyTurnJLabel = new JLabel();
@@ -211,7 +211,8 @@ public class GamingView {
             lliitem.setVisible(true);
         }
     	
-    	if(player.name == me.name) {
+    	
+    	if(player.id == 0) {
     		myScoreJLabel =  myScoreLabel;
     		
     		myTurnJLabel = myTurnLabel;

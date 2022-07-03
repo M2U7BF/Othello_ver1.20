@@ -19,6 +19,7 @@ public class PlayerBase {
 	protected boolean directions2[] = new boolean[8];
 	public boolean isMyTurn = false;
 	public String name = "";
+	public int id;
 	Computer com;
 	Me me;
 	Sound sounds;

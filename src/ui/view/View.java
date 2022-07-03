@@ -126,7 +126,7 @@ public class View extends JFrame {
                         		&& !(me.position[placedPosition[0]][placedPosition[1]])
 //                        		(boolean) player.canPlacing(myDecidePosition, computer, me).get("result") //テスト用	
                         ) {
-                    		gamingView.placeAnimation(placedPosition, me, me);
+                    		gamingView.placeAnimation(placedPosition, me);
                     		gamingView.turnOverAnimation(me, computer, turnOverList, gamingView);
                     		me.placing(placedPosition, me, computer,turnOverList);
 //                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
@@ -152,7 +152,7 @@ public class View extends JFrame {
                             		Map<String,Object> values = player.canPlacing(decidePosition, computer, me);
                                 	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
                                 	
-                                    gamingView.placeAnimation(decidePosition,computer,me);
+                                    gamingView.placeAnimation(decidePosition,computer);
                                     gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
                                     
                                 	computer.placing(decidePosition, computer, me,

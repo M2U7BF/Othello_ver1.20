@@ -9,6 +9,7 @@ public class Computer extends PlayerBase {
     
     public Computer() {
     	this.name = "相手";
+    	this.id = 1;
 	}
 
     // 決める
