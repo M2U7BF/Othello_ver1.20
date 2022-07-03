@@ -69,23 +69,31 @@ public class Computer extends PlayerBase {
         }
 
         if (arrays2.size() > 0) {
-            // 取得したarraylistからランダムもしくは最適化する形で1つの値に決定
-            Random rnd = new Random();
-
-            // 3重リストのarray2の1つ目を展開
-            ArrayList<int[]> arrays4 = new ArrayList<>();
-            int a = rnd.nextInt(arrays2.size());
-            arrays4 = arrays2.get(a);
-
-            // 3重配列の2つ目を展開
-            int b = rnd.nextInt(arrays4.size());
-            decidePosition = arrays4.get(b);
+        	decidePosition = randomChoice(arrays2);
         } else if (arrays2.size() == 0) {
             // 置けるマスが無い場合
             decidePosition[0] = 8;
             decidePosition[1] = 8;
         }
 
+        return decidePosition;
+    }
+    
+    public int[] randomChoice(ArrayList<ArrayList<int[]>> arrays2) {
+    	int[] decidePosition = new int[2];
+    	// 取得したarraylistからランダムもしくは最適化する形で1つの値に決定
+        Random rnd = new Random();
+
+        // 3重リストのarray2の1つ目を展開
+        ArrayList<int[]> arrays4 = new ArrayList<>();
+        int a = rnd.nextInt(arrays2.size());
+        arrays4 = arrays2.get(a);
+
+        // 3重配列の2つ目を展開
+        int b = rnd.nextInt(arrays4.size());
+        
+        decidePosition = arrays4.get(b);
+    
         return decidePosition;
     }
 

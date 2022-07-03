@@ -157,8 +157,6 @@ public class GamingView {
                 }
             }
         });
-        
-        
     }
     
     public void started(Me me,JPanel panel3) {

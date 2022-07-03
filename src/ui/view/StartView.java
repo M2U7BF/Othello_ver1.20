@@ -22,5 +22,4 @@ public class StartView {
 		panel1.add(openButton);
 		panel1.add(label);
 	}
-
 }
