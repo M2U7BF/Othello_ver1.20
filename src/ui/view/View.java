@@ -152,7 +152,7 @@ public class View extends JFrame {
                                     gamingView.placeAnimation(decidePosition,computer,me);
                             	} else {
                             		computer.Pass(computer, me);
-                            		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません");
+                            		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
                             		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
                             	}
                                 

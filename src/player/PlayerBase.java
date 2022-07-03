@@ -86,68 +86,49 @@ public class PlayerBase {
 		return false;
 	}
 	
-	//ルール的におけるのかを調べる。
 	public Map<String, Object> canPlacing(int[] placedPosition, PlayerBase me,PlayerBase enemy) {
 		positionX = placedPosition[0];
 		positionY = placedPosition[1];
 		
-//		int[][] change = {{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1}};
-//		
-//		if(positionX < 7 && positionX > 0 && positionY < 7 && positionY > 0) {
-//			for(int i=0; i < 8; i++) {
-//				directions[i] = enemy.position[positionX + change[i][0]][positionY + change[i][1]];
-//				directions2[i] = me.position[positionX + change[i][0]][positionY + change[i][1]];
-//			}
-//		}
-		
-		if(positionY > 0) {
-			directions[0] = enemy.position[positionX][positionY - 1];// 上
-			directions2[0] = me.position[positionX][positionY - 1];// 上
-		}
-		if(positionX < 7 && positionY > 0) {
-			directions[1] = enemy.position[positionX + 1][positionY - 1];// 右上
-			directions2[1] = me.position[positionX + 1][positionY - 1];// 右上
-		}
-		if(positionX < 7) {
-			directions[2] = enemy.position[positionX + 1][positionY];// 右
-			directions2[2] = me.position[positionX + 1][positionY];// 右
-		}
-		if (positionX < 7 && positionY < 7) {
-			directions[3] = enemy.position[positionX + 1][positionY + 1];// 右下
-			directions2[3] = me.position[positionX + 1][positionY + 1];// 右下
-		}
-		if(positionY < 7) {
-			directions[4] = enemy.position[positionX][positionY + 1];// 下
-			directions2[4] = me.position[positionX][positionY + 1];// 下
-		}
-		if(positionX > 0 && positionY < 7) {
-			directions[5] = enemy.position[positionX - 1][positionY + 1];// 左下
-			directions2[5] = me.position[positionX - 1][positionY + 1];// 左下
-		}
-		if(positionX > 0) {
-			directions[6] = enemy.position[positionX - 1][positionY];// 左
-			directions2[6] = me.position[positionX - 1][positionY];// 左
-		}
-		if(positionX > 0 && positionY > 0) {
-			directions[7] = enemy.position[positionX - 1][positionY - 1];// 左上
-			directions2[7] = me.position[positionX - 1][positionY - 1];// 左上
-		}
-		
+		int[][] change = {{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1}};
+		int[][] directionsB = new int[8][2];
 		boolean result = false;
+		
+		//方向リストを作成
+		for(int i=0; i<8; i++) {
+			int[] direction = new int[2];
+			
+			direction[0] = placedPosition[0] + change[i][0];
+			direction[1] = placedPosition[1] + change[i][1];
+			
+			if(direction[0] >= 8 || direction[0] < 0 || direction[1] >= 8 || direction[1] < 0 ) {
+				//条件に合わない場合
+				directionsB[i] = null;
+			}else {
+				directionsB[i] = direction;
+			}
+		}
 		
 		ArrayList<ArrayList<int[]>> arrayA = new ArrayList<>();
 		ArrayList<ArrayList<int[]>> resultList = new ArrayList<>();
 		
 		//8方位探索
 		for (int i = 0; i < 8; i++) {
-			////当マスの周囲に相手のコマがあるか。なければcontinue
-			if (directions[i] && !(directions2[i])) {
-				//相手のコマがる場合、その位置に間する探索リストを作成
-				ArrayList<int[]> searchList = new ArrayList<>();
-				searchList = SearchList2(i,positionX,positionY);
-				arrayA.add(searchList);
-			} else {
+			if(directionsB[i] == null) {
 				continue;
+			} else {
+				boolean mePlaced = me.position[directionsB[i][0]][directionsB[i][1]];
+				boolean enemyPlaced = enemy.position[directionsB[i][0]][directionsB[i][1]];
+				
+				////当マスの周囲に相手のコマがあるか。なければcontinue
+				if (enemyPlaced && !(mePlaced)) {
+					//相手のコマがる場合、その方向に間する探索リストを作成
+					ArrayList<int[]> searchList = new ArrayList<>();
+					searchList = SearchList2(i,positionX,positionY);
+					arrayA.add(searchList);
+				} else {
+					continue;
+				}
 			}
 		}
 		
@@ -171,15 +152,13 @@ public class PlayerBase {
 			}
 		}
 		
-//		System.out.println("探索結果は" + result + "でした。@playerbase");
-		
 		Map<String, Object> values = new HashMap<String, Object>();
 		values.put("result",result);
 		values.put("turnPosition",resultList);
 
 		return values;
 	}
-	
+
 	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,JLabel[][] llLliB,JLabel[][] llLliW) {
 		PlayerBase player = new PlayerBase();
 		Map<String,Object> values = player.canPlacing(placedPosition, me, enemy);
