@@ -139,29 +139,33 @@ public class View extends JFrame {
                     }
                     if (computer.isMyTurn) {
                         logic.canClick = false;
+                        
                         TimerTask task = new TimerTask() {
                             public void run() {
-                            	int[] decidePosition = computer.decidePosition(computer, me);
-                            	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
-                            		computer.Pass(computer, me);
-                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
-                            	} else if(
-//                            			true //テスト用
-                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
-                            			){
-                            		Map<String,Object> values = player.canPlacing(decidePosition, computer, me);
-                                	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
-                                	
-                                    gamingView.placeAnimation(decidePosition,computer);
-                                    gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
-                                    
-                                	computer.placing(decidePosition, computer, me,
-                            				turnOverList);
-                            	} else {
-                            		computer.Pass(computer, me);
-                            		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
-                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
-                            	}
+                            	
+                            	computer.turnAction(computer, me, gamingView);
+                            	
+//                            	int[] decidePosition = computer.decidePosition(computer, me);
+//                            	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
+//                            		computer.Pass(computer, me);
+//                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+//                            	} else if(
+////                            			true //テスト用
+//                            			(boolean) player.canPlacing(decidePosition, computer, me).get("result")
+//                            			){
+//                            		Map<String,Object> values = player.canPlacing(decidePosition, computer, me);
+//                                	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
+//                                	
+//                                    gamingView.placeAnimation(decidePosition,computer);
+//                                    gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
+//                                    
+//                                	computer.placing(decidePosition, computer, me,
+//                            				turnOverList);
+//                            	} else {
+//                            		computer.Pass(computer, me);
+//                            		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
+//                            		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+//                            	}
                                 
                                 logic.canClick = true;
                                 
@@ -188,10 +192,7 @@ public class View extends JFrame {
 //                            		true //テスト用
                                 	logic.isFinish(logic, me, computer)
                                 	) {
-                                	System.out.println("ゲームを終了しています ....");
-                                	layout.show(getContentPane(), "panel4");
-                                    resultView.finished(logic, me, computer);
-                                	
+                                	gamingView.isfinish = true;
                                 }
                             }
                         };
@@ -203,6 +204,11 @@ public class View extends JFrame {
                     logic.turns++;
                     //テスト用
 //                	}
+                }
+                if(gamingView.isfinish) {
+                	System.out.println("ゲームを終了しています ....");
+                	layout.show(getContentPane(), "panel4");
+                    resultView.finished(logic, me, computer);
                 }
             }
         });

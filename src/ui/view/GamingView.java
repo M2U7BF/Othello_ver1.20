@@ -43,6 +43,7 @@ public class GamingView {
     ImageIcon wStoneIcon2;
     public ImageIcon placingError;
     public ImageIcon passError;
+    public boolean isfinish;
 
     public GamingView(JPanel panel3,PlayerBase me, PlayerBase computer) {
         llLliB = new JLabel[8][8];
