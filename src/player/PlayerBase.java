@@ -45,18 +45,18 @@ public class PlayerBase {
         enemy.isMyTurn = true;
 	}
 	
-	public void turnOver(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList, GamingView gamingView) {
-		JLabel[][] lliitem = new JLabel[8][8];
-		JLabel[][] enemyLliitem = new JLabel[8][8];
+	public void turnOver(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList) {
+//		JLabel[][] lliitem = new JLabel[8][8];
+//		JLabel[][] enemyLliitem = new JLabel[8][8];
 		
 		// 置く石の種類を指定
-		if (me.getFirst()) {
-            lliitem = gamingView.llLliB;
-            enemyLliitem = gamingView.llLliW;
-        } else if (!(me.getFirst())){
-            lliitem = gamingView.llLliW;
-            enemyLliitem = gamingView.llLliB;
-        }
+//		if (me.getFirst()) {
+//            lliitem = gamingView.llLliB;
+//            enemyLliitem = gamingView.llLliW;
+//        } else if (!(me.getFirst())){
+//            lliitem = gamingView.llLliW;
+//            enemyLliitem = gamingView.llLliB;
+//        }
 		
 		for(int i=0; i<turnOverList.size(); i++) {
 			for(int j=0; j<turnOverList.get(i).size(); j++) {
@@ -64,8 +64,8 @@ public class PlayerBase {
 				int y = turnOverList.get(i).get(j)[1];
 				if(enemy.position[x][y] && !(me.position[x][y])) {
 					//表示
-			        lliitem[x][y].setVisible(true);
-			        enemyLliitem[x][y].setVisible(false);
+//			        lliitem[x][y].setVisible(true);
+//			        enemyLliitem[x][y].setVisible(false);
 			
 			        // 置いたことをログする
 			        me.position[x][y] = true;
@@ -215,7 +215,8 @@ public class PlayerBase {
         
         //覆せるコマを全て覆す
         ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
-        turnOver(me, enemy, turnOverList, gamingView);
+        gamingView.turnOverAnimation(me, enemy, turnOverList, gamingView);
+        turnOver(me, enemy, turnOverList);
         
         //// コマを置いたときの処理
         int meScore = me.getScore() + 1;

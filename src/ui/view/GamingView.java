@@ -3,6 +3,7 @@ package ui.view;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -225,5 +226,42 @@ public class GamingView {
     	myScoreJLabel.setText(player.name + "のスコア : " + String.valueOf(player.getScore()));
         myTurnJLabel.setVisible(false);
         enemyTurnJLabel.setVisible(true);
+	}
+
+    public void turnOverAnimation(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList, GamingView gamingView) {
+		JLabel[][] lliitem = new JLabel[8][8];
+		JLabel[][] enemyLliitem = new JLabel[8][8];
+
+    	if (me.getFirst()) {
+            lliitem = gamingView.llLliB;
+            enemyLliitem = gamingView.llLliW;
+        } else if (!(me.getFirst())){
+            lliitem = gamingView.llLliW;
+            enemyLliitem = gamingView.llLliB;
+        }
+		
+    	for(int i=0; i<turnOverList.size(); i++) {
+			for(int j=0; j<turnOverList.get(i).size(); j++) {
+				int x = turnOverList.get(i).get(j)[0];
+				int y = turnOverList.get(i).get(j)[1];
+				if(enemy.position[x][y] && !(me.position[x][y])) {
+					//表示
+			        lliitem[x][y].setVisible(true);
+			        enemyLliitem[x][y].setVisible(false);
+			
+			        // 置いたことをログする
+//			        me.position[x][y] = true;
+//			        enemy.position[x][y] = false;
+			        
+			        //// コマを置いたときの処理
+//			        int myScore = me.getScore() +1;
+//			        me.setScore(myScore);
+//			        int enemyScore = enemy.getScore() -1;
+//			        enemy.setScore(enemyScore);
+				}else if(me.position[x][y] && !(enemy.position[x][y])) {
+					break;
+				}
+			}
+		}
 	}
 }
