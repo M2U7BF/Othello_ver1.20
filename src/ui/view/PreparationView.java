@@ -73,6 +73,20 @@ public class PreparationView {
 				}
 			}
 		});
+		
+		startButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	sounds.setFile(0);
+            	sounds.play();
+            	
+            	if(dificultyRadio[0].isSelected()) {
+            		computer.strength = 0;
+            	}else if(dificultyRadio[1].isSelected()) {
+            		computer.strength = 1;
+            	}
+            }
+        });
 	}
 
 	public void orderDecided() {

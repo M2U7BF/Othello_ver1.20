@@ -1,8 +1,11 @@
 package ui.view;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -23,9 +26,7 @@ import ui.controller.GameController;
 import util.Img;
 import util.Sound;
 
-public class View extends JFrame {
-
-//    JButton openButton;
+public class View extends JFrame implements ActionListener{
     JLabel label2;
     JLabel label3;
     JLabel label4;
@@ -35,6 +36,8 @@ public class View extends JFrame {
     GamingView gamingView;
     ResultView resultView;
     StartView startView;
+    
+    JPanel cardPanel;
     JPanel panel1;
     JPanel panel2;
     JPanel panel3;
@@ -83,33 +86,12 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
         //画面遷移1
-        startView.openButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	sounds.setFile(0);
-            	sounds.play();
-                
-            	layout.show(getContentPane(), "panel2");
-            }
-        });
+        startView.openButton.addActionListener(this);
+        startView.openButton.setActionCommand("panel2");
             
         //画面遷移2
-        preparationView.startButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	sounds.setFile(0);
-            	sounds.play();
-            	
-            	if(preparationView.dificultyRadio[0].isSelected()) {
-            		computer.strength = 0;
-            	}else if(preparationView.dificultyRadio[1].isSelected()) {
-            		computer.strength = 1;
-            	}
-            	
-            	gamingView.started(me,panel3);
-                layout.show(getContentPane(), "panel3");
-            }
-        });
+        preparationView.startButton.addActionListener(this);
+        preparationView.startButton.setActionCommand("panel3");
 
         gamingView.labelb.addMouseListener(new MouseAdapter() {
             @Override
@@ -192,15 +174,29 @@ public class View extends JFrame {
                 }
             }
         });
-
+        
+        cardPanel = new JPanel();
         layout = new CardLayout();
-
+        cardPanel.setLayout(layout);
+        
+        cardPanel.add(panel1, "panel1");
+        cardPanel.add(panel2, "panel2");
+        cardPanel.add(panel3, "panel3");
+        cardPanel.add(panel4, "panel4");
+        
         Container contentPane = getContentPane();
         contentPane.setLayout(layout);
-        contentPane.add(panel1, "panel1");
-        contentPane.add(panel2, "panel2");
-        contentPane.add(panel3, "panel3");
-        contentPane.add(panel4, "panel4");
+        contentPane.add(cardPanel, BorderLayout.CENTER);
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        String cmd = e.getActionCommand();
+        
+        if(cmd.equals("panel3")) {
+        	gamingView.started(me,panel3);
+        }
+        
+        layout.show(cardPanel, cmd);
     }
 
 }
