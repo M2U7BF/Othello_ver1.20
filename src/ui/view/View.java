@@ -88,13 +88,7 @@ public class View extends JFrame implements ActionListener {
         // 画面遷移1
         startView.openButton.addActionListener(this);
         startView.openButton.setActionCommand("panel2");
-//        startView.openButton.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//            	
-//            }
-//        });
-        
+
         // 画面遷移2
         preparationView.startButton.addActionListener(this);
         preparationView.startButton.setActionCommand("panel3");
@@ -102,7 +96,7 @@ public class View extends JFrame implements ActionListener {
         gamingView.labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	computer.acted = false;
+                computer.acted = false;
                 Point point2 = e.getPoint();
                 // labelb.setText("全体: x:" + point2.x + ",y:" + point2.y); // テスト用
                 // どのマスが押されたのか
@@ -145,34 +139,27 @@ public class View extends JFrame implements ActionListener {
 
                                 // 盤の状況を出力
                                 statusOutput(me, computer);
-
-                                // ゲームの進行状況
-                                if (
-                                // true //テスト用
-                                logic.isFinish(logic, me, computer)) {
-                                    // System.out.println("ゲームを終了しています ....");
-                                    layout.show(cardPanel, "panel4");
-                                    resultView.started(logic, me, computer);
-                                }
                             }
                         };
                         Timer timer = new Timer();
                         // timer.schedule(task, 100); //テスト用
                         timer.schedule(task, 800);
                     }
-                    
-                    // 終了を判定
-//                    synchronized (gamingView) {
-//                        while (!(computer.acted)) {
-//                            try {
-//                                // 修正済み
-//                                gamingView.wait();
-//                            } catch (InterruptedException e2) {
-//                                e2.printStackTrace();
-//                            }
-//                        }
-//                    }
-                    
+                    // ゲームの進行状況
+                    TimerTask task2 = new TimerTask() {
+                        public void run() {
+                            if (
+                            // true //テスト用
+                            logic.isFinish(logic, me, computer)) {
+                                // System.out.println("ゲームを終了しています ....");
+                                layout.show(cardPanel, "panel4");
+                                resultView.started(logic, me, computer);
+                            }
+                        }
+                    };
+                    Timer timer2 = new Timer();
+                    // timer.schedule(task, 100); //テスト用
+                    timer2.schedule(task2, 900);
 
                     logic.turns++;
                     // テスト用
@@ -198,18 +185,18 @@ public class View extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         Sound sounds = new Sound();
-    	
-    	sounds.setFile(0);
-    	sounds.play();
+
+        sounds.setFile(0);
+        sounds.play();
 
         if (cmd.equals("panel3")) {
-        	if(preparationView.dificultyRadio[0].isSelected()) {
-        		computer.strength = 0;
-        	}else if(preparationView.dificultyRadio[1].isSelected()) {
-        		computer.strength = 1;
-        	}
-            
-        	gamingView.started(me, panel3);
+            if (preparationView.dificultyRadio[0].isSelected()) {
+                computer.strength = 0;
+            } else if (preparationView.dificultyRadio[1].isSelected()) {
+                computer.strength = 1;
+            }
+
+            gamingView.started(me, panel3);
         }
 
         layout.show(cardPanel, cmd);
@@ -240,6 +227,6 @@ public class View extends JFrame implements ActionListener {
     }
 
     public boolean isFinish() {
-		return false;
-	}
+        return false;
+    }
 }

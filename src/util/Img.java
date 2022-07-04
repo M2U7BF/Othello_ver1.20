@@ -17,5 +17,6 @@ public URL[] img = new URL[20];
 		img[8] = getClass().getResource("img/whiteStone2.png");
 		img[9] = getClass().getResource("img/errorImage.png");
 		img[10] = getClass().getResource("img/passerrorImage.png");
+		img[11] = getClass().getResource("img/enemyPassed.png");
 	};
 }

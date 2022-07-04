@@ -35,6 +35,7 @@ public class GamingView {
     public JLabel labelb;
     public JLabel canntPlacingError;
     public JLabel canntPassError;
+    public JLabel enemyPassedLabel;
     public JLabel llLliB[][];
     public JLabel llLliW[][];
     public JButton passButton;
@@ -45,6 +46,7 @@ public class GamingView {
     ImageIcon wStoneIcon2;
     public ImageIcon placingError;
     public ImageIcon passError;
+    public ImageIcon enemyPassed;
     public boolean isfinish;
 
     public GamingView(JPanel panel3,PlayerBase me, PlayerBase computer) {
@@ -64,7 +66,8 @@ public class GamingView {
         icon3 = new ImageIcon(new ImageIcon(imgs.img[2]).getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
         placingError = new ImageIcon(new ImageIcon(imgs.img[9]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
         passError = new ImageIcon(new ImageIcon(imgs.img[10]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
-
+        enemyPassed = new ImageIcon(new ImageIcon(imgs.img[11]).getImage().getScaledInstance(200, 80, Image.SCALE_DEFAULT));
+        
         panel3.setLayout(null);
         bStone = new JLabel();
         wStone = new JLabel();
@@ -110,13 +113,18 @@ public class GamingView {
         llLliW[3][3].setVisible(true);
         llLliW[4][4].setVisible(true);
 
-        // エラー文の設定
+        // エラー表示の設定
         canntPlacingError = new JLabel(placingError);
         canntPlacingError.setBounds(100, 10, 200, 80);
         canntPlacingError.setVisible(false);
         canntPassError = new JLabel(passError);
         canntPassError.setBounds(100, 10, 200, 80);
         canntPassError.setVisible(false);
+        
+        //通知表示の設定
+        enemyPassedLabel = new JLabel(enemyPassed);
+        enemyPassedLabel.setBounds(100, 10, 200, 80);
+        enemyPassedLabel.setVisible(false);
 
         // パスのボタン
         passButton = new JButton("パスをする");
@@ -143,6 +151,7 @@ public class GamingView {
         panel3.add(computerTurnLabel);
         panel3.add(labelb);
         panel3.add(emptyFrame);
+        panel3.add(enemyPassedLabel);
         
         
         passButton.addMouseListener(new MouseAdapter() {
@@ -200,7 +209,7 @@ public class GamingView {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(task, 1000);
+        timer.schedule(task, 5000);
 	}
     
     public void placeAnimation(int[] decidedPosition,PlayerBase player) {
@@ -268,6 +277,15 @@ public class GamingView {
     public void turnActionAnimation(int[] decidePosition,PlayerBase computer,PlayerBase me,GamingView gamingView) {
     	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
     		computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+    		
+    		enemyPassedLabel.setVisible(true);
+    		TimerTask task = new TimerTask() {
+                public void run() {
+                    enemyPassedLabel.setVisible(false);
+                }
+            };
+            Timer timer = new Timer();
+            timer.schedule(task, 1000);
     	} else if(
 //            			true //テスト用
     			(boolean) computer.canPlacing(decidePosition, computer, me).get("result")
