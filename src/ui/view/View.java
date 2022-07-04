@@ -197,13 +197,39 @@ public class View extends JFrame implements ActionListener {
             }
 
             gamingView.started(me, panel3);
+            
+            if (computer.isMyTurn) {
+                logic.canClick = false;
+
+                TimerTask task = new TimerTask() {
+                    public void run() {
+                        int[] decidePosition = computer.decidePosition(computer, me);
+
+                        gamingView.turnActionAnimation(decidePosition, computer, me, gamingView);
+                        computer.turnAction(decidePosition, computer, me);
+                        logic.canClick = true;
+
+                        // 盤の状況を出力
+                        statusOutput(me, computer);
+                    }};
+                Timer timer = new Timer();
+                timer.schedule(task, 800);
+            }
+            // ゲームの進行状況
+            TimerTask task2 = new TimerTask() {public void run() {
+                    if (
+                    // true //テスト用
+                    logic.isFinish(logic, me, computer)) {
+                        layout.show(cardPanel, "panel4");
+                        resultView.started(logic, me, computer);
+            }}};
+            Timer timer2 = new Timer();
+            timer2.schedule(task2, 900);
+
+            logic.turns++;
         }
 
         layout.show(cardPanel, cmd);
-    }
-
-    public void setPanel4() {
-
     }
 
     public void statusOutput(Me me, Computer computer) {
