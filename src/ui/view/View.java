@@ -92,7 +92,10 @@ public class View extends JFrame implements ActionListener {
         // 画面遷移2
         preparationView.startButton.addActionListener(this);
         preparationView.startButton.setActionCommand("panel3");
-
+        
+        gamingView.passButton.addActionListener(this);
+        gamingView.passButton.setActionCommand("mePass");
+        
         gamingView.labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -184,12 +187,20 @@ public class View extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        Sound sounds = new Sound();
-
-        sounds.setFile(0);
-        sounds.play();
+        
+        if(cmd.equals("panel2")) {
+        	startView.openButton.removeActionListener(this);
+        }
+        
+        if(!(cmd.equals("mePass"))) {
+	        Sound sounds = new Sound();
+	        sounds.setFile(0);
+	        sounds.play();
+        }
 
         if (cmd.equals("panel3")) {
+        	preparationView.startButton.removeActionListener(this);
+        	
             if (preparationView.dificultyRadio[0].isSelected()) {
                 computer.strength = 0;
             } else if (preparationView.dificultyRadio[1].isSelected()) {
@@ -197,7 +208,7 @@ public class View extends JFrame implements ActionListener {
             }
 
             gamingView.started(me, panel3);
-            
+
             if (computer.isMyTurn) {
                 logic.canClick = false;
 
@@ -208,25 +219,67 @@ public class View extends JFrame implements ActionListener {
                         gamingView.turnActionAnimation(decidePosition, computer, me, gamingView);
                         computer.turnAction(decidePosition, computer, me);
                         logic.canClick = true;
-
-                        // 盤の状況を出力
-                        statusOutput(me, computer);
-                    }};
+                    }
+                };
                 Timer timer = new Timer();
                 timer.schedule(task, 800);
             }
-            // ゲームの進行状況
-            TimerTask task2 = new TimerTask() {public void run() {
-                    if (
-                    // true //テスト用
-                    logic.isFinish(logic, me, computer)) {
-                        layout.show(cardPanel, "panel4");
-                        resultView.started(logic, me, computer);
-            }}};
-            Timer timer2 = new Timer();
-            timer2.schedule(task2, 900);
 
             logic.turns++;
+        }
+
+        if (cmd.equals("mePass")) {
+            if (!(me.isMyTurn)) {
+                // DO NOTHING
+            } else if (
+            		true //テスト用
+//            		!(me.somewhereCanPlacing(me, computer))
+            		) {
+                me.Pass(me, computer);
+                gamingView.myPassesLabel.setText(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
+
+                if (computer.isMyTurn) {
+                    logic.canClick = false;
+
+                    TimerTask task = new TimerTask() {
+                        public void run() {
+                            int[] decidePosition = computer.decidePosition(computer, me);
+
+                            gamingView.turnActionAnimation(decidePosition, computer, me, gamingView);
+                            computer.turnAction(decidePosition, computer, me);
+                            logic.canClick = true;
+                        }
+                    };
+                    Timer timer = new Timer();
+                    timer.schedule(task, 800);
+                }
+                // ゲームの進行状況
+                TimerTask task2 = new TimerTask() {
+                    public void run() {
+                        if (
+                        // true //テスト用
+                        logic.isFinish(logic, me, computer)) {
+                            // System.out.println("ゲームを終了しています ....");
+                            layout.show(cardPanel, "panel4");
+                            resultView.started(logic, me, computer);
+                        }
+                    }
+                };
+                Timer timer2 = new Timer();
+                // timer.schedule(task, 100); //テスト用
+                timer2.schedule(task2, 900);
+
+                logic.turns++;
+            } else {
+                gamingView.canntPassError.setVisible(true);
+                TimerTask task = new TimerTask() {
+                    public void run() {
+                        gamingView.canntPassError.setVisible(false);
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 1000);
+            }
         }
 
         layout.show(cardPanel, cmd);

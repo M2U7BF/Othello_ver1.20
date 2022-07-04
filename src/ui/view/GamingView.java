@@ -2,8 +2,6 @@ package ui.view;
 
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
@@ -152,29 +150,6 @@ public class GamingView {
         panel3.add(labelb);
         panel3.add(emptyFrame);
         panel3.add(enemyPassedLabel);
-        
-        
-        passButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	
-            	if(!(me.isMyTurn)){
-            		//DO NOTHING
-            	}else if (!(me.somewhereCanPlacing(me, computer))) {
-                    me.Pass(me, computer);
-                    myPassesLabel.setText(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
-                } else {
-                	canntPassError.setVisible(true);
-                    TimerTask task = new TimerTask() {
-                        public void run() {
-                        	canntPassError.setVisible(false);
-                        }
-                    };
-                    Timer timer = new Timer();
-                    timer.schedule(task, 1000);
-                }
-            }
-        });
     }
     
     public void started(Me me,JPanel panel3) {
