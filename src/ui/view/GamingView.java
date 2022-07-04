@@ -129,7 +129,7 @@ public class GamingView {
         JLabel num = new JLabel(
                 "0              1              2               3              4              5              6             7");
         num.setBounds(100, 80, 500, 50);
-        panel3.add(num);
+//        panel3.add(num);
         
         panel3.add(myScoreLabel);
         panel3.add(computerScoreLabel);

@@ -104,7 +104,7 @@ public class Computer extends PlayerBase {
         
         //置ける場所から優先順位をつける
         
-      //角をとる
+        //角をとる
         for(int i=0; i < arrays4.size(); i++) {
         	int x = arrays4.get(i)[0];
         	int y = arrays4.get(i)[1];
@@ -116,11 +116,37 @@ public class Computer extends PlayerBase {
         }
         
         //最も外側のマスをとる
+//        if(!(doseExit)) {
+//	        for(int i=0; i < arrays4.size(); i++) {
+//	        	int x = arrays4.get(i)[0];
+//	        	int y = arrays4.get(i)[1];
+//	        	if((x==3 || x==5)&&(y==0 || y==7)||(y==2 && y==4)&&(x==0 || x==7)) {
+//	        		arrays5.add(arrays4.get(i));
+//	        		doseExit = true;
+//	        		continue;
+//	        	}
+//	        }
+//        }
+        
+        //(2,0)付近をとる
         if(!(doseExit)) {
 	        for(int i=0; i < arrays4.size(); i++) {
 	        	int x = arrays4.get(i)[0];
 	        	int y = arrays4.get(i)[1];
-	        	if((x==3 || x==5)&&(y==0 || y==7)||(y==2 && y==4)&&(x==0 || x==7)) {
+	        	if((x==2||x==5)&&(y==0||y==7)||(y==2||y==5)&&(x==0||x==7)) {
+	        		arrays5.add(arrays4.get(i));
+	        		doseExit = true;
+	        		continue;
+	        	}
+	        }
+        }
+        
+        //(2,1)付近をとる
+        if(!(doseExit)) {
+	        for(int i=0; i < arrays4.size(); i++) {
+	        	int x = arrays4.get(i)[0];
+	        	int y = arrays4.get(i)[1];
+	        	if((x==2||x==5)&&(y==1||y==6)||(y==2||y==5)&&(x==1||x==6)) {
 	        		arrays5.add(arrays4.get(i));
 	        		doseExit = true;
 	        		continue;
