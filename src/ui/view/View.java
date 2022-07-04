@@ -154,11 +154,11 @@ public class View extends JFrame implements ActionListener{
                                 
                                 // ゲームの進行状況
                                 if (
-//                            		true //テスト用
-                                	logic.isFinish(logic, me, computer)
+                            		true //テスト用
+//                                	logic.isFinish(logic, me, computer)
                                 	) {
 //                                	System.out.println("ゲームを終了しています ....");
-                                	layout.show(getContentPane(), "panel4");
+                                	layout.show(cardPanel, "panel4");
                                     resultView.finished(logic, me, computer);
                                 }
                             }
@@ -198,5 +198,9 @@ public class View extends JFrame implements ActionListener{
         
         layout.show(cardPanel, cmd);
     }
+    
+    public void setPanel4() {
+		
+	}
 
 }
