@@ -8,6 +8,7 @@ public class Computer extends PlayerBase {
     int positionX = 0;
     int positionY = 0;
     public int strength;
+    public boolean acted;
     
     public Computer() {
     	this.name = "相手";
@@ -31,6 +32,8 @@ public class Computer extends PlayerBase {
     		computer.Pass(computer, me);
     		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
     	}
+    	
+    	acted = true;
     }
 
     // 決める
