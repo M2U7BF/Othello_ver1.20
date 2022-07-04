@@ -92,7 +92,7 @@ public class View extends JFrame implements ActionListener{
         //画面遷移2
         preparationView.startButton.addActionListener(this);
         preparationView.startButton.setActionCommand("panel3");
-
+        
         gamingView.labelb.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -117,7 +117,7 @@ public class View extends JFrame implements ActionListener{
                     		gamingView.placeAnimation(placedPosition, me);
                     		gamingView.turnOverAnimation(me, computer, turnOverList, gamingView);
                     		me.placing(placedPosition, me, computer,turnOverList);
-//                        	me.placing(myDecidePosition, me, computer, canntPlacingError, llLliB, llLliW); //テスト用
+//                        	me.placing(myDecidePosition, me, computer, turnOverList, gamingView); //テスト用
                             
                         } else {
 //                            System.out.println("エラー@View@Me");
@@ -130,9 +130,11 @@ public class View extends JFrame implements ActionListener{
                         
                         TimerTask task = new TimerTask() {
                             public void run() {
+                            	int[] decidePosition = computer.decidePosition(computer, me);
                             	
-                            	computer.turnAction(computer, me, gamingView);
-                            	                                
+                            	gamingView.turnActionAnimation(decidePosition,computer,me,gamingView);
+                            	computer.turnAction(decidePosition,computer, me);
+                            	
                                 logic.canClick = true;
                                 //盤の状況を出力
                                 for(int i= 0; i<8; i++) {
@@ -154,8 +156,8 @@ public class View extends JFrame implements ActionListener{
                                 
                                 // ゲームの進行状況
                                 if (
-                            		true //テスト用
-//                                	logic.isFinish(logic, me, computer)
+//                            		true //テスト用
+                                	logic.isFinish(logic, me, computer)
                                 	) {
 //                                	System.out.println("ゲームを終了しています ....");
                                 	layout.show(cardPanel, "panel4");

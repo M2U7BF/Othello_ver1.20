@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
-import ui.view.GamingView;
-
 public class Computer extends PlayerBase {
     int positionX = 0;
     int positionY = 0;
@@ -16,11 +14,11 @@ public class Computer extends PlayerBase {
     	this.id = 1;
 	}
     //行動
-    public void turnAction(Computer computer,Me me,GamingView gamingView) {
-    	int[] decidePosition = decidePosition(computer, me);
+    public void turnAction(int[] decidePosition,Computer computer,Me me) {
+//    	int[] decidePosition = decidePosition(computer, me);
     	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
     		computer.Pass(computer, me);
-    		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+//    		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
     	} else if(
 //            			true //テスト用
     			(boolean) canPlacing(decidePosition, computer, me).get("result")
@@ -28,15 +26,15 @@ public class Computer extends PlayerBase {
     		Map<String,Object> values = canPlacing(decidePosition, computer, me);
         	ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
         	
-            gamingView.placeAnimation(decidePosition,computer);
-            gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
+//            gamingView.placeAnimation(decidePosition,computer);
+//            gamingView.turnOverAnimation(computer, me, turnOverList, gamingView);
             
         	computer.placing(decidePosition, computer, me,
     				turnOverList);
     	} else {
     		computer.Pass(computer, me);
     		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
-    		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+//    		gamingView.computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
     	}
     }
 
