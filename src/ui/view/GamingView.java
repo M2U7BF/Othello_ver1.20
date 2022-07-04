@@ -266,9 +266,7 @@ public class GamingView {
 	}
 
     public void turnActionAnimation(int[] decidePosition,PlayerBase computer,PlayerBase me,GamingView gamingView) {
-//    	int[] decidePosition = decidePosition(computer, me);
     	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
-//    		computer.Pass(computer, me);
     		computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
     	} else if(
 //            			true //テスト用
@@ -279,12 +277,7 @@ public class GamingView {
         	
             placeAnimation(decidePosition,computer);
             turnOverAnimation(computer, me, turnOverList, gamingView);
-            
-//        	computer.placing(decidePosition, computer, me,
-//    				turnOverList);
     	} else {
-//    		computer.Pass(computer, me);
-//    		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
     		computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
     	}
 	}

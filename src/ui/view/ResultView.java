@@ -66,7 +66,7 @@ public class ResultView {
 		panel4.add(finishButton);
 	}
 
-	public void finished(Logic logic, Me me, Computer computer) {
+	public void started(Logic logic, Me me, Computer computer) {
 		Sound sounds = new Sound();
 		
 		myResultScoreLabel.setText(me.name + "の総スコア : " + String.valueOf(me.getScore()));

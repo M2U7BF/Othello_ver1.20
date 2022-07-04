@@ -134,25 +134,10 @@ public class View extends JFrame implements ActionListener{
                             	
                             	gamingView.turnActionAnimation(decidePosition,computer,me,gamingView);
                             	computer.turnAction(decidePosition,computer, me);
-                            	
                                 logic.canClick = true;
-                                //盤の状況を出力
-                                for(int i= 0; i<8; i++) {
-                                	String[] b = new String[8];
-                                	for(int j=0; j<8;j++) {
-                                		String a = new String();
-                                		if(me.position[j][i] && !(computer.position[j][i])) {
-                                			a = "M";
-                                		} else if(computer.position[j][i] && !(me.position[j][i])){
-                                			a = "C";
-                                		} else if (!(computer.position[j][i]) && !(me.position[j][i])) {
-                							a = "_";
-                						} else {a = "■";}
-                                		b[j] = a;
-                                	}
-                                	System.out.println(Arrays.toString(b));
-                                }
                                 
+                                //盤の状況を出力
+                                statusOutput(me,computer);
                                 
                                 // ゲームの進行状況
                                 if (
@@ -161,7 +146,7 @@ public class View extends JFrame implements ActionListener{
                                 	) {
 //                                	System.out.println("ゲームを終了しています ....");
                                 	layout.show(cardPanel, "panel4");
-                                    resultView.finished(logic, me, computer);
+                                    resultView.started(logic, me, computer);
                                 }
                             }
                         };
@@ -204,5 +189,22 @@ public class View extends JFrame implements ActionListener{
     public void setPanel4() {
 		
 	}
-
+    
+    public void statusOutput(Me me, Computer computer) {
+    	for(int i= 0; i<8; i++) {
+        	String[] b = new String[8];
+        	for(int j=0; j<8;j++) {
+        		String a = new String();
+        		if(me.position[j][i] && !(computer.position[j][i])) {
+        			a = "M";
+        		} else if(computer.position[j][i] && !(me.position[j][i])){
+        			a = "C";
+        		} else if (!(computer.position[j][i]) && !(me.position[j][i])) {
+					a = "_";
+				} else {a = "■";}
+        		b[j] = a;
+        	}
+        	System.out.println(Arrays.toString(b));
+        }
+	}
 }
