@@ -27,10 +27,6 @@ import util.Img;
 import util.Sound;
 
 public class View extends JFrame implements ActionListener {
-    JLabel label2;
-    JLabel label3;
-    JLabel label4;
-    JLabel emptyFrame;
     CardLayout layout;
     PreparationView preparationView;
     GamingView gamingView;
@@ -43,8 +39,6 @@ public class View extends JFrame implements ActionListener {
     JPanel panel3;
     JPanel panel4;
     int placedPosition[] = new int[2];
-    JLabel[][] lli = new JLabel[8][8];
-    int order;
 
     public static String title = "othello";
 
@@ -101,30 +95,23 @@ public class View extends JFrame implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 computer.acted = false;
                 Point point2 = e.getPoint();
-                // labelb.setText("全体: x:" + point2.x + ",y:" + point2.y); // テスト用
+
                 // どのマスが押されたのか
                 controller.clickedFrame(placedPosition, point2.x, point2.y);
                 if (logic.canClick) {
-                    // while(!(logic.isFinish(logic, me, computer)) && logic.turns < 80) { //テスト用
                     // コマを置く
                     if (me.isMyTurn) {
-                        // int[] myDecidePosition = computer.decidePosition(me, computer); //テスト用
                         Map<String, Object> values = player.canPlacing(placedPosition, me, computer);
-                        ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values
-                                .get("turnPosition");
-                        if ((boolean) player.canPlacing(placedPosition, me, computer).get("result")
+                        ArrayList<ArrayList<int[]>> turnOverList = (ArrayList<ArrayList<int[]>>) values.get("turnPosition");
+                        if ((boolean) values.get("result")
                                 && !(computer.position[placedPosition[0]][placedPosition[1]])
                                 && !(me.position[placedPosition[0]][placedPosition[1]])
-                        // (boolean) player.canPlacing(myDecidePosition, computer, me).get("result")
-                        // //テスト用
                         ) {
                             gamingView.placeAnimation(placedPosition, me);
                             gamingView.turnOverAnimation(me, computer, turnOverList, gamingView);
                             me.placing(placedPosition, me, computer, turnOverList);
-                            // me.placing(myDecidePosition, me, computer, turnOverList, gamingView); //テスト用
 
                         } else {
-                            // System.out.println("エラー@View@Me");
                             gamingView.cannotPlacingError();
                         }
 
@@ -132,7 +119,8 @@ public class View extends JFrame implements ActionListener {
                     if (computer.isMyTurn) {
                         logic.canClick = false;
 
-                        TimerTask task = new TimerTask() {
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
                             public void run() {
                                 int[] decidePosition = computer.decidePosition(computer, me);
 
@@ -143,30 +131,20 @@ public class View extends JFrame implements ActionListener {
                                 // 盤の状況を出力
                                 statusOutput(me, computer);
                             }
-                        };
-                        Timer timer = new Timer();
-                        // timer.schedule(task, 100); //テスト用
-                        timer.schedule(task, 800);
+                        }, 800);
                     }
                     // ゲームの進行状況
-                    TimerTask task2 = new TimerTask() {
+                    Timer timer2 = new Timer();
+                    timer2.schedule(new TimerTask() {
                         public void run() {
-                            if (
-                            // true //テスト用
-                            logic.isFinish(logic, me, computer)) {
-                                // System.out.println("ゲームを終了しています ....");
+                            if (logic.isFinish(logic, me, computer)) {
                                 layout.show(cardPanel, "panel4");
                                 resultView.started(logic, me, computer);
                             }
                         }
-                    };
-                    Timer timer2 = new Timer();
-                    // timer.schedule(task, 100); //テスト用
-                    timer2.schedule(task2, 900);
+                    }, 900);
 
                     logic.turns++;
-                    // テスト用
-                    // }
                 }
             }
         });
@@ -212,7 +190,8 @@ public class View extends JFrame implements ActionListener {
             if (computer.isMyTurn) {
                 logic.canClick = false;
 
-                TimerTask task = new TimerTask() {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
                     public void run() {
                         int[] decidePosition = computer.decidePosition(computer, me);
 
@@ -220,16 +199,14 @@ public class View extends JFrame implements ActionListener {
                         computer.turnAction(decidePosition, computer, me);
                         logic.canClick = true;
                     }
-                };
-                Timer timer = new Timer();
-                timer.schedule(task, 800);
+                }, 800);
             }
 
             logic.turns++;
         }
 
         if (cmd.equals("mePass")) {
-            if (!(me.isMyTurn)) {
+            if (!me.isMyTurn) {
                 // DO NOTHING
             } else if (
             		true //テスト用
@@ -241,7 +218,8 @@ public class View extends JFrame implements ActionListener {
                 if (computer.isMyTurn) {
                     logic.canClick = false;
 
-                    TimerTask task = new TimerTask() {
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
                         public void run() {
                             int[] decidePosition = computer.decidePosition(computer, me);
 
@@ -249,9 +227,7 @@ public class View extends JFrame implements ActionListener {
                             computer.turnAction(decidePosition, computer, me);
                             logic.canClick = true;
                         }
-                    };
-                    Timer timer = new Timer();
-                    timer.schedule(task, 800);
+                    }, 800);
                 }
                 // ゲームの進行状況
                 TimerTask task2 = new TimerTask() {
