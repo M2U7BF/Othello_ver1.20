@@ -16,58 +16,49 @@ public class Logic {
     // boolean[][] isEmpty;
 
     public void decideFirst(Computer com, Me me, JLabel orderLabel) {
-        int order;
+        // 先手を決定する
         Random rand = new Random();
+        int order = rand.nextInt(2);
+        boolean isMeFirst = order == 1;
 
-        // テスト用
-//        order = 1;
-      order = rand.nextInt(2);
-        if (order == 1) {
-            me.setFirst(true);
-            com.setFirst(false);
-            orderLabel.setText("あなたは : 先手");
-        } else if (order == 0) {
-            me.setFirst(false);
-            com.setFirst(true);
-            orderLabel.setText("あなたは : 後手");
-        }
+        // 先手の設定から、各値を設定する
+        me.setFirst(isMeFirst);
+        com.setFirst(!isMeFirst);
+
+        orderLabel.setText("あなたは : " + (isMeFirst ? "先手" : "後手"));
 
         // 初期配置を設定する
-        if (me.getFirst()) {
-            com.position[3][3] = true;
-            com.position[4][4] = true;
-            me.position[3][4] = true;
-            me.position[4][3] = true;
-        } else {
-            com.position[4][3] = true;
-            com.position[3][4] = true;
-            me.position[3][3] = true;
-            me.position[4][4] = true;
-        }
+        me.position[3][4] = isMeFirst;
+        me.position[4][3] = isMeFirst;
+        me.position[3][3] = !isMeFirst;
+        me.position[4][4] = !isMeFirst;
+        com.position[3][3] = isMeFirst;
+        com.position[4][4] = isMeFirst;
+        com.position[4][3] = !isMeFirst;
+        com.position[3][4] = !isMeFirst;
 
-        me.isMyTurn = me.getFirst();
-        com.isMyTurn = com.getFirst();
+        me.isMyTurn = isMeFirst;
+        com.isMyTurn = !isMeFirst;
     }
 
     public void start(Computer c, Me m) {
     }
 
     public boolean isFinish(Logic logic, Me me, Computer com) {
-        boolean finish = false;
         if (!(logic.isEmpty(me, com)) || !(playersCanPlacing(me, com))) {
-            finish = true;
+            return true;
         }
-        if(!(me.somewhereCanPlacing(me, com)) && !(me.somewhereCanPlacing(com, me))) {
-        	finish = true;
+        else if(!(me.somewhereCanPlacing(me, com)) && !(me.somewhereCanPlacing(com, me))) {
+        	return true;
         }
-        return finish;
+
+        return false;
     }
 
     public boolean playersCanPlacing(Me me, Computer com) {
         PlayerBase player = new PlayerBase();
-        // 空きコマに対しcanPlacing実行
-        boolean available = false;
 
+        // 空きコマに対しcanPlacing実行
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 // 空きコマを探す
@@ -76,42 +67,29 @@ public class Logic {
                     int[] positon = { i, j };
                     if ((boolean) player.canPlacing(positon, me, com).get("result") ||
                             (boolean) player.canPlacing(positon, com, me).get("result")) {
-                        available = true;
-                        break;
-                    } else {
-                        continue;
+                        return true;
                     }
                 }
             }
-            if (available) {
-                break;
-            }
         }
 
-        return available;
+        return false;
     }
 
     public boolean isEmpty(Me me, Computer com) {
-        boolean empty = false;
         // com,me それぞれの所持positionを参照する
         // 1つでも空きマスがあればtrue
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (!(me.position[i][j]) && !(com.position[i][j])) {
-                    empty = true;
-                    break;
-                } else {
-                    continue;
+                    return true;
                 }
-            }
-            if (empty) {
-                break;
             }
         }
 
         //// アルゴリズムの適用が望ましい
-        return empty;
+        return false;
     }
 
 }
