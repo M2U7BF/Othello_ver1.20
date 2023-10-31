@@ -125,7 +125,7 @@ public class View extends JFrame implements ActionListener {
 
                         } else {
                             // System.out.println("エラー@View@Me");
-                            gamingView.canntPlacingError();
+                            gamingView.cannotPlacingError();
                         }
 
                     }
@@ -236,7 +236,7 @@ public class View extends JFrame implements ActionListener {
 //            		!(me.somewhereCanPlacing(me, computer))
             		) {
                 me.Pass(me, computer);
-                gamingView.myPassesLabel.setText(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
+                gamingView.myPassesLabel.setText(me.name + "のパス回数 : " + me.getPasses());
 
                 if (computer.isMyTurn) {
                     logic.canClick = false;

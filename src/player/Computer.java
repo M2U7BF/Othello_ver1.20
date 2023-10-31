@@ -30,7 +30,7 @@ public class Computer extends PlayerBase {
     				turnOverList);
     	} else {
     		computer.Pass(computer, me);
-    		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+String.valueOf(decidePosition[0])+","+String.valueOf(decidePosition[1])+")");
+    		System.out.println("Cpmputer : エラー : 探索した座標にはルール上、置けません("+decidePosition[0]+","+decidePosition[1]+")");
     	}
     	
     	acted = true;

@@ -75,16 +75,16 @@ public class GamingView {
         labelb = new JLabel();
         labelb.setBounds(100, 100, 500, 500);
 
-        myScoreLabel = new JLabel(me.name + "のスコア : " + String.valueOf(me.getScore()));
+        myScoreLabel = new JLabel(me.name + "のスコア : " + me.getScore());
         myScoreLabel.setBounds(100, 650, 200, 30);
         myScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
-        computerScoreLabel = new JLabel(computer.name + "のスコア : " + String.valueOf(computer.getScore()));
+        computerScoreLabel = new JLabel(computer.name + "のスコア : " + computer.getScore());
         computerScoreLabel.setBounds(400, 650, 200, 30);
         computerScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
-        myPassesLabel = new JLabel(me.name + "のパス回数 : " + String.valueOf(me.getPasses()));
+        myPassesLabel = new JLabel(me.name + "のパス回数 : " + me.getPasses());
         myPassesLabel.setBounds(100, 680, 150, 30);
         myPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
-        computerPassesLabel = new JLabel(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+        computerPassesLabel = new JLabel(computer.name + "のパス回数 : " + computer.getPasses());
         computerPassesLabel.setBounds(400, 680, 150, 30);
         computerPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
 
@@ -154,84 +154,49 @@ public class GamingView {
     
     public void started(Me me,JPanel panel3) {
     	// 初期配置の表示
-        if (me.getFirst()) {
-            myStoneLabel = new JLabel(bStoneIcon2);
-            comStoneLabel = new JLabel(wStoneIcon2);
-        } else {
-            myStoneLabel = new JLabel(wStoneIcon2);
-            comStoneLabel = new JLabel(bStoneIcon2);
-        }
+        myStoneLabel = new JLabel(me.getFirst() ? bStoneIcon2 : wStoneIcon2);
+        comStoneLabel = new JLabel(!me.getFirst() ? bStoneIcon2 : wStoneIcon2);
+
         myStoneLabel.setBounds(70, 650, 30, 30);
         comStoneLabel.setBounds(370, 650, 30, 30);
 
-        if(me.getFirst()) {
-            myTurnLabel.setVisible(true);
-            computerTurnLabel.setVisible(false);
-        }else if(!(me.getFirst())) {
-        	myTurnLabel.setVisible(false);
-        	computerTurnLabel.setVisible(true);
-        }
+        myTurnLabel.setVisible(me.getFirst());
+        computerTurnLabel.setVisible(!me.getFirst());
         
         panel3.add(myStoneLabel);
         panel3.add(comStoneLabel);
 	}
 
-    public void canntPlacingError() {
+    public void cannotPlacingError() {
     	canntPlacingError.setVisible(true);
-        TimerTask task = new TimerTask() {
-            public void run() {
-            	canntPlacingError.setVisible(false);
-            }
-        };
         Timer timer = new Timer();
-        timer.schedule(task, 5000);
+        timer.schedule(new TimerTask() {
+            public void run() {
+                canntPlacingError.setVisible(false);
+            }
+        }, 5000);
 	}
     
     public void placeAnimation(int[] decidedPosition,PlayerBase player) {
-    	JLabel myScoreJLabel = new JLabel();
-    	JLabel myTurnJLabel = new JLabel();
-    	JLabel enemyTurnJLabel = new JLabel();
     	int x = decidedPosition[0];
     	int y = decidedPosition[1];
     	
     	//コマの種類を判定
-    	if (player.getFirst()) {
-            JLabel lliitem = llLliB[x][y];
-            lliitem.setVisible(true);
-        } else {
-            JLabel lliitem = llLliW[x][y];
-            lliitem.setVisible(true);
-        }
+        JLabel lliitem = player.getFirst() ? llLliB[x][y] : llLliW[x][y];
+        lliitem.setVisible(true);
+
+        JLabel myScoreJLabel =  player.id == 0 ? myScoreLabel : computerScoreLabel;
+        JLabel myTurnJLabel = player.id == 0 ? myTurnLabel : computerTurnLabel;
+        JLabel enemyTurnJLabel = player.id == 0 ? computerTurnLabel : myTurnLabel;
     	
-    	
-    	if(player.id == 0) {
-    		myScoreJLabel =  myScoreLabel;
-    		
-    		myTurnJLabel = myTurnLabel;
-    		enemyTurnJLabel = computerTurnLabel;
-    	}else {
-    		myScoreJLabel = computerScoreLabel;
-    		
-    		myTurnJLabel = computerTurnLabel;
-    		enemyTurnJLabel = myTurnLabel;
-    	}
-    	
-    	myScoreJLabel.setText(player.name + "のスコア : " + String.valueOf(player.getScore()));
+    	myScoreJLabel.setText(player.name + "のスコア : " + player.getScore());
         myTurnJLabel.setVisible(false);
         enemyTurnJLabel.setVisible(true);
 	}
 
     public void turnOverAnimation(PlayerBase me, PlayerBase enemy, ArrayList<ArrayList<int[]>> turnOverList, GamingView gamingView) {
-		JLabel[][] lliitem = new JLabel[8][8];
-		JLabel[][] enemyLliitem = new JLabel[8][8];
-
-    	if (me.getFirst()) {
-            lliitem = gamingView.llLliB;
-            enemyLliitem = gamingView.llLliW;
-        } else if (!(me.getFirst())){
-            lliitem = gamingView.llLliW;
-            enemyLliitem = gamingView.llLliB;
-        }
+        JLabel[][] lliitem = me.getFirst() ? gamingView.llLliB : gamingView.llLliW;
+        JLabel[][] enemyLliitem = me.getFirst() ? gamingView.llLliW : gamingView.llLliB;
 		
     	for(int i=0; i<turnOverList.size(); i++) {
 			for(int j=0; j<turnOverList.get(i).size(); j++) {
@@ -251,18 +216,15 @@ public class GamingView {
 
     public void turnActionAnimation(int[] decidePosition,PlayerBase computer,PlayerBase me,GamingView gamingView) {
     	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
-    		computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
-    		
+    		computerPassesLabel.setText(computer.name + "のパス回数 : " + computer.getPasses());
     		enemyPassedLabel.setVisible(true);
-    		TimerTask task = new TimerTask() {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
                 public void run() {
                     enemyPassedLabel.setVisible(false);
                 }
-            };
-            Timer timer = new Timer();
-            timer.schedule(task, 1000);
+            }, 1000);
     	} else if(
-//            			true //テスト用
     			(boolean) computer.canPlacing(decidePosition, computer, me).get("result")
     			){
     		Map<String,Object> values = computer.canPlacing(decidePosition, computer, me);
@@ -271,7 +233,7 @@ public class GamingView {
             placeAnimation(decidePosition,computer);
             turnOverAnimation(computer, me, turnOverList, gamingView);
     	} else {
-    		computerPassesLabel.setText(computer.name + "のパス回数 : " + String.valueOf(computer.getPasses()));
+    		computerPassesLabel.setText(computer.name + "のパス回数 : " + computer.getPasses());
     	}
 	}
 }

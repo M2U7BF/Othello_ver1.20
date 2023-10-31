@@ -69,11 +69,11 @@ public class ResultView {
 	public void started(Logic logic, Me me, Computer computer) {
 		Sound sounds = new Sound();
 		
-		myResultScoreLabel.setText(me.name + "の総スコア : " + String.valueOf(me.getScore()));
-		enemyResultScoreLabel.setText(computer.name + "の総スコア : " + String.valueOf(computer.getScore()));
-		myResultPassesLabel.setText(me.name + "の総パス回数 : " + String.valueOf(me.getPasses()));
-		enemyResultPassesLabel.setText(computer.name + "の総パス回数 : " + String.valueOf(computer.getPasses()));
-		turnsLabel.setText(String.valueOf(logic.turns) + "ターンで終了");
+		myResultScoreLabel.setText(me.name + "の総スコア : " + me.getScore());
+		enemyResultScoreLabel.setText(computer.name + "の総スコア : " + computer.getScore());
+		myResultPassesLabel.setText(me.name + "の総パス回数 : " + me.getPasses());
+		enemyResultPassesLabel.setText(computer.name + "の総パス回数 : " + computer.getPasses());
+		turnsLabel.setText(logic.turns + "ターンで終了");
 		if (me.getScore() > computer.getScore()) {
 		    sounds.setFile(5);
 		    sounds.play();
