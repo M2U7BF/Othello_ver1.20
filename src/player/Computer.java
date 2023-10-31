@@ -9,6 +9,7 @@ public class Computer extends PlayerBase {
     int positionY = 0;
     public int strength;
     public boolean acted;
+	private final Random rnd = new Random();
     
     public Computer() {
     	this.name = "相手";
@@ -20,7 +21,6 @@ public class Computer extends PlayerBase {
     	if(decidePosition[0] == 8 && decidePosition[1] == 8) {
     		computer.Pass(computer, me);
     	} else if(
-//            			true //テスト用
     			(boolean) canPlacing(decidePosition, computer, me).get("result")
     			){
     		Map<String,Object> values = canPlacing(decidePosition, computer, me);
@@ -68,8 +68,7 @@ public class Computer extends PlayerBase {
         if (arrays2.size() > 0) {
         	if(strength == 0) {
         		decidePosition = randomChoice(arrays2);
-        	}
-        	if(strength == 1) {
+        	}else if(strength == 1) {
         		decidePosition = ChoicePosition(arrays2);
         	}
         } else if (arrays2.size() == 0) {
@@ -83,9 +82,7 @@ public class Computer extends PlayerBase {
     
     public int[] ChoicePosition(ArrayList<ArrayList<int[]>> arrays2) {
     	boolean doseExit = false;
-    	int[] decidePosition = new int[2];
-    	
-    	Random rnd = new Random();
+    	int[] decidePosition;
     	
     	ArrayList<int[]> arrays5 = new ArrayList<>();
     	
@@ -107,7 +104,6 @@ public class Computer extends PlayerBase {
         	if((x==0 && y==0)||(x==0 && y==7)||(x==7 && y==0)||(x==7 && y==7)) {
         		arrays5.add(arrays4.get(i));
         		doseExit = true;
-        		continue;
         	}
         }
         
@@ -119,7 +115,6 @@ public class Computer extends PlayerBase {
 	        	if((x==2||x==5)&&(y==0||y==7)||(y==2||y==5)&&(x==0||x==7)) {
 	        		arrays5.add(arrays4.get(i));
 	        		doseExit = true;
-	        		continue;
 	        	}
 	        }
         }
@@ -132,7 +127,6 @@ public class Computer extends PlayerBase {
 	        	if((x==2||x==5)&&(y==1||y==6)||(y==2||y==5)&&(x==1||x==6)) {
 	        		arrays5.add(arrays4.get(i));
 	        		doseExit = true;
-	        		continue;
 	        	}
 	        }
         }
@@ -144,13 +138,12 @@ public class Computer extends PlayerBase {
 	        	if((x>=2 && x<=5)&&(y>=2 && y<=5)) {
 	        		arrays5.add(arrays4.get(i));
 	        		doseExit = true;
-	        		continue;
 	        	}
 	        }
         }
         
         if(doseExit){
-        	decidePosition = arrays5.get(rnd.nextInt(arrays5.size()));
+        	decidePosition = arrays5.get(this.rnd.nextInt(arrays5.size()));
         }else{
         	decidePosition = randomChoice(arrays2);
         }
@@ -159,17 +152,16 @@ public class Computer extends PlayerBase {
 	}
     
     public int[] randomChoice(ArrayList<ArrayList<int[]>> arrays2) {
-    	int[] decidePosition = new int[2];
+    	int[] decidePosition;
     	// 取得したarraylistからランダムもしくは最適化する形で1つの値に決定
-        Random rnd = new Random();
 
         // 3重リストのarray2の1つ目を展開
         ArrayList<int[]> arrays4 = new ArrayList<>();
-        int a = rnd.nextInt(arrays2.size());
+        int a = this.rnd.nextInt(arrays2.size());
         arrays4 = arrays2.get(a);
 
         // 3重配列の2つ目を展開
-        int b = rnd.nextInt(arrays4.size());
+        int b = this.rnd.nextInt(arrays4.size());
         
         decidePosition = arrays4.get(b);
     
@@ -207,7 +199,7 @@ public class Computer extends PlayerBase {
 
         for (int i = 0; i < 8; i++) {
         	if(directionsB[i] == null) {
-				continue;
+				// Do nothing
 			} else {
 				boolean mePlaced = me.position[directionsB[i][0]][directionsB[i][1]];
 				boolean enemyPlaced = enemy.position[directionsB[i][0]][directionsB[i][1]];
@@ -218,8 +210,6 @@ public class Computer extends PlayerBase {
 	                ArrayList<int[]> searchList = new ArrayList<>();
 	                searchList = SearchList2(i, positionX, positionY);
 	                turnOverlists.add(searchList);
-	            } else {
-	                continue;
 	            }
 			}
         }
@@ -238,7 +228,7 @@ public class Computer extends PlayerBase {
                     break;
                 } else if (enemy.position[turnOverlists.get(j).get(k)[0]][turnOverlists.get(j).get(k)[1]]) {
                     // 敵のコマが置いてあった場合
-                    continue;
+                    // Do nothing
                 } else {
                     break;
                 }

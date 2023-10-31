@@ -139,7 +139,7 @@ public class PlayerBase {
 		//8方位探索
 		for (int i = 0; i < 8; i++) {
 			if(directionsB[i] == null) {
-				continue;
+				//Do nothing
 			} else {
 				boolean mePlaced = me.position[directionsB[i][0]][directionsB[i][1]];
 				boolean enemyPlaced = enemy.position[directionsB[i][0]][directionsB[i][1]];
@@ -147,11 +147,8 @@ public class PlayerBase {
 				////当マスの周囲に相手のコマがあるか。なければcontinue
 				if (enemyPlaced && !(mePlaced)) {
 					//相手のコマがる場合、その方向に間する探索リストを作成
-					ArrayList<int[]> searchList = new ArrayList<>();
-					searchList = SearchList2(i,positionX,positionY);
+					ArrayList<int[]> searchList = SearchList2(i,positionX,positionY);
 					arrayA.add(searchList);
-				} else {
-					continue;
 				}
 			}
 		}
@@ -169,7 +166,7 @@ public class PlayerBase {
 					break;
 				}else if(enemy.position[x][y]) {
 					//敵のコマが置いてあった場合
-					continue;
+					//Do nothing
 				} else {
 					break;
 				}
@@ -184,7 +181,6 @@ public class PlayerBase {
 	}
 
 	public void placing(int[] placedPosition,PlayerBase me,PlayerBase enemy,ArrayList<ArrayList<int[]>> turnOverList) {
-		PlayerBase player = new PlayerBase();
 		int x = placedPosition[0];
 		int y = placedPosition[1];
 		
@@ -255,33 +251,26 @@ public class PlayerBase {
 				}
 			}
 			return searchList;
-			}
+	}
 	
     public boolean somewhereCanPlacing(PlayerBase me, PlayerBase enemy) {
         PlayerBase player = new PlayerBase();
 		// 空きコマに対しcanPlacing実行
-        boolean available = false;
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 // 空きコマを探す
                 if (!(me.position[i][j]) && !(enemy.position[i][j])) {
                     // もし置けるのであればtrue
-                    int[] positon = { i, j };
-                    if ((boolean) player.canPlacing(positon, me, enemy).get("result")) {
-                        available = true;
-                        break;
-                    } else {
-                        continue;
+                    int[] position = { i, j };
+                    if ((boolean) player.canPlacing(position, me, enemy).get("result")) {
+                        return true;
                     }
                 }
             }
-            if (available) {
-                break;
-            }
         }
 
-        return available;
+        return false;
     }
 
 		
