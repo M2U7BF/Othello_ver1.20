@@ -31,8 +31,8 @@ public class Sound {
 			}
 		}
 		public void play() {
+			if (clip == null) return;
 			clip.start();
-			
 		}
 		public void loop() {
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
