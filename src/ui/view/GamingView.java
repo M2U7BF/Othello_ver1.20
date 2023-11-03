@@ -111,18 +111,11 @@ public class GamingView {
         llLliW[3][3].setVisible(true);
         llLliW[4][4].setVisible(true);
 
-        // エラー表示の設定
-        canntPlacingError = new JLabel(placingError);
-        canntPlacingError.setBounds(100, 10, 200, 80);
-        canntPlacingError.setVisible(false);
-        canntPassError = new JLabel(passError);
-        canntPassError.setBounds(100, 10, 200, 80);
-        canntPassError.setVisible(false);
-        
+        canntPlacingError = createNotificationLabel(placingError);
+        canntPassError = createNotificationLabel(passError);
+
         //通知表示の設定
-        enemyPassedLabel = new JLabel(enemyPassed);
-        enemyPassedLabel.setBounds(100, 10, 200, 80);
-        enemyPassedLabel.setVisible(false);
+        enemyPassedLabel = createNotificationLabel(enemyPassed);
 
         // パスのボタン
         passButton = new JButton("パスをする");
@@ -151,7 +144,14 @@ public class GamingView {
         panel3.add(emptyFrame);
         panel3.add(enemyPassedLabel);
     }
-    
+
+    private JLabel createNotificationLabel(ImageIcon imageIcon) {
+            JLabel label = new JLabel(imageIcon);
+            label.setBounds(100, 10, 200, 80);
+            label.setVisible(false);
+            return label;
+    }
+
     public void started(Me me,JPanel panel3) {
     	// 初期配置の表示
         myStoneLabel = new JLabel(me.getFirst() ? bStoneIcon2 : wStoneIcon2);

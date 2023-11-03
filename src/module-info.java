@@ -10,4 +10,5 @@ module othello_kamei {
 	exports player;
 
 	requires java.desktop;
+    requires java.logging;
 }

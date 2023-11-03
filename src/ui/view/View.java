@@ -97,7 +97,8 @@ public class View extends JFrame implements ActionListener {
                 Point point2 = e.getPoint();
 
                 // どのマスが押されたのか
-                controller.clickedFrame(placedPosition, point2.x, point2.y);
+                placedPosition = controller.clickedFrame(point2.x, point2.y);
+
                 if (logic.canClick) {
                     // コマを置く
                     if (me.isMyTurn) {
@@ -230,20 +231,16 @@ public class View extends JFrame implements ActionListener {
                     }, 800);
                 }
                 // ゲームの進行状況
-                TimerTask task2 = new TimerTask() {
+                Timer timer2 = new Timer();
+                timer2.schedule(new TimerTask() {
                     public void run() {
                         if (
-                        // true //テスト用
-                        logic.isFinish(logic, me, computer)) {
-                            // System.out.println("ゲームを終了しています ....");
+                            logic.isFinish(logic, me, computer)) {
                             layout.show(cardPanel, "panel4");
                             resultView.started(logic, me, computer);
                         }
                     }
-                };
-                Timer timer2 = new Timer();
-                // timer.schedule(task, 100); //テスト用
-                timer2.schedule(task2, 900);
+                }, 900);
 
                 logic.turns++;
             } else {
@@ -265,7 +262,7 @@ public class View extends JFrame implements ActionListener {
         for (int i = 0; i < 8; i++) {
             String[] b = new String[8];
             for (int j = 0; j < 8; j++) {
-                String a = new String();
+                String a;
                 if (me.position[j][i] && !(computer.position[j][i])) {
                     a = "M";
                 } else if (computer.position[j][i] && !(me.position[j][i])) {
