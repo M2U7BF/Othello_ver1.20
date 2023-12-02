@@ -1,22 +1,37 @@
 package com.example.util;
 
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
+@Component
 public class Img {
-public URL[] img = new URL[20];
+	public URL[] img = new URL[20];
+	private final ResourceLoader resourceLoader = new DefaultResourceLoader();
 
 	public Img() {
-		img[0] = getClass().getResource("img/blackStone.png");
-		img[1] = getClass().getResource("img/blackStone2.png");
-		img[2] = getClass().getResource("img/board.png");
-		img[3] = getClass().getResource("img/emptyFrame.png");
-		img[4] = getClass().getResource("img/emptyFrame2.png");
-		img[5] = getClass().getResource("img/errorImage.png");
-		img[6] = getClass().getResource("img/passerrorImage.png");
-		img[7] = getClass().getResource("img/whiteStone.png");
-		img[8] = getClass().getResource("img/whiteStone2.png");
-		img[9] = getClass().getResource("img/errorImage.png");
-		img[10] = getClass().getResource("img/passerrorImage.png");
-		img[11] = getClass().getResource("img/enemyPassed.png");
+		try {
+			img[0] = resourceLoader.getResource("img/blackStone.png").getURL();
+			img[1] = resourceLoader.getResource("img/blackStone2.png").getURL();
+			img[2] = resourceLoader.getResource("img/board.png").getURL();
+			img[3] = resourceLoader.getResource("img/emptyFrame.png").getURL();
+			img[4] = resourceLoader.getResource("img/emptyFrame2.png").getURL();
+			img[5] = resourceLoader.getResource("img/errorImage.png").getURL();
+			img[6] = resourceLoader.getResource("img/passerrorImage.png").getURL();
+			img[7] = resourceLoader.getResource("img/whiteStone.png").getURL();
+			img[8] = resourceLoader.getResource("img/whiteStone2.png").getURL();
+			img[9] = resourceLoader.getResource("img/errorImage.png").getURL();
+			img[10] = resourceLoader.getResource("img/passerrorImage.png").getURL();
+			img[11] = resourceLoader.getResource("img/enemyPassed.png").getURL();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	};
 }

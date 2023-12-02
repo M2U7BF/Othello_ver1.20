@@ -15,7 +15,11 @@ import javax.swing.JPanel;
 import com.example.player.Me;
 import com.example.player.PlayerBase;
 import com.example.util.Img;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@RequiredArgsConstructor
 public class GamingView {
 	Img imgs;
 	
@@ -46,15 +50,16 @@ public class GamingView {
     public ImageIcon passError;
     public ImageIcon enemyPassed;
     public boolean isfinish;
+    String MS_GOTHIC = "ＭＳ ゴシック";
 
     public GamingView(JPanel panel3,PlayerBase me, PlayerBase computer) {
         llLliB = new JLabel[8][8];
         llLliW = new JLabel[8][8];
         
         myTurnLabel = new JLabel("あなたのターン");
-        myTurnLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        myTurnLabel.setFont(new Font(MS_GOTHIC, Font.BOLD, 20));
         computerTurnLabel = new JLabel("相手のターン");
-        computerTurnLabel.setFont(new Font("ＭＳ ゴシック", Font.BOLD, 20));
+        computerTurnLabel.setFont(new Font(MS_GOTHIC, Font.BOLD, 20));
         
         imgs = new Img();
         bStoneIcon = new ImageIcon(new ImageIcon(imgs.img[0]).getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
@@ -77,16 +82,16 @@ public class GamingView {
 
         myScoreLabel = new JLabel(me.name + "のスコア : " + me.getScore());
         myScoreLabel.setBounds(100, 650, 200, 30);
-        myScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+        myScoreLabel.setFont(new Font(MS_GOTHIC, Font.PLAIN, 20));
         computerScoreLabel = new JLabel(computer.name + "のスコア : " + computer.getScore());
         computerScoreLabel.setBounds(400, 650, 200, 30);
-        computerScoreLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 20));
+        computerScoreLabel.setFont(new Font(MS_GOTHIC, Font.PLAIN, 20));
         myPassesLabel = new JLabel(me.name + "のパス回数 : " + me.getPasses());
         myPassesLabel.setBounds(100, 680, 150, 30);
-        myPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
+        myPassesLabel.setFont(new Font(MS_GOTHIC, Font.PLAIN, 15));
         computerPassesLabel = new JLabel(computer.name + "のパス回数 : " + computer.getPasses());
         computerPassesLabel.setBounds(400, 680, 150, 30);
-        computerPassesLabel.setFont(new Font("ＭＳ ゴシック", Font.PLAIN, 15));
+        computerPassesLabel.setFont(new Font(MS_GOTHIC, Font.PLAIN, 15));
 
         // 全てのコマを配置
         for (int i = 0; i < 8; i++) {

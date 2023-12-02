@@ -24,7 +24,9 @@ import com.example.player.PlayerBase;
 import com.example.ui.controller.GameController;
 import com.example.util.Img;
 import com.example.util.Sound;
+import org.springframework.stereotype.Component;
 
+@Component
 public class View extends JFrame implements ActionListener {
     CardLayout layout;
     PreparationView preparationView;
@@ -39,12 +41,7 @@ public class View extends JFrame implements ActionListener {
     JPanel panel4;
     int placedPosition[] = new int[2];
 
-    public static String title = "othello";
-
-    public static void main(String[] args) {
-        View frame = new View("othello");
-        frame.setVisible(true);
-    }
+    public static String TITLE = "othello";
 
     private PlayerBase player;
     private Me me;
@@ -54,7 +51,7 @@ public class View extends JFrame implements ActionListener {
     private Img imgs;
     private GameController controller;
 
-    View(String title) {
+    public View(String title) {
 
         player = new PlayerBase();
         me = new Me();

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.example.logic.Logic;
+import com.example.main.Application;
 import com.example.player.Computer;
 import com.example.player.Me;
 import com.example.util.Sound;
@@ -102,6 +103,8 @@ public class ResultView {
 	            Component c = (Component) e.getSource();
 	            Window w = SwingUtilities.getWindowAncestor(c);
 	            w.dispose();
+
+				Application.shutdown();
 	        }
 	    });
 		
@@ -115,8 +118,7 @@ public class ResultView {
                 Window w = SwingUtilities.getWindowAncestor(c);
                 w.dispose();
 
-                View view = new View("othello");
-                view.main(null);
+				Application.restart();
             }
         });
 	}
