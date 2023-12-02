@@ -1,4 +1,4 @@
-package com.example.player;
+package com.example.service.model.player;
 
 public class Me extends PlayerBase {
     public Me() {

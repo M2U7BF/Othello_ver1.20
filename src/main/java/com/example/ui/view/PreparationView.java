@@ -10,9 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.example.logic.Logic;
-import com.example.player.Computer;
-import com.example.player.Me;
+import com.example.service.logic.Logic;
+import com.example.service.model.player.Computer;
+import com.example.service.model.player.Me;
 import com.example.util.Sound;
 
 public class PreparationView {

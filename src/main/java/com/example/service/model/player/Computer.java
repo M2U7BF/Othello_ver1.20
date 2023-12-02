@@ -1,4 +1,4 @@
-package com.example.player;
+package com.example.service.model.player;
 
 import java.util.ArrayList;
 import java.util.Map;

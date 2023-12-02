@@ -1,12 +1,12 @@
-package com.example.logic;
+package com.example.service.logic;
 
 import java.util.Random;
 
 import javax.swing.JLabel;
 
-import com.example.player.Computer;
-import com.example.player.Me;
-import com.example.player.PlayerBase;
+import com.example.service.model.player.Computer;
+import com.example.service.model.player.Me;
+import com.example.service.model.player.PlayerBase;
 
 public class Logic {
     int maxNumPass;

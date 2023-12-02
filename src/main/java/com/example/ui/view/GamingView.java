@@ -12,12 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.example.player.Me;
-import com.example.player.PlayerBase;
+import com.example.service.model.player.Me;
+import com.example.service.model.player.PlayerBase;
 import com.example.util.Img;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 public class GamingView {

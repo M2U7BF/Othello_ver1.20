@@ -17,10 +17,10 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.example.logic.Logic;
-import com.example.player.Computer;
-import com.example.player.Me;
-import com.example.player.PlayerBase;
+import com.example.service.logic.Logic;
+import com.example.service.model.player.Computer;
+import com.example.service.model.player.Me;
+import com.example.service.model.player.PlayerBase;
 import com.example.ui.controller.GameController;
 import com.example.util.Img;
 import com.example.util.Sound;

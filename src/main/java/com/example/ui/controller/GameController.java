@@ -1,9 +1,10 @@
 package com.example.ui.controller;
 
-import java.util.logging.Logger;
+import org.apache.logging.log4j.Logger;
 
 public class GameController {
-    private final Logger logger = Logger.getLogger(this.getClass().toString());
+
+    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(GameController.class);
 
     /***
      * クリックされたマスの座標を取得する。
@@ -11,16 +12,17 @@ public class GameController {
      * @param y
      * @return
      */
-    public int[] clickedFrame(int x,int y){
-		for (int row = 0, X1 = 0, Y1 = 63; row < 8; row++, X1 += 63, Y1 += 63) {
-            for (int col = 0, X2 = 0, Y2 = 63; col < 8; col++, X2 += 63, Y2 += 63) {
-                if (X2 <= x && Y2 >= x && X1 <= y && Y1 >= y) {
-                    logger.info(col + row + "が押されました");
-                    return new int[] {col, row};
-                }
-            }
-        }
-        return null;
-	}
+    public int[] clickedFrame(int x, int y) {
+        int position[] = new int[2];
+
+        int col = x == 0 ? 0 : x / 63;
+        int row = y == 0 ? 0 : y / 63;
+        log.info("[" + col + "," + row + "]が押されました");
+
+        position[0] = col;
+        position[1] = row;
+
+        return position;
+    }
 
 }

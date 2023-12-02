@@ -12,10 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.example.logic.Logic;
-import com.example.main.Application;
-import com.example.player.Computer;
-import com.example.player.Me;
+import com.example.service.logic.Logic;
+import com.example.application.main.Application;
+import com.example.service.model.player.Computer;
+import com.example.service.model.player.Me;
 import com.example.util.Sound;
 
 public class ResultView {
