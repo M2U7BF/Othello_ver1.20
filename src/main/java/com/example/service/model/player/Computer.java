@@ -1,8 +1,7 @@
 package com.example.service.model.player;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Computer extends PlayerBase {
     int positionX = 0;
@@ -176,23 +175,15 @@ public class Computer extends PlayerBase {
         positionX = placedPosition[0];
         positionY = placedPosition[1];
         
-        int[][] change = {{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1}};
-		int[][] directionsB = new int[8][2];
-		
-		//方向リストを作成
-		for(int i=0; i<8; i++) {
-			int[] direction = new int[2];
-			
-			direction[0] = placedPosition[0] + change[i][0];
-			direction[1] = placedPosition[1] + change[i][1];
-			
-			if(direction[0] >= 8 || direction[0] < 0 || direction[1] >= 8 || direction[1] < 0 ) {
-				//条件に合わない場合
-				directionsB[i] = null;
-			}else {
-				directionsB[i] = direction;
-			}
-		}
+        int[][] directionsB = new int[8][2];
+
+		// 周囲の座標リストを作成
+        List<int[]> aroundList = getSurroundingPositions(
+                placedPosition[0], placedPosition[1]
+        );
+        for (int i = 0; i < aroundList.size(); i++) {
+            directionsB[i] = aroundList.get(i);
+        }
 
         ArrayList<ArrayList<int[]>> turnOverlists = new ArrayList<>();
         ArrayList<int[]> resultList = new ArrayList<>();
@@ -238,18 +229,18 @@ public class Computer extends PlayerBase {
         return resultList;
     }
 
-    //与えられた座標の周囲の配置可能な座標リストを作成
-    public static int[][] getSurroundingPositions(int x, int y) {
+    // 周囲の座標リストを作成
+    public static List<int[]> getSurroundingPositions(int x, int y) {
         return Arrays.stream(new int[][]{
-                {x - 1, y - 1}, {x - 1, y}, {x - 1, y + 1},
-                {x, y - 1}, {x, y + 1},
-                {x + 1, y - 1}, {x + 1, y}, {x + 1, y + 1}
+                {x, y - 1}, {x + 1, y - 1}, {x + 1, y},
+                {x + 1, y + 1}, {x, y + 1}, {x - 1, y + 1},
+                {x - 1, y}, {x - 1, y - 1},
         }).filter(
                 position -> inArea(position)
-        ).toArray(int[][]::new);
+        ).collect(Collectors.toList());
     }
 
     public static boolean inArea(int[] position){
-        return position[0] >= 8 || position[0] < 0 || position[1] >= 8 || position[1] < 0;
+        return !(position[0] >= 8 || position[0] < 0 || position[1] >= 8 || position[1] < 0);
     }
 }
