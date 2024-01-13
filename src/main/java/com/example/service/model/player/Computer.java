@@ -237,4 +237,19 @@ public class Computer extends PlayerBase {
 
         return resultList;
     }
+
+    //与えられた座標の周囲の配置可能な座標リストを作成
+    public static int[][] getSurroundingPositions(int x, int y) {
+        return Arrays.stream(new int[][]{
+                {x - 1, y - 1}, {x - 1, y}, {x - 1, y + 1},
+                {x, y - 1}, {x, y + 1},
+                {x + 1, y - 1}, {x + 1, y}, {x + 1, y + 1}
+        }).filter(
+                position -> inArea(position)
+        ).toArray(int[][]::new);
+    }
+
+    public static boolean inArea(int[] position){
+        return position[0] >= 8 || position[0] < 0 || position[1] >= 8 || position[1] < 0;
+    }
 }
